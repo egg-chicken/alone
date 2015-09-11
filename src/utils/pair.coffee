@@ -9,6 +9,18 @@ module.exports = class Pair
   shift: (x, y)->
     new Pair(@x+x, @y+y)
 
+  up: (y=1)->
+    new Pair(@x, @y-y)
+
+  down: (y=1)->
+    new Pair(@x, @y+y)
+
+  left: (x=1)->
+    new Pair(@x-x, @y)
+
+  right: (x=1)->
+    new Pair(@x+x, @y)
+
   distance: (to)->
     Math.abs(@x - to.x) + Math.abs(@y - to.y)
 

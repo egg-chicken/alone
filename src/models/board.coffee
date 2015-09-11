@@ -6,12 +6,12 @@ module.exports = class Board
   WIDTH = 130
   HEIGHT = 30
   WALL = 0
-  HERO = 'H'
+  @HERO: 'H'
   constructor: ->
     @lands = Builder.create(WIDTH, HEIGHT)
     @characters = new Array2D(WIDTH, HEIGHT, null)
     free = _.find @lands.pairs(), (p)=> @lands.get(p) != WALL
-    @characters.set(free, HERO)
+    @characters.set(free, Board.HERO)
 
   get: (position) ->
     @characters.get(position)
@@ -25,6 +25,9 @@ module.exports = class Board
     throw new Error("cannot put on the wall")  if @lands.get(position) == WALL
     throw new Error("character is already exist ") if @get(position)
     @characters.set(position, character)
+
+  position: (character_id)->
+    _.find @characters.pairs(), (p)=> @characters.get(p) == character_id
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
