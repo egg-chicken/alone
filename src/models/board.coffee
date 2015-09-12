@@ -1,18 +1,16 @@
 _ = require('underscore')
-Builder = require('./board/builder')
-Character = require('./character')
 Array2D = require('utils/array2d')
+Character = require('./character')
+Land = require('./board/land')
 
 module.exports = class Board
   WIDTH = 130
   HEIGHT = 30
-  WALL = 0
   constructor: ->
-    @lands = Builder.create(WIDTH, HEIGHT)
+    @land = new Land(WIDTH, HEIGHT)
     @characters = new Array2D(WIDTH, HEIGHT, null)
-    free = _.find @lands.pairs(), (p)=> @lands.get(p) != WALL
     @hero  = new Character(Character.HERO)
-    @characters.set(free, @hero)
+    @characters.set(@land.get_free_position(), @hero)
 
   get: (position) ->
     @characters.get(position)
@@ -26,7 +24,7 @@ module.exports = class Board
     character
 
   put: (position, character) ->
-    throw new Error("cannot put on the wall")  if @lands.get(position) == WALL
+    throw new Error("cannot put on the wall")  if @land.is_wall(position)
     throw new Error("character is already exist ") if @get(position)
     @characters.set(position, character)
 
@@ -35,8 +33,8 @@ module.exports = class Board
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
-    _.each @lands.pairs(), (p)=>
-      symbol = @characters.get(p)?.get_symbol() || @lands.get(p)
+    _.each display_table.pairs(), (p)=>
+      symbol = @characters.get(p)?.get_symbol() || @land.get_symbol(p)
       display_table.set(p, symbol)
     display_table.to_s()
 
