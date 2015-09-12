@@ -3,8 +3,12 @@ Builder = require('./builder')
 
 module.exports = class Land
   WALL = 0
+  STONE_FLOOR = 1
   constructor: (width, height)->
     @table = Builder.create(width, height)
+    _.each @table.pairs(), (p)=>
+      unless @table.get(p) == WALL
+        @table.set(p, STONE_FLOOR)
 
   get_free_positions: ->
     pairs = @table.pairs()
@@ -15,4 +19,7 @@ module.exports = class Land
     @table.get(position) == WALL
 
   get_symbol: (position)->
-    @table.get(position)
+    switch(@table.get(position))
+      when WALL        then '#'
+      when STONE_FLOOR then ' '
+      else '?'
