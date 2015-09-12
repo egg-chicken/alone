@@ -1,51 +1,41 @@
 _ = require('underscore')
-Array2D = require('utils/array2d')
 Character = require('./character')
 
 module.exports = class Characters
-  MAX_ENEMY = 30
-  constructor: (map_width, map_height)->
-    @table = new Array2D(map_width, map_height, null)
-    @enemies = []
-    @hero = null
+  MAX_SIZE = 30
+  constructor: ->
+    @list = []
 
   generate_hero: (free_positions)->
     position = _.find free_positions, (p)=>
-      @table.get(p) == null
-    @hero = new Character(Character.HERO)
-    @table.set(position, @hero)
+      not @get_by_position(p)
+
+    @list.push(new Character(Character.HERO, position))
 
   generate_enemies: (free_positions, count)->
     free_positions = _.filter free_positions, (p)=>
-      @table.get(p) == null
+      not @get_by_position(p)
 
     _.each free_positions, (p)=>
-      size = @enemies.length
-      return if size >= count || size >= MAX_ENEMY
-      enemy = new Character(Character.SLIME)
-      @enemies.push(enemy)
-      @table.set(p, enemy)
+      size = @list.length
+      return if size >= count || size >= MAX_SIZE
+      @list.push(new Character(Character.SLIME, p))
 
   get_hero: ->
-    @hero
+    _.find @list, (character)->
+      character.get_type() == Character.HERO
 
   get_enemies: ->
-    @enemies
+    _.filter @list, (character)->
+      character.get_type() != Character.HERO
 
-  get: (position)->
-    @table.get(position)
+  get_by_position: (position)->
+    _.find @list, (character)->
+      character.get_position().equal(position)
 
   get_symbol: (position)->
-    @table.get(position)?.get_symbol()
+    @get_by_position(position)?.get_symbol()
 
-  set: (position, character)->
-    @table.set(position, character)
-
-  pop: (position) ->
-    character = @table.get(position)
-    @table.set(position, null)
-    character
-
-  position: (character)->
-    _.find @table.pairs(), (p)=>
-      @table.get(p) == character
+  remove: (character)->
+    @list = _.filter @list, (c)->
+      c == character

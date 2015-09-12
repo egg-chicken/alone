@@ -9,19 +9,18 @@ module.exports = class Board
   INITIAL_ENEMY_COUNT = 5
   constructor: ->
     @land = new Land(WIDTH, HEIGHT)
-    @characters = new Characters(WIDTH, HEIGHT)
+    @characters = new Characters()
     @characters.generate_hero(@land.get_free_positions())
     @characters.generate_enemies(@land.get_free_positions(), INITIAL_ENEMY_COUNT)
 
   get_hero:       -> @characters.get_hero()
   get_enemies:    -> @characters.get_enemies()
-  get: (position) -> @characters.get(position)
-  pop: (position) -> @characters.pop(position)
-  position: (character)-> @characters.position(character)
+  get: (position) -> @characters.get_by_position(position)
+  remove: (character)   -> @characters.remove(character)
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.is_wall(position)
     throw new Error("character is already exist ") if @get(position)
-    @characters.set(position, character)
+    character.set_position(position)
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)

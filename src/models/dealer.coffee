@@ -18,20 +18,18 @@ module.exports = class Dealer
       direction = @com.direction(character)
       @move(character, direction)
 
-
   move: (character, direction)->
-    from = @board.position(character)
+    from = character.get_position()
     switch(direction)
       when 'up', 'down', 'left', 'right'
         to = from[direction]()
 
     try
-      character = @board.pop(from)
-      @board.pop(to) if @board.get(to)
+      target = @board.get(to)
+      @board.remove(target) if target
       @board.put(to, character)
     catch e
       console.warn(e)
-      @board.put(from, character)
 
   @test: ->
     dealer = new Dealer()
