@@ -6,7 +6,7 @@ module.exports = class Dealer
   constructor: ()->
     @board = new Board()
     @player = new Player()
-    @player.add(@board.get_hero())
+    @player.assign(@board.get_hero())
 
   turn: ()->
     _.each @player.characters(), (character)=>

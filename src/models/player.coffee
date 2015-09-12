@@ -4,7 +4,7 @@ module.exports = class Player
   constructor: ()->
     @hand = []
 
-  add: (character)->
+  assign: (character)->
     @hand.push(character)
 
   characters: ->
