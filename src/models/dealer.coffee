@@ -19,9 +19,13 @@ module.exports = class Dealer
       when 'up', 'down', 'left', 'right'
         to = from[direction]()
 
-    hero = @board.pop(from)
-    @board.pop(to) if @board.get(to)
-    @board.put(to, hero)
+    try
+      character = @board.pop(from)
+      @board.pop(to) if @board.get(to)
+      @board.put(to, character)
+    catch e
+      console.warn(e)
+      @board.put(from, character)
 
   @test: ->
     dealer = new Dealer()
