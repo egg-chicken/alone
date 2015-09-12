@@ -6,10 +6,10 @@ module.exports = class Land
   constructor: (width, height)->
     @table = Builder.create(width, height)
 
-  get_free_position: ->
-    pairs = _.shuffle(@table.pairs())
-    _.find pairs, (p)=>
-      @table.get(p) != WALL
+  get_free_positions: ->
+    pairs = @table.pairs()
+    filtered = _.filter pairs, (p)=> @table.get(p) != WALL
+    _.shuffle(filtered)
 
   is_wall: (position)->
     @table.get(position) == WALL
