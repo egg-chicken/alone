@@ -5,7 +5,10 @@ module.exports = class Player
     @hand = []
 
   assign: (character)->
-    @hand.push(character)
+    if character instanceof Array
+      @hand = @hand.concat(character)
+    else
+      @hand.push(character)
 
   characters: ->
     @hand

@@ -29,6 +29,9 @@ module.exports = class Characters
   get_hero: ->
     @hero
 
+  get_enemies: ->
+    @enemies
+
   get: (position)->
     @table.get(position)
 

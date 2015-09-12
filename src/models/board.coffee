@@ -14,6 +14,7 @@ module.exports = class Board
     @characters.generate_enemies(@land.get_free_positions(), INITIAL_ENEMY_COUNT)
 
   get_hero:       -> @characters.get_hero()
+  get_enemies:    -> @characters.get_enemies()
   get: (position) -> @characters.get(position)
   pop: (position) -> @characters.pop(position)
   position: (character)-> @characters.position(character)

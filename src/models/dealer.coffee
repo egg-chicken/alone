@@ -6,12 +6,18 @@ module.exports = class Dealer
   constructor: ()->
     @board = new Board()
     @player = new Player()
+    @com    = new Player()
     @player.assign(@board.get_hero())
+    @com.assign(@board.get_enemies())
 
   turn: ()->
     _.each @player.characters(), (character)=>
       direction = @player.direction(character)
       @move(character, direction)
+    _.each @com.characters(), (character)=>
+      direction = @com.direction(character)
+      @move(character, direction)
+
 
   move: (character, direction)->
     from = @board.position(character)
