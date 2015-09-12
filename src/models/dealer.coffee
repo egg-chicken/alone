@@ -1,8 +1,17 @@
+_ = require('underscore')
 Board = require('./board')
+Player = require('./player')
 
 module.exports = class Dealer
   constructor: ()->
     @board = new Board()
+    @player = new Player()
+    @player.add(@board.get_hero())
+
+  turn: ()->
+    _.each @player.characters(), (character)=>
+      direction = @player.direction(character)
+      @move(character, direction)
 
   move: (character, direction)->
     from = @board.position(character)
@@ -20,9 +29,13 @@ module.exports = class Dealer
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.move(Board.HERO, "down")
+    dealer.move(dealer.board.get_hero(), "down")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.move(Board.HERO, "right")
+    dealer.move(dealer.board.get_hero(), "right")
+    console.log(dealer.board.to_s())
+    console.log('-----------------')
+
+    dealer.turn()
     console.log(dealer.board.to_s())
