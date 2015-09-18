@@ -5,3 +5,7 @@ module.exports = class Console
     str = if obj.to_s? then obj.to_s() else obj
     console.clear()
     console.log(str)
+
+  @log: (obj)->
+    str = if obj.to_s? then obj.to_s() else obj
+    console.log(str)

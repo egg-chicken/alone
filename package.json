@@ -11,7 +11,7 @@
   "author": "egg_chicken",
   "license": "ISC",
   "devDependencies": {
-    "better-console": "^0.2.4",
-    "underscore": "^1.8.3"
+    "better-console": "~0.2.4",
+    "underscore": "~1.8.3"
   }
 }
