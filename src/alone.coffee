@@ -1,13 +1,15 @@
 Dealer = require('./models/dealer')
-Console = require('utils/console')
+BoardView = require('./views/board_view')
 
 module.exports = class Alone
   @start: ->
     console.log "start"
     dealer = new Dealer()
+    boardView = new BoardView(dealer.board)
+
     turn = ->
       dealer.turn()
-      Console.print(dealer.board)
+      boardView.render()
     setInterval(turn, 500)
 
   @stop: ->
