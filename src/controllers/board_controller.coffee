@@ -13,6 +13,5 @@ module.exports = class BoardController
     process.exit()
 
   onPressNextButton: (button)->
-    console.log(button)
-    @dealer.turn()
+    @dealer.turn(button.name)
     @boardView.render()

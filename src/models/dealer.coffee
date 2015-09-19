@@ -10,10 +10,10 @@ module.exports = class Dealer
     @player.assign(@board.get_hero())
     @com.assign(@board.get_enemies())
 
-  turn: ()->
+  turn: (command)->
     _.each @player.characters(), (character)=>
       direction = @player.direction(character)
-      @move(character, direction)
+      @move(character, command)
     _.each @com.characters(), (character)=>
       direction = @com.direction(character)
       @move(character, direction)
