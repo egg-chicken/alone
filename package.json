@@ -12,7 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "better-console": "~0.2.4",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "keypress": "~0.2.1"
   },
   "repository": {
     "type": "git",

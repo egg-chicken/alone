@@ -3,13 +3,18 @@ EventEmitter = require('events').EventEmitter
 
 module.exports = class BoardView extends EventEmitter
   constructor: (@board)->
+    keypress = require('keypress')
+    keypress(process.stdin)
     @input = process.stdin
-    @input.setEncoding('utf8')
-    @input.on 'readable', ()=>
-      data = process.stdin.read()
-      switch(data)
-        when "e\n" then @emit('press:exit-button')
-        else            @emit('press:next-button', data)
+    @input.setRawMode(true)
+    @input.on 'keypress', (ch, key)=>
+      if key.ctrl
+        switch(key.name)
+          when 'c' then  @emit('press:exit-button')
+      else
+        switch(key.name)
+          when 'e' then @emit('press:exit-button')
+          else          @emit('press:next-button', key)
 
   render: ->
     Console.print(@board)
