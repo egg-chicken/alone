@@ -37,5 +37,4 @@ module.exports = class Characters
     @get_by_position(position)?.get_symbol()
 
   remove: (character)->
-    @list = _.filter @list, (c)->
-      c == character
+    @list = _.without(@list, character)
