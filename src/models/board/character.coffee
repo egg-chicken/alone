@@ -6,16 +6,16 @@ module.exports = class Character
     count += 1
     @id = count
 
-  get_symbol: ->
+  getSymbol: ->
     switch(@type)
       when Character.HERO   then 'H'
       when Character.SLIME  then 's'
 
-  get_type: ->
+  getType: ->
     @type
 
-  set_position: (p)->
+  setPosition: (p)->
     @position = p
 
-  get_position: ->
+  getPosition: ->
     @position

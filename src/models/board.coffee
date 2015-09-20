@@ -20,12 +20,12 @@ module.exports = class Board
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.is_wall(position)
     throw new Error("character is already exist ") if @get(position)
-    character.set_position(position)
+    character.setPosition(position)
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
     _.each display_table.pairs(), (p)=>
-      symbol = @characters.get_symbol(p) || @land.get_symbol(p)
+      symbol = @characters.getSymbol(p) || @land.getSymbol(p)
       display_table.set(p, symbol)
     display_table.to_s()
 

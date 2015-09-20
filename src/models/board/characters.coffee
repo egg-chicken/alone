@@ -23,18 +23,18 @@ module.exports = class Characters
 
   get_hero: ->
     _.find @list, (character)->
-      character.get_type() == Character.HERO
+      character.getType() == Character.HERO
 
   get_enemies: ->
     _.filter @list, (character)->
-      character.get_type() != Character.HERO
+      character.getType() != Character.HERO
 
   get_by_position: (position)->
     _.find @list, (character)->
-      character.get_position().equal(position)
+      character.getPosition().equal(position)
 
-  get_symbol: (position)->
-    @get_by_position(position)?.get_symbol()
+  getSymbol: (position)->
+    @get_by_position(position)?.getSymbol()
 
   remove: (character)->
     @list = _.without(@list, character)

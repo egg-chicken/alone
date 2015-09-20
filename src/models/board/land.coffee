@@ -18,7 +18,7 @@ module.exports = class Land
   is_wall: (position)->
     @table.get(position) == WALL
 
-  get_symbol: (position)->
+  getSymbol: (position)->
     switch(@table.get(position))
       when WALL        then '#'
       when STONE_FLOOR then ' '
