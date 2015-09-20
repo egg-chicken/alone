@@ -1,6 +1,7 @@
 _ = require('underscore')
 Board = require('./board')
 Player = require('./player')
+Logger = require('./logger')
 
 module.exports = class Dealer
   constructor: ()->
@@ -24,22 +25,23 @@ module.exports = class Dealer
       when 'up', 'down', 'left', 'right'
         to = from[direction]()
       else
-        console.log("#{character.getUniqueName()} do nothing")
+        Logger.doNothing(character)
 
     try
       target = @board.get(to)
       if target
-        console.log("#{character.getUniqueName()} attacked #{target.getUniqueName()}")
+        Logger.attack(character, target)
         target.damage(1)
-        console.log("#{target.getUniqueName()} take 1 damage")
+        Logger.isDamaged(target, 1)
+
         if target.isDead()
-          console.log("#{target.getUniqueName()} is dead")
+          Logger.isDead(target)
           @board.remove(target)
       else
-        console.log("#{character.getUniqueName()} go to (#{to.to_s()})")
+        Logger.move(character, to)
         @board.put(to, character)
     catch e
-      console.log("but failed")
+      Logger.failed(e)
 
   @test: ->
     dealer = new Dealer()
