@@ -4,7 +4,7 @@ Characters = require('./board/characters')
 Land = require('./board/land')
 
 module.exports = class Board
-  WIDTH = 130
+  WIDTH = 80
   HEIGHT = 30
   INITIAL_ENEMY_COUNT = 5
   constructor: ->

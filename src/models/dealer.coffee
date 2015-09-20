@@ -13,23 +13,33 @@ module.exports = class Dealer
   turn: (command)->
     _.each @player.characters(), (character)=>
       direction = @player.direction(character)
-      @move(character, command)
+      @moveOrAttack(character, command)
     _.each @com.characters(), (character)=>
       direction = @com.direction(character)
-      @move(character, direction)
+      @moveOrAttack(character, direction)
 
-  move: (character, direction)->
-    from = character.get_position()
+   moveOrAttack: (character, direction)->
+    from = character.getPosition()
     switch(direction)
       when 'up', 'down', 'left', 'right'
         to = from[direction]()
+      else
+        console.log("#{character.getUniqueName()} do nothing")
 
     try
       target = @board.get(to)
-      @board.remove(target) if target
-      @board.put(to, character)
+      if target
+        console.log("#{character.getUniqueName()} attacked #{target.getUniqueName()}")
+        target.damage(1)
+        console.log("#{target.getUniqueName()} take 1 damage")
+        if target.isDead()
+          console.log("#{target.getUniqueName()} is dead")
+          @board.remove(target)
+      else
+        console.log("#{character.getUniqueName()} go to (#{to.to_s()})")
+        @board.put(to, character)
     catch e
-      console.warn(e)
+      console.log("but failed")
 
   @test: ->
     dealer = new Dealer()
@@ -37,11 +47,11 @@ module.exports = class Dealer
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.move(dealer.board.get_hero(), "down")
+    dealer.moveOrAttack(dealer.board.get_hero(), "down")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.move(dealer.board.get_hero(), "right")
+    dealer.moveOrAttack(dealer.board.get_hero(), "right")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 

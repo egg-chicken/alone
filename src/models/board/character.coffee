@@ -5,6 +5,7 @@ module.exports = class Character
   constructor: (@type, @position)->
     count += 1
     @id = count
+    @health = 3
 
   getSymbol: ->
     switch(@type)
@@ -19,3 +20,12 @@ module.exports = class Character
 
   getPosition: ->
     @position
+
+  damage: (point)->
+    @health -= point
+
+  isDead: ->
+    @health <= 0
+
+  getUniqueName: ->
+    "#{@getSymbol()}(#{@id})"
