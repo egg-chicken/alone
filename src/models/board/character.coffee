@@ -1,10 +1,10 @@
-module.exports = class Character
+Piece = require('./piece')
+module.exports = class Character extends Piece
   @HERO: 1
   @SLIME: 2
   count = 0
   constructor: (@type, @position)->
-    count += 1
-    @id = count
+    super(@type, @position)
     @health = 3
 
   getSymbol: ->
@@ -12,20 +12,8 @@ module.exports = class Character
       when Character.HERO   then 'H'
       when Character.SLIME  then 's'
 
-  getType: ->
-    @type
-
-  setPosition: (p)->
-    @position = p
-
-  getPosition: ->
-    @position
-
   damage: (point)->
     @health -= point
 
   isDead: ->
     @health <= 0
-
-  getUniqueName: ->
-    "#{@getSymbol()}(#{@id})"
