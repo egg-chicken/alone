@@ -2,7 +2,6 @@ Piece = require('./piece')
 module.exports = class Character extends Piece
   @HERO: 1
   @SLIME: 2
-  count = 0
   constructor: (@type, @position)->
     super(@type, @position)
     @health = 3

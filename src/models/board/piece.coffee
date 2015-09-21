@@ -8,6 +8,9 @@ module.exports = class Piece
   getSymbol: ->
     throw new Error('this method must be overriden')
 
+  getId: ->
+    @id
+
   getType: ->
     @type
 
