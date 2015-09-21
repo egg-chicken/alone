@@ -14,5 +14,8 @@ module.exports = class Logger
   @move: (character, to)->
     console.log("#{character.getUniqueName()} go to (#{to.to_s()})")
 
+  @getItem: (character, item)->
+    console.log("#{character.getUniqueName()} got #{item.getUniqueName()}")
+
   @failed: (error)->
-    console.log("but failed")
+    console.log("but failed (#{error})")

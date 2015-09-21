@@ -5,6 +5,7 @@ module.exports = class Character extends Piece
   constructor: (@type, @position)->
     super(@type, @position)
     @health = 3
+    @items = []
 
   getSymbol: ->
     switch(@type)
@@ -16,3 +17,6 @@ module.exports = class Character extends Piece
 
   isDead: ->
     @health <= 0
+
+  addItem: (item)->
+    @items.push(item)

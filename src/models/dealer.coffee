@@ -24,24 +24,35 @@ module.exports = class Dealer
     switch(direction)
       when 'up', 'down', 'left', 'right'
         to = from[direction]()
-      else
-        Logger.doNothing(character)
+        target = @board.get(to)
 
     try
-      target = @board.get(to)
-      if target
-        Logger.attack(character, target)
-        target.damage(1)
-        Logger.isDamaged(target, 1)
-
-        if target.isDead()
-          Logger.isDead(target)
-          @board.remove(target)
+      if to && target
+        @_attack(character, target)
+      else if to
+        @_move(character, to)
       else
-        Logger.move(character, to)
-        @board.put(to, character)
+        Logger.doNothing(character)
     catch e
       Logger.failed(e)
+
+  _move: (character, to)->
+    Logger.move(character, to)
+    @board.put(to, character)
+    item = @board.getItem(to)
+    if item
+      Logger.getItem(character, item)
+      character.addItem(item)
+      @board.remove(item)
+
+  _attack: (character, target)->
+    Logger.attack(character, target)
+    target.damage(1)
+    Logger.isDamaged(target, 1)
+
+    if target.isDead()
+      Logger.isDead(target)
+      @board.remove(target)
 
   @test: ->
     dealer = new Dealer()

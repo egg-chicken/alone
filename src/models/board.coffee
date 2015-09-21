@@ -20,6 +20,7 @@ module.exports = class Board
   getHero:       -> @characters.getHero()
   getEnemies:    -> @characters.getEnemies()
   get: (position) -> @characters.getByPosition(position)
+  getItem: (position) -> @items.getByPosition(position)
   remove: (obj)-> @characters.remove(obj) || @items.remove(obj)
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.isWall(position)
