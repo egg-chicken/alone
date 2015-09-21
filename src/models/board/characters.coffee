@@ -37,4 +37,6 @@ module.exports = class Characters
     @getByPosition(position)?.getSymbol()
 
   remove: (character)->
-    @list = _.without(@list, character)
+    found = _.find(@list, (c)-> c == character)
+    @list = _.without(@list, character) if found
+    return found
