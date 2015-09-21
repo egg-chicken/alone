@@ -11,7 +11,7 @@ module.exports = class Player
       @hand.push(character)
 
   characters: ->
-    @hand
+    _.filter @hand, (character)-> not character.isDead()
 
   direction: (character)->
     _.sample ['up', 'down', 'left', 'right']

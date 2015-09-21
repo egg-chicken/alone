@@ -8,6 +8,7 @@ module.exports = class BoardView extends EventEmitter
     @input = process.stdin
     @input.setRawMode(true)
     @input.on 'keypress', (ch, key)=>
+      return unless key
       if key.ctrl
         switch(key.name)
           when 'c' then  @emit('press:exit-button')

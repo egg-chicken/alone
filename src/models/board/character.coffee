@@ -5,17 +5,27 @@ module.exports = class Character
   constructor: (@type, @position)->
     count += 1
     @id = count
+    @health = 3
 
-  get_symbol: ->
+  getSymbol: ->
     switch(@type)
       when Character.HERO   then 'H'
       when Character.SLIME  then 's'
 
-  get_type: ->
+  getType: ->
     @type
 
-  set_position: (p)->
+  setPosition: (p)->
     @position = p
 
-  get_position: ->
+  getPosition: ->
     @position
+
+  damage: (point)->
+    @health -= point
+
+  isDead: ->
+    @health <= 0
+
+  getUniqueName: ->
+    "#{@getSymbol()}(#{@id})"

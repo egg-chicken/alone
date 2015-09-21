@@ -1,6 +1,7 @@
 _ = require('underscore')
 Board = require('./board')
 Player = require('./player')
+Logger = require('./logger')
 
 module.exports = class Dealer
   constructor: ()->
@@ -13,23 +14,34 @@ module.exports = class Dealer
   turn: (command)->
     _.each @player.characters(), (character)=>
       direction = @player.direction(character)
-      @move(character, command)
+      @moveOrAttack(character, command)
     _.each @com.characters(), (character)=>
       direction = @com.direction(character)
-      @move(character, direction)
+      @moveOrAttack(character, direction)
 
-  move: (character, direction)->
-    from = character.get_position()
+   moveOrAttack: (character, direction)->
+    from = character.getPosition()
     switch(direction)
       when 'up', 'down', 'left', 'right'
         to = from[direction]()
+      else
+        Logger.doNothing(character)
 
     try
       target = @board.get(to)
-      @board.remove(target) if target
-      @board.put(to, character)
+      if target
+        Logger.attack(character, target)
+        target.damage(1)
+        Logger.isDamaged(target, 1)
+
+        if target.isDead()
+          Logger.isDead(target)
+          @board.remove(target)
+      else
+        Logger.move(character, to)
+        @board.put(to, character)
     catch e
-      console.warn(e)
+      Logger.failed(e)
 
   @test: ->
     dealer = new Dealer()
@@ -37,11 +49,11 @@ module.exports = class Dealer
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.move(dealer.board.get_hero(), "down")
+    dealer.moveOrAttack(dealer.board.get_hero(), "down")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.move(dealer.board.get_hero(), "right")
+    dealer.moveOrAttack(dealer.board.get_hero(), "right")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
