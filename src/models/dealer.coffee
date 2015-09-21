@@ -8,8 +8,8 @@ module.exports = class Dealer
     @board = new Board()
     @player = new Player()
     @com    = new Player()
-    @player.assign(@board.get_hero())
-    @com.assign(@board.get_enemies())
+    @player.assign(@board.getHero())
+    @com.assign(@board.getEnemies())
 
   turn: (command)->
     _.each @player.characters(), (character)=>
@@ -49,11 +49,11 @@ module.exports = class Dealer
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.moveOrAttack(dealer.board.get_hero(), "down")
+    dealer.moveOrAttack(dealer.board.getHero(), "down")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.moveOrAttack(dealer.board.get_hero(), "right")
+    dealer.moveOrAttack(dealer.board.getHero(), "right")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
