@@ -10,12 +10,12 @@ module.exports = class Land
       unless @table.get(p) == WALL
         @table.set(p, STONE_FLOOR)
 
-  get_free_positions: ->
+  getFreePositions: ->
     pairs = @table.pairs()
     filtered = _.filter pairs, (p)=> @table.get(p) != WALL
     _.shuffle(filtered)
 
-  is_wall: (position)->
+  isWall: (position)->
     @table.get(position) == WALL
 
   getSymbol: (position)->
