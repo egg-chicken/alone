@@ -16,7 +16,6 @@ module.exports = class BoardView extends EventEmitter
     @input.setRawMode(true)
     @input.on 'keypress', (ch, key)=>
       return unless key
-      return @emit('press:item-button') if @mode == MODE.ITEMS
 
       if key.ctrl
         switch(key.name)
@@ -25,7 +24,9 @@ module.exports = class BoardView extends EventEmitter
         switch(key.name)
           when 'i' then @emit('press:item-button')
           when 'e' then @emit('press:exit-button')
-          else          @emit('press:next-button', key)
+          else
+            unless @mode == MODE.ITEMS
+              @emit('press:next-button', key)
 
   render: ->
     switch(@mode)
@@ -37,3 +38,7 @@ module.exports = class BoardView extends EventEmitter
 
   changeMode: ->
     @mode = (@mode + 1) % 2
+    if @mode == MODE.ITEMS
+      @itemView.show()
+    else
+      @itemView.hide()
