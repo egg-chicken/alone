@@ -6,5 +6,5 @@ module.exports = class ItemView extends EventEmitter
   constructor: (@items)->
 
   render: ->
-    names = _.map(@items, (item)-> "#{item.getFullName()}")
-    Console.print(names)
+    names = _.map(@items, (item)-> "#{item.getFullName()}: #{item.getDescription()}")
+    Console.print(names.join("\n"))
