@@ -20,3 +20,6 @@ module.exports = class Character extends Piece
 
   addItem: (item)->
     @items.push(item)
+
+  getItems: ->
+    @items
