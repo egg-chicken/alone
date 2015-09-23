@@ -11,9 +11,6 @@ module.exports = class Piece
   getId: ->
     @id
 
-  getType: ->
-    @type
-
   setPosition: (p)->
     @position = p
 
