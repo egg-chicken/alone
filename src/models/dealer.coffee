@@ -83,8 +83,8 @@ module.exports = class Dealer
 
   _attack: (character, target)->
     Logger.attack(character, target)
-    target.damage(1)
-    Logger.isDamaged(target, 1)
+    point = target.damage(1)
+    Logger.isDamaged(target, point)
 
     if target.isDead()
       Logger.isDead(target)

@@ -40,8 +40,10 @@ module.exports = class Character extends Piece
       else
         throw new Error("use unknown skill #{name}")
 
-  damage: (point)->
-    @health -= Math.max(0, @buffers.diffence(point))
+  damage: (base)->
+    point = Math.max(0, @buffers.diffence(base))
+    @health -= point
+    point
 
   heal: (point)->
     @health = Math.min(@maxHealth, @health + point)

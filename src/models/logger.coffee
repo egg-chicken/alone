@@ -6,7 +6,7 @@ module.exports = class Logger
     console.log("#{character.getUniqueName()} attacked #{target.getUniqueName()}")
 
   @isDamaged: (character, point)->
-    console.log("#{character.getUniqueName()} take #{1} damage")
+    console.log("#{character.getUniqueName()} take #{point} damage")
 
   @isDead: (character)->
     console.log("#{character.getUniqueName()} is dead")
