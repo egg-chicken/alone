@@ -11,6 +11,10 @@ module.exports = class MainController
 
   onPressMoveButton: (direction)->
     @dealer.round(direction)
+    if @dealer.boardIsCompleted()
+      @dealer.setupBoard()
+      @view.exit()
+      @constructor(@dealer)
     @view.render()
 
   onPressSkipRoundButton: ->
