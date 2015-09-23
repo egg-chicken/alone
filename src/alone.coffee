@@ -1,14 +1,14 @@
 Dealer = require('./models/dealer')
-BoardView = require('./views/board_view')
-BoardController = require('./controllers/board_controller')
+MainView = require('./views/main_view')
+MainController = require('./controllers/main_controller')
 
 module.exports = class Alone
   @start: ->
     console.log "start"
     dealer = new Dealer()
-    boardView = new BoardView(dealer.board)
-    boardController = new BoardController(boardView, dealer)
-    boardController.show()
+    mainView = new MainView(dealer)
+    mainController = new MainController(mainView, dealer)
+    mainView.render()
 
   @stop: ->
     console.log "stop"
