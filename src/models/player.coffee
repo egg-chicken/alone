@@ -1,7 +1,10 @@
 _ = require('underscore')
 
 module.exports = class Player
-  constructor: ()->
+  @MODE =
+    HUMAN: 0
+    COM: 1
+  constructor: (@mode)->
     @hand = []
     @score = 0
 
@@ -22,3 +25,6 @@ module.exports = class Player
 
   addScore: (point)->
     @score += point
+
+  getMode: ->
+    @mode

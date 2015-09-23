@@ -6,16 +6,21 @@ Logger = require('./logger')
 module.exports = class Dealer
   constructor: ()->
     @board = new Board()
-    @player = new Player()
-    @com    = new Player()
-    @player.assign(@board.getHero())
-    @com.assign(@board.getEnemies())
+    @players = [
+      new Player(Player.MODE.HUMAN)
+      new Player(Player.MODE.COM)
+    ]
+    @players[0].assign(@board.getHero())
+    @players[1].assign(@board.getEnemies())
 
   round: (playerCommand, arg)->
-    @turnPlayer = @player
-    @_turn(playerCommand, arg)
-    @turnPlayer = @com
-    @_turn()
+    _.each @players, (player)=>
+      @turnPlayer = player
+      switch(player.getMode())
+        when Player.MODE.HUMAN
+          @_turn(playerCommand, arg)
+        when Player.MODE.COM
+          @_turn()
 
   _turn: (command, arg)->
     _.each @turnPlayer.characters(), (character)=>
