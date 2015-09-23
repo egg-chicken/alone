@@ -2,6 +2,7 @@ module.exports = class BoardController
   constructor: (@boardView, @dealer)->
     @boardView.on('press:exit-button', =>@onPressExitButton())
     @boardView.on('press:item-button', =>@onPressItemButton())
+    @boardView.on('press:item-use-button', (item)=>@onPressItemUseButton(item))
     @boardView.on('press:next-button', (button)=>@onPressNextButton(button))
 
   show: ->
@@ -20,3 +21,6 @@ module.exports = class BoardController
   onPressItemButton: ->
     @boardView.changeMode()
     @boardView.render()
+
+  onPressItemUseButton: (item)->
+    @dealer.turn("useItem", item)

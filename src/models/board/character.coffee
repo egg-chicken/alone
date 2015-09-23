@@ -26,6 +26,14 @@ module.exports = class Character extends Piece
   getItems: ->
     @items
 
+  useItem: (item)->
+    found = _.findIndex(@items, (i)-> i == item)
+    if found?
+      @items[found] = @items[@items.length-1]
+      @items.pop()
+    else
+      throw new Error("the character doesn't have item #{item}")
+
   to_s: ->
     item_names = _.map @items, (item)-> item.getSymbol()
     "#{@getSymbol()}: { health: #{@health}/#{@maxHealth} , items: #{item_names} }"

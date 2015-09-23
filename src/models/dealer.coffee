@@ -11,15 +11,20 @@ module.exports = class Dealer
     @player.assign(@board.getHero())
     @com.assign(@board.getEnemies())
 
-  turn: (command)->
+  turn: (command, arg)->
     _.each @player.characters(), (character)=>
-      direction = @player.direction(character)
-      @moveOrAttack(character, command)
+      switch(command)
+        when 'useItem'
+          Logger.useItem(character, arg)
+          character.useItem(arg)
+        when 'up', 'down', 'left', 'right'
+          @moveOrAttack(character, command)
+
     _.each @com.characters(), (character)=>
       direction = @com.direction(character)
       @moveOrAttack(character, direction)
 
-   moveOrAttack: (character, direction)->
+  moveOrAttack: (character, direction)->
     from = character.getPosition()
     switch(direction)
       when 'up', 'down', 'left', 'right'
