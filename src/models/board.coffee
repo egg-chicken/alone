@@ -28,6 +28,7 @@ module.exports = class Board
     character.setPosition(position)
 
   isExit: (position) -> @land.isExit(position)
+  waneBuffers: -> @characters.waneBuffers()
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)

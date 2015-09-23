@@ -36,7 +36,7 @@ module.exports = class Character extends Piece
   useSkill: (name)->
     switch(name)
       when 'GUARDFORM'
-        @_addDiffenceBuffer(1, 1)
+        @_addDiffenceBuffer(1, 2)
       else
         throw new Error("use unknown skill #{name}")
 
@@ -80,6 +80,9 @@ module.exports = class Character extends Piece
 
   getBuffersString: ->
     @buffers.to_s()
+
+  waneBuffers: ->
+    @buffers.wane()
 
   _addDiffenceBuffer: (point, duration)->
     @buffers.addDiffenceBuffer(point, duration)

@@ -7,7 +7,7 @@ module.exports = class Buffers
   diffence: (base)->
     calc = (point, buf)->
       if buf.isDiffenceBuffer()
-        point -= buf.activate()
+        point -= buf.getPoint()
       else
         point
     _.inject(@list, calc, base)
@@ -18,3 +18,10 @@ module.exports = class Buffers
 
   to_s: ->
     _.map(@list, (buffer)-> buffer.getSymbol()).join(",")
+
+  wane: ->
+    size = @list.length-1
+    for i in [size..0] by -1
+      @list[i].wane()
+      if @list[i].isExpired()
+        @list.splice(i, 1)

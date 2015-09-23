@@ -32,6 +32,7 @@ module.exports = class Dealer
           @_turn(playerCommand, arg)
         when Player.MODE.COM
           @_turn()
+    @board.waneBuffers()
 
   boardIsCompleted: ->
     @boardCompleted

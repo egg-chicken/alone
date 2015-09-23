@@ -16,11 +16,13 @@ module.exports = class Buffer
   isExpired: ->
     @duration <= 0
 
-  activate: ->
+  wane: ->
     @duration -= 1
+
+  getPoint: ->
     @point
 
   getSymbol: ->
     switch(@type)
-      when TYPES.ATTACK   then 'A'
-      when TYPES.DIFFENCE then 'D'
+      when TYPES.ATTACK   then "A(#{@duration})"
+      when TYPES.DIFFENCE then "D(#{@duration})"
