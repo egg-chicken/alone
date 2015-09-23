@@ -49,7 +49,7 @@ module.exports = class MainView extends EventEmitter
               @mode = MODE.ITEMS
               @render()
             when 'up', 'down', 'left', 'right'
-              @emit('press:move-button', key)
+              @emit('press:move-button', key.name)
             else
               @emit('press:skip-round-button')
         when MODE.ITEMS

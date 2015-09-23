@@ -9,8 +9,8 @@ module.exports = class MainController
     @view.exit()
     process.exit()
 
-  onPressMoveButton: (button)->
-    @dealer.round(button.name)
+  onPressMoveButton: (direction)->
+    @dealer.round(direction)
     @view.render()
 
   onPressSkipRoundButton: ->
