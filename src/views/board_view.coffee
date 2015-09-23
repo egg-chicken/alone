@@ -32,7 +32,7 @@ module.exports = class BoardView extends EventEmitter
     switch(@mode)
       when MODE.BOARD
         lines = [@board.to_s()]
-        lines.push(@board.getHero().toString()) if @board.getHero()
+        lines.push(@board.getHero().to_s()) if @board.getHero()
         Console.print(lines.join("\n"))
       when MODE.ITEMS
         @itemView.render()

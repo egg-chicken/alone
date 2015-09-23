@@ -26,6 +26,6 @@ module.exports = class Character extends Piece
   getItems: ->
     @items
 
-  toString: ->
+  to_s: ->
     item_names = _.map @items, (item)-> item.getSymbol()
     "#{@getSymbol()}: { health: #{@health}/#{@maxHealth} , items: #{item_names} }"
