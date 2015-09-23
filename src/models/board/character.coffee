@@ -17,6 +17,12 @@ module.exports = class Character extends Piece
   damage: (point)->
     @health -= point
 
+  heal: (point)->
+    @health = Math.min(@maxHealth, @health + point)
+
+  cure: (status)->
+    # TODO: cure status
+
   isDead: ->
     @health <= 0
 
@@ -26,10 +32,11 @@ module.exports = class Character extends Piece
   getItems: ->
     @items
 
-  useItem: (item)->
+  useItem: (item, target=@)->
     found = _.findIndex(@items, (i)-> i == item)
     if found >= 0
       @items.splice(found,1)
+      item.activate(target)
     else
       throw new Error("the character doesn't have item #{item}")
 
