@@ -27,6 +27,8 @@ module.exports = class Board
     throw new Error("character is already exist ") if @get(position)
     character.setPosition(position)
 
+  isExit: (position) -> @land.isExit(position)
+
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
     _.each display_table.pairs(), (p)=>

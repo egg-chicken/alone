@@ -5,11 +5,22 @@ Logger = require('./logger')
 
 module.exports = class Dealer
   constructor: ()->
-    @board = new Board()
     @players = [
       new Player(Player.MODE.HUMAN)
       new Player(Player.MODE.COM)
     ]
+    @setupBoard()
+
+  setupBoard: ()->
+    if @board
+      items = @board.getHero().getItems()
+      @board = new Board()
+      @board.getHero().setItems(items)
+      _.each @players, (player)=> player.completeBoard()
+    else
+      @board = new Board()
+
+    @boardCompleted = false
     @players[0].assign(@board.getHero())
     @players[1].assign(@board.getEnemies())
 
@@ -22,8 +33,12 @@ module.exports = class Dealer
         when Player.MODE.COM
           @_turn()
 
+  boardIsCompleted: ->
+    @boardCompleted
+
   _turn: (command, arg)->
     _.each @turnPlayer.characters(), (character)=>
+      return if @boardCompleted
       switch(command)
         when 'useItem'
           Logger.useItem(character, arg)
@@ -58,6 +73,9 @@ module.exports = class Dealer
       Logger.getItem(character, item)
       character.addItem(item)
       @board.remove(item)
+    if @board.isExit(to) && @turnPlayer.getMode() == Player.MODE.HUMAN
+      Logger.reachExit(character)
+      @boardCompleted = true
 
   _attack: (character, target)->
     Logger.attack(character, target)

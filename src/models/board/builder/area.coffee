@@ -5,7 +5,7 @@ Line = require('./line')
 
 module.exports = class Area
   SYMBOL = 0
-  ROOM_SYMBOL = '_'
+  ROOM_SYMBOL = 1
   constructor: (@table, base, end)->
     @base = base || new Pair(0, 0)
     @end  = end  || new Pair(@table.width - 1, @table.height - 1)

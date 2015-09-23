@@ -14,6 +14,9 @@ module.exports = class Logger
   @move: (character, to)->
     console.log("#{character.getUniqueName()} go to (#{to.to_s()})")
 
+  @reachExit: (character)->
+    console.log("#{character.getUniqueName()} reached exit of this board")
+
   @getItem: (character, item)->
     console.log("#{character.getUniqueName()} got #{item.getUniqueName()}")
 

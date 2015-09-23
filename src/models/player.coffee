@@ -7,6 +7,7 @@ module.exports = class Player
   constructor: (@mode)->
     @hand = []
     @score = 0
+    @boardCount = 1
 
   assign: (character)->
     if character instanceof Array
@@ -26,5 +27,13 @@ module.exports = class Player
   addScore: (point)->
     @score += point
 
+  completeBoard: ->
+    @score += @boardCount * 100
+    @boardCount += 1
+    @hand = []
+
   getMode: ->
     @mode
+
+  getBoardCount: ->
+    @boardCount
