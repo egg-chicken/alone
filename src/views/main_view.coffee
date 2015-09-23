@@ -35,6 +35,28 @@ module.exports = class MainView extends EventEmitter
   exit: ->
     @input.removeAllListeners('keypress')
 
+  _boardModeActions: (key)->
+    switch(key.name)
+      when 'i'
+        @mode = MODE.ITEMS
+        @render()
+      when 'up', 'down', 'left', 'right'
+        @emit('press:move-button', key.name)
+      else
+        @emit('press:skip-round-button')
+
+  _itemsModeActions: (key)->
+    switch(key.name)
+      when 'i'
+        @mode = MODE.BOARD
+        @render()
+      when 'up', 'down'
+        @itemView[key.name]()
+        @render()
+      when 'return'
+        @mode = MODE.BOARD
+        @emit('press:item-use-button', @itemView.getFocusedItem())
+
   _initKeyEvents: ->
     keypress(process.stdin)
     @input = process.stdin
@@ -43,26 +65,8 @@ module.exports = class MainView extends EventEmitter
       return unless key
       return process.exit() if @_isExitSignal(key)
       switch(@mode)
-        when MODE.BOARD
-          switch(key.name)
-            when 'i'
-              @mode = MODE.ITEMS
-              @render()
-            when 'up', 'down', 'left', 'right'
-              @emit('press:move-button', key.name)
-            else
-              @emit('press:skip-round-button')
-        when MODE.ITEMS
-          switch(key.name)
-            when 'i'
-              @mode = MODE.BOARD
-              @render()
-            when 'up', 'down'
-              @itemView[key.name]()
-              @render()
-            when 'return'
-              @mode = MODE.BOARD
-              @emit('press:item-use-button', @itemView.getFocusedItem())
+        when MODE.BOARD then @_boardModeActions(key)
+        when MODE.ITEMS then @_itemsModeActions(key)
 
   _isExitSignal: (key)->
     key.ctrl && key.name == 'c' || key.name == 'q'
