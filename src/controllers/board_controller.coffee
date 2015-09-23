@@ -23,4 +23,11 @@ module.exports = class BoardController
     @boardView.render()
 
   onPressItemUseButton: (item)->
-    @dealer.turn("useItem", item)
+    delayedFunction = =>
+      @dealer.turn("useItem", item)
+      @boardView.changeMode()
+      @boardView.render()
+    # FIXME: イベント解決の順序を気にせず実行できるようにする
+    # 下のように実行しない場合、changeMode 呼び出し直後に
+    # boardView のキーイベントが発火してしまうため、2ターン進んでしまう。
+    setTimeout(delayedFunction, 1)
