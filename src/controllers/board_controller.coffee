@@ -15,7 +15,7 @@ module.exports = class BoardController
     process.exit()
 
   onPressNextButton: (button)->
-    @dealer.turn(button.name)
+    @dealer.round(button.name)
     @boardView.render()
 
   onPressItemButton: ->
@@ -24,7 +24,7 @@ module.exports = class BoardController
 
   onPressItemUseButton: (item)->
     delayedFunction = =>
-      @dealer.turn("useItem", item)
+      @dealer.round("useItem", item)
       @boardView.changeMode()
       @boardView.render()
     # FIXME: イベント解決の順序を気にせず実行できるようにする

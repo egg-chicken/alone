@@ -11,26 +11,30 @@ module.exports = class Dealer
     @player.assign(@board.getHero())
     @com.assign(@board.getEnemies())
 
-  turn: (command, arg)->
-    _.each @player.characters(), (character)=>
+  round: (playerCommand, arg)->
+    @turnPlayer = @player
+    @_turn(playerCommand, arg)
+    @turnPlayer = @com
+    @_turn()
+
+  _turn: (command, arg)->
+    _.each @turnPlayer.characters(), (character)=>
       switch(command)
         when 'useItem'
           Logger.useItem(character, arg)
           character.useItem(arg)
         when 'up', 'down', 'left', 'right'
-          @moveOrAttack(character, command)
+          @_moveOrAttack(character, command)
+        else
+          command = @turnPlayer.direction(character)
+          @_moveOrAttack(character, command)
 
-    _.each @com.characters(), (character)=>
-      direction = @com.direction(character)
-      @moveOrAttack(character, direction)
-
-  moveOrAttack: (character, direction)->
+  _moveOrAttack: (character, direction)->
     from = character.getPosition()
     switch(direction)
       when 'up', 'down', 'left', 'right'
         to = from[direction]()
         target = @board.get(to)
-
     try
       if to && target
         @_attack(character, target)
@@ -65,13 +69,13 @@ module.exports = class Dealer
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.moveOrAttack(dealer.board.getHero(), "down")
+    dealer._moveOrAttack(dealer.board.getHero(), "down")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.moveOrAttack(dealer.board.getHero(), "right")
+    dealer._moveOrAttack(dealer.board.getHero(), "right")
     console.log(dealer.board.to_s())
     console.log('-----------------')
 
-    dealer.turn()
+    dealer._turn()
     console.log(dealer.board.to_s())
