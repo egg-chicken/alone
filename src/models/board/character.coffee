@@ -77,3 +77,9 @@ module.exports = class Character extends Piece
 
   getItemsString: ->
     _.map(@items, (item)-> item.getSymbol()).join(",")
+
+  getBuffersString: ->
+    @buffers.to_s()
+
+  _addDiffenceBuffer: (point, duration)->
+    @buffers.addDiffenceBuffer(point, duration)
