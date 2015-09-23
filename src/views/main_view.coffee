@@ -32,6 +32,9 @@ module.exports = class MainView extends EventEmitter
       else
         throw new Error("rendering with unknown view mode")
 
+  exit: ->
+    @input.removeAllListeners('keypress')
+
   _initKeyEvents: ->
     keypress(process.stdin)
     @input = process.stdin
