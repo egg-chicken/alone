@@ -1,10 +1,12 @@
+_ = require('underscore')
 Piece = require('./piece')
 module.exports = class Character extends Piece
   @HERO: 1
   @SLIME: 2
   constructor: (@type, @position)->
     super(@type, @position)
-    @health = 3
+    @maxHealth = 3
+    @health = @maxHealth
     @items = []
 
   getSymbol: ->
@@ -20,3 +22,10 @@ module.exports = class Character extends Piece
 
   addItem: (item)->
     @items.push(item)
+
+  getItems: ->
+    @items
+
+  toString: ->
+    item_names = _.map @items, (item)-> item.getSymbol()
+    "#{@getSymbol()}: { health: #{@health}/#{@maxHealth} , items: #{item_names} }"
