@@ -30,8 +30,12 @@ module.exports = class BoardView extends EventEmitter
 
   render: ->
     switch(@mode)
-      when MODE.BOARD then Console.print(@board)
-      when MODE.ITEMS then @itemView.render()
+      when MODE.BOARD
+        lines = [@board.to_s()]
+        lines.push(@board.getHero().toString()) if @board.getHero()
+        Console.print(lines.join("\n"))
+      when MODE.ITEMS
+        @itemView.render()
 
   exit: ->
     Console.log('exit button pressed.')
