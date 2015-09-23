@@ -10,6 +10,9 @@ module.exports = class BoardView extends EventEmitter
   constructor: (@board)->
     @mode = MODE.BOARD
     @itemView = new ItemView(@board.getHero().getItems())
+    @itemView.on 'press:use-item-button', (item)=>
+      @emit('press:item-use-button', item)
+
     keypress = require('keypress')
     keypress(process.stdin)
     @input = process.stdin
@@ -32,7 +35,7 @@ module.exports = class BoardView extends EventEmitter
     switch(@mode)
       when MODE.BOARD
         lines = [@board.to_s()]
-        lines.push(@board.getHero().toString()) if @board.getHero()
+        lines.push(@board.getHero().to_s()) if @board.getHero()
         Console.print(lines.join("\n"))
       when MODE.ITEMS
         @itemView.render()

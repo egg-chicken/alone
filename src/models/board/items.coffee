@@ -23,6 +23,6 @@ module.exports = class Items
     @getByPosition(position)?.getSymbol()
 
   remove: (item)->
-    found = _.find(@list, (i)-> i == item)
-    @list = _.without(@list, item) if found
-    return found
+    found = _.findIndex(@list, (i)-> i == item)
+    @list.splice(found,1) if found >= 0
+    return found >= 0

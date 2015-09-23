@@ -20,6 +20,9 @@ module.exports = class ItemView extends EventEmitter
         when 'down'
           @focus = Math.min(@items.length-1, @focus+1)
           @render()
+        when 'return'
+          if @items[@focus]
+            @emit('press:use-item-button', @items[@focus])
 
   render: ->
     return unless @visible
