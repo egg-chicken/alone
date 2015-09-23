@@ -37,6 +37,9 @@ module.exports = class Character extends Piece
   getItems: ->
     @items
 
+  setItems: (items)->
+    @items = items
+
   useItem: (item, target=@)->
     found = _.findIndex(@items, (i)-> i == item)
     if found >= 0
@@ -45,6 +48,8 @@ module.exports = class Character extends Piece
     else
       throw new Error("the character doesn't have item #{item}")
 
-  to_s: ->
-    item_names = _.map @items, (item)-> item.getSymbol()
-    "#{@getSymbol()}: { health: #{@health}/#{@maxHealth} , items: #{item_names} }"
+  getHealthString: ->
+    "#{@health}/#{@maxHealth}"
+
+  getItemsString: ->
+    _.map(@items, (item)-> item.getSymbol()).join(",")

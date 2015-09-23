@@ -4,7 +4,8 @@ module.exports = class PlayerView
   render: ->
     characters = @player.characters()
     lines = []
-    lines.push("SCORE: #{@player.getScore()}")
+    lines.push("LEVEL: #{@player.getBoardCount()}, SCORE: #{@player.getScore()}")
     for i in [0...characters.length]
-      lines.push(characters[i].to_s())
+      lines.push("HEALTH: #{characters[i].getHealthString()}")
+      lines.push("ITEMS: #{characters[i].getItemsString()}")
     console.log(lines.join("\n"))
