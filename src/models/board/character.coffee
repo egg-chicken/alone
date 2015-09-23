@@ -1,5 +1,7 @@
 _ = require('underscore')
 Piece = require('./piece')
+Buffers = require('./character/buffers')
+
 module.exports = class Character extends Piece
   TYPES =
     HERO: 0
@@ -16,6 +18,7 @@ module.exports = class Character extends Piece
     super(@type, @position)
     @maxHealth = 3
     @health = @maxHealth
+    @buffers = new Buffers()
     @items = []
 
   getSymbol: ->
@@ -31,8 +34,14 @@ module.exports = class Character extends Piece
       when TYPES.BUG    then 15
 
   useSkill: (name)->
+    switch(name)
+      when 'GUARDFORM'
+        @_addDiffenceBuffer(1, 1)
+      else
+        throw new Error("use unknown skill #{name}")
+
   damage: (point)->
-    @health -= point
+    @health -= Math.max(0, @buffers.diffence(point))
 
   heal: (point)->
     @health = Math.min(@maxHealth, @health + point)
