@@ -19,7 +19,7 @@ module.exports = class Characters
     _.each free_positions, (p)=>
       size = @list.length
       return if size >= count || size >= MAX_SIZE
-      @list.push(new Character(Character.SLIME, p))
+      @list.push(new Character.createRandomEnemy(p))
 
   getHero: ->
     _.find @list, (character)->

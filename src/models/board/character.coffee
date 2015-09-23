@@ -1,8 +1,13 @@
 _ = require('underscore')
 Piece = require('./piece')
 module.exports = class Character extends Piece
-  @HERO: 1
-  @SLIME: 2
+  @HERO: 0
+  @SLIME: 1
+  @BUG: 2
+  @createRandomEnemy: (position)->
+    type = _.random(1) + 1
+    new Character(type, position)
+
   constructor: (@type, @position)->
     super(@type, @position)
     @maxHealth = 3
@@ -11,13 +16,15 @@ module.exports = class Character extends Piece
 
   getSymbol: ->
     switch(@type)
-      when Character.HERO   then 'H'
-      when Character.SLIME  then 'S'
+      when Character.HERO  then 'H'
+      when Character.SLIME then 'S'
+      when Character.BUG   then 'B'
 
   getScore: ->
     switch(@type)
       when Character.HERO   then 0
       when Character.SLIME  then 10
+      when Character.BUG    then 15
 
   damage: (point)->
     @health -= point
