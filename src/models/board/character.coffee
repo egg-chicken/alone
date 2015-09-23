@@ -12,7 +12,12 @@ module.exports = class Character extends Piece
   getSymbol: ->
     switch(@type)
       when Character.HERO   then 'H'
-      when Character.SLIME  then 's'
+      when Character.SLIME  then 'S'
+
+  getScore: ->
+    switch(@type)
+      when Character.HERO   then 0
+      when Character.SLIME  then 10
 
   damage: (point)->
     @health -= point

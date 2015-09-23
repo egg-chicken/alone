@@ -3,6 +3,7 @@ _ = require('underscore')
 module.exports = class Player
   constructor: ()->
     @hand = []
+    @score = 0
 
   assign: (character)->
     if character instanceof Array
@@ -15,3 +16,9 @@ module.exports = class Player
 
   direction: (character)->
     _.sample ['up', 'down', 'left', 'right']
+
+  getScore: ->
+    @score
+
+  addScore: (point)->
+    @score += point

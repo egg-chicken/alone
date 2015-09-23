@@ -61,6 +61,7 @@ module.exports = class Dealer
 
     if target.isDead()
       Logger.isDead(target)
+      @turnPlayer.addScore(target.getScore())
       @board.remove(target)
 
   @test: ->
