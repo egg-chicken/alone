@@ -28,9 +28,8 @@ module.exports = class Character extends Piece
 
   useItem: (item)->
     found = _.findIndex(@items, (i)-> i == item)
-    if found?
-      @items[found] = @items[@items.length-1]
-      @items.pop()
+    if found >= 0
+      @items.splice(found,1)
     else
       throw new Error("the character doesn't have item #{item}")
 
