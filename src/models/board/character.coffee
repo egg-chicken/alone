@@ -30,6 +30,7 @@ module.exports = class Character extends Piece
       when TYPES.SLIME  then 10
       when TYPES.BUG    then 15
 
+  useSkill: (name)->
   damage: (point)->
     @health -= point
 

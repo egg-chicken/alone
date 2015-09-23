@@ -23,5 +23,8 @@ module.exports = class Logger
   @useItem: (character, item)->
     console.log("#{character.getUniqueName()} used #{item.getFullName()}")
 
+  @useSkill: (character, skill)->
+    console.log("#{character.getUniqueName()} used #{skill}")
+
   @failed: (error)->
     console.log("but failed (#{error})")

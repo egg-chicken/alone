@@ -43,6 +43,9 @@ module.exports = class Dealer
         when 'useItem'
           Logger.useItem(character, arg)
           character.useItem(arg)
+        when 'useSkill'
+          Logger.useSkill(character, arg)
+          character.useSkill(arg)
         when 'up', 'down', 'left', 'right'
           @_moveOrAttack(character, command)
         else
