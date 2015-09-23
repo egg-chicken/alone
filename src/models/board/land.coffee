@@ -16,6 +16,7 @@ module.exports = class Land
           @table.set(p, ROOM)
         else
           @table.set(p, PATH)
+    @table.set(@getFreePositions()[0], EXIT)
 
   getFreePositions: ->
     filtered = _.filter @table.pairs(), (p)=> @table.get(p) == ROOM
@@ -23,6 +24,9 @@ module.exports = class Land
 
   isWall: (position)->
     @table.get(position) == WALL
+
+  isExit: (position)->
+    @table.get(position) == EXIT
 
   getSymbol: (position)->
     switch(@table.get(position))
