@@ -23,9 +23,14 @@ module.exports = class MainView extends EventEmitter
 
   render: ->
     console.clear()
-    @boardView.render()
-    @playerView.render()
-    @itemView.render()
+    switch(@mode)
+      when MODE.BOARD
+        @boardView.render()
+        @playerView.render()
+      when MODE.ITEMS
+        @itemView.render()
+      else
+        throw new Error("rendering with unknown view mode")
 
   _initKeyEvents: ->
     keypress(process.stdin)
@@ -37,11 +42,24 @@ module.exports = class MainView extends EventEmitter
       switch(@mode)
         when MODE.BOARD
           switch(key.name)
-            when 'i' then @emit('press:item-button')
-            else @emit('press:next-button')
+            when 'i'
+              @mode = MODE.ITEMS
+              @render()
+            when 'up', 'down', 'left', 'right'
+              @emit('press:move-button', key)
+            else
+              @emit('press:skip-round-button')
         when MODE.ITEMS
           switch(key.name)
-            when 'i' then @emit('press:item-button')
+            when 'i'
+              @mode = MODE.BOARD
+              @render()
+            when 'up', 'down'
+              @itemView[key.name]()
+              @render()
+            when 'return'
+              @mode = MODE.BOARD
+              @emit('press:item-use-button', @itemView.getFocusedItem())
 
   _isExitSignal: (key)->
     key.ctrl && key.name == 'c' || key.name == 'q'
