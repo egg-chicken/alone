@@ -32,7 +32,6 @@ module.exports = class Dealer
           @_turn(playerCommand, arg)
         when Player.MODE.COM
           @_turn()
-    @board.waneBuffers()
 
   boardIsCompleted: ->
     @boardCompleted
@@ -45,7 +44,7 @@ module.exports = class Dealer
       else
         direction = @turnPlayer.direction(character)
         @_perform(character, direction.command, direction.arg)
-
+      character.waneBuffers()
 
   _perform: (character, command, arg)->
     switch(command)

@@ -38,6 +38,3 @@ module.exports = class Characters
     found = _.findIndex(@list, (c)-> c == character)
     @list.splice(found,1) if found >= 0
     return found >= 0
-
-  waneBuffers: ->
-    _.each @list, (character)-> character.waneBuffers()
