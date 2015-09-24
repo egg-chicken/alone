@@ -19,7 +19,10 @@ module.exports = class Player
     _.filter @hand, (character)-> not character.isDead()
 
   direction: (character)->
-    _.sample ['up', 'down', 'left', 'right']
+    {
+      command: _.sample ['up', 'down', 'left', 'right', 'useSkill']
+      arg: character.getSkill()
+    }
 
   getScore: ->
     @score

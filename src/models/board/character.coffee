@@ -20,6 +20,10 @@ module.exports = class Character extends Piece
     @health = @maxHealth
     @buffers = new Buffers()
     @items = []
+    switch(@type)
+      when TYPES.SLIME then @skill = 'ACID'
+      when TYPES.BUG   then @skill = 'GUARDFORM'
+
 
   getSymbol: ->
     switch(@type)
@@ -33,8 +37,13 @@ module.exports = class Character extends Piece
       when TYPES.SLIME  then 10
       when TYPES.BUG    then 15
 
+  getSkill: ->
+    @skill
+
   useSkill: (name)->
     switch(name)
+      when 'ACID'
+        return # TODO: decrease the weapon duration on front character
       when 'GUARDFORM'
         @_addDiffenceBuffer(1, 2)
       else
