@@ -39,15 +39,23 @@ module.exports = class Dealer
   _turn: (command, arg)->
     _.each @turnPlayer.characters(), (character)=>
       return if @boardCompleted
-      switch(command)
-        when 'useItem'
-          Logger.useItem(character, arg)
-          character.useItem(arg)
-        when 'up', 'down', 'left', 'right'
-          @_moveOrAttack(character, command)
-        else
-          command = @turnPlayer.direction(character)
-          @_moveOrAttack(character, command)
+      if command
+        @_perform(character, command, arg)
+      else
+        direction = @turnPlayer.direction(character)
+        @_perform(character, direction.command, direction.arg)
+      character.waneBuffers()
+
+  _perform: (character, command, arg)->
+    switch(command)
+      when 'useItem'
+        Logger.useItem(character, arg)
+        character.useItem(arg)
+      when 'useSkill'
+        Logger.useSkill(character, arg)
+        character.useSkill(arg)
+      when 'up', 'down', 'left', 'right'
+        @_moveOrAttack(character, command)
 
   _moveOrAttack: (character, direction)->
     from = character.getPosition()
@@ -79,8 +87,8 @@ module.exports = class Dealer
 
   _attack: (character, target)->
     Logger.attack(character, target)
-    target.damage(1)
-    Logger.isDamaged(target, 1)
+    point = target.damage(1)
+    Logger.isDamaged(target, point)
 
     if target.isDead()
       Logger.isDead(target)

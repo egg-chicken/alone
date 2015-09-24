@@ -2,10 +2,11 @@ MainView = require('views/main_view')
 
 module.exports = class MainController
   constructor: (@dealer)->
-    @view = new MainView(dealer)
+    @view = new MainView(@dealer)
     @view.on('press:exit-button', =>@onPressExitButton())
     @view.on('press:item-use-button', (item)=>@onPressItemUseButton(item))
     @view.on('press:move-button', (button)=>@onPressMoveButton(button))
+    @view.on('press:skill-button', (button)=>@onPressSkillButton(button))
     @view.on('press:skip-round-button', (button)=>@onPressSkipRoundButton(button))
     @view.render()
 
@@ -27,4 +28,8 @@ module.exports = class MainController
 
   onPressItemUseButton: (item)->
     @dealer.round("useItem", item)
+    @view.render()
+
+  onPressSkillButton: (skill)->
+    @dealer.round("useSkill", skill)
     @view.render()

@@ -36,14 +36,19 @@ module.exports = class MainView extends EventEmitter
     @input.removeAllListeners('keypress')
 
   _boardModeActions: (key)->
-    switch(key.name)
-      when 'i'
-        @mode = MODE.ITEMS
-        @render()
-      when 'up', 'down', 'left', 'right'
-        @emit('press:move-button', key.name)
-      else
-        @emit('press:skip-round-button')
+    if key.shift
+      switch(key.name)
+        when 'g'
+          @emit('press:skill-button', 'GUARDFORM')
+    else
+      switch(key.name)
+        when 'i'
+          @mode = MODE.ITEMS
+          @render()
+        when 'up', 'down', 'left', 'right'
+          @emit('press:move-button', key.name)
+        else
+          @emit('press:skip-round-button')
 
   _itemsModeActions: (key)->
     switch(key.name)

@@ -1,26 +1,58 @@
 _ = require('underscore')
 Piece = require('./piece')
+Buffers = require('./character/buffers')
+
 module.exports = class Character extends Piece
-  @HERO: 1
-  @SLIME: 2
+  TYPES =
+    HERO: 0
+    SLIME: 1
+    BUG: 2
+  @createRandomEnemy: (position)->
+    type = _.random(1) + 1
+    new Character(type, position)
+
+  @createHero: (position)->
+    new Character(TYPES.HERO, position)
+
   constructor: (@type, @position)->
     super(@type, @position)
     @maxHealth = 3
     @health = @maxHealth
+    @buffers = new Buffers()
     @items = []
+    switch(@type)
+      when TYPES.SLIME then @skill = 'ACID'
+      when TYPES.BUG   then @skill = 'GUARDFORM'
+
 
   getSymbol: ->
     switch(@type)
-      when Character.HERO   then 'H'
-      when Character.SLIME  then 'S'
+      when TYPES.HERO  then 'H'
+      when TYPES.SLIME then 'S'
+      when TYPES.BUG   then 'B'
 
   getScore: ->
     switch(@type)
-      when Character.HERO   then 0
-      when Character.SLIME  then 10
+      when TYPES.HERO   then 0
+      when TYPES.SLIME  then 10
+      when TYPES.BUG    then 15
 
-  damage: (point)->
+  getSkill: ->
+    @skill
+
+  useSkill: (name)->
+    switch(name)
+      when 'ACID'
+        return # TODO: decrease the weapon duration on front character
+      when 'GUARDFORM'
+        @_addDiffenceBuffer(1, 2)
+      else
+        throw new Error("use unknown skill #{name}")
+
+  damage: (base)->
+    point = Math.max(0, @buffers.diffence(base))
     @health -= point
+    point
 
   heal: (point)->
     @health = Math.min(@maxHealth, @health + point)
@@ -30,6 +62,9 @@ module.exports = class Character extends Piece
 
   isDead: ->
     @health <= 0
+
+  isHero: ->
+    @type == TYPES.HERO
 
   addItem: (item)->
     @items.push(item)
@@ -53,3 +88,12 @@ module.exports = class Character extends Piece
 
   getItemsString: ->
     _.map(@items, (item)-> item.getSymbol()).join(",")
+
+  getBuffersString: ->
+    @buffers.to_s()
+
+  waneBuffers: ->
+    @buffers.wane()
+
+  _addDiffenceBuffer: (point, duration)->
+    @buffers.addDiffenceBuffer(point, duration)

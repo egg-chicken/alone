@@ -10,7 +10,7 @@ module.exports = class Characters
     position = _.find free_positions, (p)=>
       not @getByPosition(p)
 
-    @list.push(new Character(Character.HERO, position))
+    @list.push(new Character.createHero(position))
 
   generateEnemies: (free_positions, count)->
     free_positions = _.filter free_positions, (p)=>
@@ -19,15 +19,13 @@ module.exports = class Characters
     _.each free_positions, (p)=>
       size = @list.length
       return if size >= count || size >= MAX_SIZE
-      @list.push(new Character(Character.SLIME, p))
+      @list.push(new Character.createRandomEnemy(p))
 
   getHero: ->
-    _.find @list, (character)->
-      character.getType() == Character.HERO
+    _.find @list, (character)-> character.isHero()
 
   getEnemies: ->
-    _.filter @list, (character)->
-      character.getType() != Character.HERO
+    _.filter @list, (character)-> not character.isHero()
 
   getByPosition: (position)->
     _.find @list, (character)->
