@@ -2,7 +2,7 @@ MainView = require('views/main_view')
 
 module.exports = class MainController
   constructor: (@dealer)->
-    @view = new MainView(dealer)
+    @view = new MainView(@dealer)
     @view.on('press:exit-button', =>@onPressExitButton())
     @view.on('press:item-use-button', (item)=>@onPressItemUseButton(item))
     @view.on('press:move-button', (button)=>@onPressMoveButton(button))
