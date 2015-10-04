@@ -6,8 +6,8 @@ Logger = require('./logger')
 module.exports = class Dealer
   constructor: ()->
     @players = [
-      new Player(Player.MODE.HUMAN)
-      new Player(Player.MODE.COM)
+      Player.createHuman()
+      Player.createComputer()
     ]
     @setupBoard()
 
@@ -27,12 +27,12 @@ module.exports = class Dealer
   round: (playerCommand, arg)->
     _.each @players, (player)=>
       @turnPlayer = player
-      switch(player.getMode())
-        when Player.MODE.HUMAN
-          # TODO: perform player command
-          return
-        when Player.MODE.COM
-          @_turn()
+
+      if player.isHuman()
+        # TODO: perform player command
+        return
+      else
+        @_turn()
 
   boardIsCompleted: ->
     @boardCompleted
@@ -47,7 +47,7 @@ module.exports = class Dealer
   _afterPerform: (character, command)->
     character.waneBuffers()
     to = character.getPosition()
-    if @board.isExit(to) && @turnPlayer.getMode() == Player.MODE.HUMAN
+    if @board.isExit(to) && @turnPlayer.isHuman()
       Logger.reachExit(character)
       @boardCompleted = true
     # TODO: add score if player character kills enemy
