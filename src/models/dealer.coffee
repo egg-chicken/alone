@@ -24,23 +24,21 @@ module.exports = class Dealer
     @players[0].assign(@board.getHero())
     @players[1].assign(@board.getEnemies())
 
-  round: (playerCommand, arg)->
+  round: (playerCommand)->
     _.each @players, (player)=>
       @turnPlayer = player
-
       if player.isHuman()
-        # TODO: perform player command
-        return
+        @_turn(playerCommand)
       else
         @_turn()
 
   boardIsCompleted: ->
     @boardCompleted
 
-  _turn: ->
+  _turn: (playerCommand)->
     _.each @turnPlayer.characters(), (character)=>
       return if @boardCompleted
-      command = @turnPlayer.command(character)
+      command = playerCommand || @turnPlayer.command(character)
       command.perform(character, @board)
       @_afterPerform(character, command)
 

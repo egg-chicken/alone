@@ -1,4 +1,5 @@
 MainView = require('views/main_view')
+Command  = require('models/command')
 
 module.exports = class MainController
   constructor: (@dealer)->
@@ -15,7 +16,8 @@ module.exports = class MainController
     process.exit()
 
   onPressMoveButton: (direction)->
-    @dealer.round(direction)
+    command = Command.createMoveOrAttack(direction)
+    @dealer.round(command)
     if @dealer.boardIsCompleted()
       @dealer.setupBoard()
       @view.exit()
@@ -27,9 +29,11 @@ module.exports = class MainController
     @view.render()
 
   onPressItemUseButton: (item)->
-    @dealer.round("useItem", item)
+    command = Command.createUseItem(item)
+    @dealer.round(command)
     @view.render()
 
   onPressSkillButton: (skill)->
-    @dealer.round("useSkill", skill)
+    command = Command.creteUseSkill(skill)
+    @dealer.round(command)
     @view.render()
