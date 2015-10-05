@@ -1,5 +1,5 @@
 _ = require('underscore')
-Command = require('./command')
+Strategy = require('./player/strategy')
 
 module.exports = class Player
   MODE =
@@ -23,12 +23,7 @@ module.exports = class Player
     _.filter @hand, (character)-> not character.isDead()
 
   command: (character)->
-    if _.random(4) > 0
-      direction = _.sample(['up', 'down', 'left', 'right'])
-      command = Command.createMoveOrAttack(direction)
-    else
-      command = Command.createUseSkill(character.getSkill())
-    command
+    Strategy.whim(character)
 
   getScore: ->
     @score
