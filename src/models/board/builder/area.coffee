@@ -5,16 +5,18 @@ Line = require('./line')
 
 module.exports = class Area
   SYMBOL = 0
-  ROOM_SYMBOL = 1
+  roomSymbol = 'a'.charCodeAt()
   constructor: (@table, base, end)->
     @base = base || new Pair(0, 0)
     @end  = end  || new Pair(@table.width - 1, @table.height - 1)
     @children = []
+    @roomSymbol = roomSymbol
+    roomSymbol += 1
 
   draw: ->
     if _.isEmpty(@children)
       _.each @base.cover(@end), (p)=>
-        code = if @_onEdge(p) then SYMBOL else ROOM_SYMBOL
+        code = if @_onEdge(p) then SYMBOL else @roomSymbol
         @table.set(p, code)
     else
       _.each @children, (child)-> child.draw()
