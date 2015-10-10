@@ -40,6 +40,9 @@ module.exports = class Character extends Piece
   getSkill: ->
     @skill
 
+  getPosition: ->
+    @position
+
   useSkill: (name)->
     switch(name)
       when 'ACID'

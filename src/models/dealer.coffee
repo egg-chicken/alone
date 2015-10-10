@@ -1,5 +1,6 @@
 _ = require('underscore')
 Board = require('./board')
+MaskedBoard = require('./masked_board')
 Player = require('./player')
 Logger = require('./logger')
 
@@ -38,7 +39,7 @@ module.exports = class Dealer
   _turn: (playerCommand)->
     _.each @turnPlayer.characters(), (character)=>
       return if @boardCompleted
-      command = playerCommand || @turnPlayer.command(character)
+      command = playerCommand || @turnPlayer.command(character, new MaskedBoard(@board, character))
       command.perform(character, @board)
       @_afterPerform(character, command)
 
