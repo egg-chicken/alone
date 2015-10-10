@@ -60,6 +60,7 @@ module.exports = class MainView extends EventEmitter
         @render()
       when 'return'
         @mode = MODE.BOARD
+        return unless @itemView.getFocusedItem()
         @emit('press:item-use-button', @itemView.getFocusedItem())
 
   _initKeyEvents: ->
