@@ -33,6 +33,9 @@ module.exports = class Land
   isRoom: (position)->
     @table.get(position) > EXIT
 
+  getTile: (position)->
+    @table.get(position)
+
   getSymbol: (position)->
     switch(@table.get(position))
       when WALL then '#'
