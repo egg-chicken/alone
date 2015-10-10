@@ -20,10 +20,6 @@ module.exports = class Character extends Piece
     @health = @maxHealth
     @buffers = new Buffers()
     @items = []
-    switch(@type)
-      when TYPES.SLIME then @skill = 'ACID'
-      when TYPES.BUG   then @skill = 'GUARDFORM'
-
 
   getSymbol: ->
     switch(@type)
@@ -38,7 +34,14 @@ module.exports = class Character extends Piece
       when TYPES.BUG    then 15
 
   getSkill: ->
-    @skill
+    switch(@type)
+      when TYPES.SLIME then 'ACID'
+      when TYPES.BUG   then 'GUARDFORM'
+
+  getStrategy: ->
+    switch(@type)
+      when TYPES.SLIME then 'whim'
+      when TYPES.BUG   then 'guard'
 
   getPosition: ->
     @position

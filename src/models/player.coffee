@@ -23,7 +23,7 @@ module.exports = class Player
     _.filter @hand, (character)-> not character.isDead()
 
   command: (character, board)->
-    Strategy.guard(character, board)
+    Strategy[character.getStrategy()](character, board)
 
   getScore: ->
     @score
