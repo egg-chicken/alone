@@ -32,7 +32,10 @@ module.exports = class Command
         character.useItem(@item)
       when ACTIONS.USE_SKILL
         Logger.useSkill(character, @skill)
-        character.useSkill(@skill, @target)
+        try
+          character.useSkill(@skill, @target)
+        catch e
+          Logger.failed(e)
       when ACTIONS.MOVE_OR_ATTACK
         @_moveOrAttack(character, board)
 

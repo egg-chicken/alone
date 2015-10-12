@@ -21,6 +21,7 @@ module.exports = class Character extends Piece
     @health = @maxHealth
     @buffers = new Buffers()
     @items = []
+    @skillCount = 0
 
   getSymbol: ->
     switch(@type)
@@ -58,9 +59,15 @@ module.exports = class Character extends Piece
       when 'GUARDFORM'
         @_addDiffenceBuffer(1, 2)
       when 'AID'
-        target.heal(3)
+        if (target.health == target.maxHealth)
+          throw new Error("He canceled skill, because that is meaningless")
+        else if @skillCount <= 2
+          target.heal(3)
+        else
+          throw new Error("He doesn't have medicine!")
       else
         throw new Error("use unknown skill #{name}")
+    @skillCount += 1
 
   damage: (base)->
     point = Math.max(0, @buffers.diffence(base))
