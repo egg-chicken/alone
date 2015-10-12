@@ -5,6 +5,11 @@ Player = require('./player')
 Logger = require('./logger')
 
 module.exports = class Dealer
+  BOARD =
+    PLAYING: 0
+    COMPLETED: 1
+    FAILED: 2
+
   constructor: ()->
     @players = [
       Player.createHuman()
@@ -21,7 +26,7 @@ module.exports = class Dealer
     else
       @board = new Board()
 
-    @boardCompleted = false
+    @boardStatus = BOARD.PLAYING
     @players[0].assign(@board.getHero())
     @players[1].assign(@board.getEnemies())
 
@@ -34,11 +39,14 @@ module.exports = class Dealer
         @_turn()
 
   boardIsCompleted: ->
-    @boardCompleted
+    @boardStatus == BOARD.COMPLETED
+
+  boardIsFailed: ->
+    @boardStatus == BOARD.FAILED
 
   _turn: (playerCommand)->
     _.each @turnPlayer.characters(), (character)=>
-      return if @boardCompleted
+      return unless @boardStatus == BOARD.PLAYING
       command = playerCommand || @turnPlayer.command(character, new MaskedBoard(@board, character))
       command.perform(character, @board)
       @_afterPerform(character, command)
@@ -49,7 +57,10 @@ module.exports = class Dealer
     to = character.getPosition()
     if @board.isExit(to) && @turnPlayer.isHuman()
       Logger.reachExit(character)
-      @boardCompleted = true
+      @boardStatus = BOARD.COMPLETED
+    else if not(@board.getHero())
+      Logger.gameOver(character)
+      @boardStatus = BOARD.FAILED
 
   @test: ->
     dealer = new Dealer()
