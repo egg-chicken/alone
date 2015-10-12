@@ -22,6 +22,7 @@ module.exports = class Command
     command
 
   constructor: (@action)->
+    @score = 0
 
   perform: (character, board)->
     switch(@action)
@@ -33,6 +34,9 @@ module.exports = class Command
         character.useSkill(@skill)
       when ACTIONS.MOVE_OR_ATTACK
         @_moveOrAttack(character, board)
+
+  getScore: ->
+    @score
 
   _moveOrAttack: (character, board)->
     from = character.getPosition()
@@ -66,3 +70,4 @@ module.exports = class Command
     if target.isDead()
       Logger.isDead(target)
       board.remove(target)
+      @score += target.getScore()

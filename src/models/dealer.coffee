@@ -44,12 +44,12 @@ module.exports = class Dealer
       @_afterPerform(character, command)
 
   _afterPerform: (character, command)->
+    @turnPlayer.addScore(command.getScore())
     character.waneBuffers()
     to = character.getPosition()
     if @board.isExit(to) && @turnPlayer.isHuman()
       Logger.reachExit(character)
       @boardCompleted = true
-    # TODO: add score if player character kills enemy
 
   @test: ->
     dealer = new Dealer()
