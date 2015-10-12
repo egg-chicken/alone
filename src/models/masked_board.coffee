@@ -6,23 +6,26 @@ module.exports = class MaskedBoard
   DIRECTIONS = ['up', 'down', 'left', 'right']
 
   constructor: (@board, @character)->
-    @target = @board.getHero()
+    @hero = @board.getHero()
 
-  findNearByDirection: (target=@target)->
+  getHero: ->
+    @hero
+
+  findNearByDirection: (target=@hero)->
     position = @character.getPosition()
     targetPosition = target.getPosition()
     method = (direction) ->
       targetPosition.distance(position[direction]())
     _.min(_.shuffle(DIRECTIONS), method)
 
-  isNeighbor: (target=@target)->
+  isNeighbor: (target=@hero)->
     @character.getPosition().distance(target.getPosition()) < 2
 
   isSight: ->
     return false unless @board.isRoom(@character.getPosition())
 
     t1 = @board.getTile(@character.getPosition())
-    t2 = @board.getTile(@target.getPosition())
+    t2 = @board.getTile(@hero.getPosition())
     t1 == t2
 
   getNearestCharacterInSight: ->
