@@ -27,4 +27,7 @@ module.exports = class Logger
     console.log("#{character.getUniqueName()} used #{skill}")
 
   @failed: (error)->
-    console.log("but failed (#{error})")
+    console.log("but failed (#{error.message})")
+
+  @gameOver: (character)->
+    console.log("game is over, goodbye")
