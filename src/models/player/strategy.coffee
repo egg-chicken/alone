@@ -6,7 +6,7 @@ module.exports = class Strategy
   @whim: (character)->
     if _.random(4) > 0
       direction = _.sample(DIRECTIONS)
-      command = Command.createMoveOrAttack(direction)
+      command = Command.createMove(direction)
     else
       command = Command.createUseSkill(character.getSkill(), character)
     command
