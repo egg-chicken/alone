@@ -22,6 +22,8 @@ module.exports = class MainController
       @dealer.setupBoard()
       @view.exit()
       @constructor(@dealer)
+    else if @dealer.boardIsFailed()
+      @onPressExitButton()
     @view.render()
 
   onPressSkipRoundButton: ->
