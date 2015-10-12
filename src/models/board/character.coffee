@@ -7,8 +7,9 @@ module.exports = class Character extends Piece
     HERO: 0
     SLIME: 1
     BUG: 2
+    MOUSE: 3
   @createRandomEnemy: (position)->
-    type = _.random(1) + 1
+    type = _.random(2) + 1
     new Character(type, position)
 
   @createHero: (position)->
@@ -26,32 +27,38 @@ module.exports = class Character extends Piece
       when TYPES.HERO  then 'H'
       when TYPES.SLIME then 'S'
       when TYPES.BUG   then 'B'
+      when TYPES.MOUSE then 'M'
 
   getScore: ->
     switch(@type)
       when TYPES.HERO   then 0
       when TYPES.SLIME  then 10
       when TYPES.BUG    then 15
+      when TYPES.MOUSE  then 20
 
   getSkill: ->
     switch(@type)
       when TYPES.SLIME then 'ACID'
       when TYPES.BUG   then 'GUARDFORM'
+      when TYPES.MOUSE then 'AID'
 
   getStrategy: ->
     switch(@type)
       when TYPES.SLIME then 'whim'
       when TYPES.BUG   then 'guard'
+      when TYPES.MOUSE then 'devoted'
 
   getPosition: ->
     @position
 
-  useSkill: (name)->
+  useSkill: (name, target)->
     switch(name)
       when 'ACID'
         return # TODO: decrease the weapon duration on front character
       when 'GUARDFORM'
         @_addDiffenceBuffer(1, 2)
+      when 'AID'
+        target.heal(3)
       else
         throw new Error("use unknown skill #{name}")
 
