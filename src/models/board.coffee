@@ -19,6 +19,7 @@ module.exports = class Board
 
   getHero:       -> @characters.getHero()
   getEnemies:    -> @characters.getEnemies()
+  getCharacters:  -> @characters.getCharacters()
   get: (position) -> @characters.getByPosition(position)
   getItem: (position) -> @items.getByPosition(position)
   getTile: (position) -> @land.getTile(position)

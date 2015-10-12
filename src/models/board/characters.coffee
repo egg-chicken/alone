@@ -27,6 +27,9 @@ module.exports = class Characters
   getEnemies: ->
     _.filter @list, (character)-> not character.isHero()
 
+  getCharacters: ->
+    @list
+
   getByPosition: (position)->
     _.find @list, (character)->
       character.getPosition().equal(position)

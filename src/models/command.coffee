@@ -5,15 +5,22 @@ module.exports = class Command
     MOVE_OR_ATTACK: 0
     USE_SKILL: 1
     USE_ITEM: 2
+    MOVE: 3
+
+  @createMove: (direction)->
+    command = new Command(ACTIONS.MOVE)
+    command.direction = direction
+    command
 
   @createMoveOrAttack: (direction) ->
     command = new Command(ACTIONS.MOVE_OR_ATTACK)
     command.direction = direction
     command
 
-  @createUseSkill: (skill)->
+  @createUseSkill: (skill, target)->
     command = new Command(ACTIONS.USE_SKILL)
     command.skill = skill
+    command.target = target
     command
 
   @createUseItem: (item)->
@@ -31,9 +38,17 @@ module.exports = class Command
         character.useItem(@item)
       when ACTIONS.USE_SKILL
         Logger.useSkill(character, @skill)
-        character.useSkill(@skill)
+        try
+          character.useSkill(@skill, @target)
+        catch e
+          Logger.failed(e)
       when ACTIONS.MOVE_OR_ATTACK
         @_moveOrAttack(character, board)
+      when ACTIONS.MOVE
+        try
+          @_move(character, board)
+        catch e
+          Logger.failed(e)
 
   getScore: ->
     @score
@@ -47,13 +62,15 @@ module.exports = class Command
       if to && target
         @_attack(character, target, board)
       else if to
-        @_move(character, to, board)
+        @_move(character, board)
       else
         Logger.doNothing(character)
     catch e
       Logger.failed(e)
 
-  _move: (character, to, board)->
+  _move: (character, board)->
+    from = character.getPosition()
+    to = from[@direction]()
     Logger.move(character, to)
     board.put(to, character)
     item = board.getItem(to)
