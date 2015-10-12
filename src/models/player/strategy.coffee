@@ -17,3 +17,13 @@ module.exports = class Strategy
       command = Command.createMoveOrAttack(direction)
     else
       @whim(character)
+
+  @devoted: (character, board)->
+    target = board.getNearestCharacterInSight()
+    if target == board.getHero() || not(board.isNeighbor(target))
+      direction = board.findNearByDirection(target)
+      command = Command.createMoveOrAttack(direction)
+    else if target
+      command = Command.createUseSkill(character.getSkill(), target)
+    else
+      @whim(character)
