@@ -8,7 +8,7 @@ module.exports = class Strategy
       direction = _.sample(DIRECTIONS)
       command = Command.createMoveOrAttack(direction)
     else
-      command = Command.createUseSkill(character.getSkill())
+      command = Command.createUseSkill(character.getSkill(), character)
     command
 
   @guard: (character, board)->

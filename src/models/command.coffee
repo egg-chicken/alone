@@ -11,9 +11,10 @@ module.exports = class Command
     command.direction = direction
     command
 
-  @createUseSkill: (skill)->
+  @createUseSkill: (skill, target)->
     command = new Command(ACTIONS.USE_SKILL)
     command.skill = skill
+    command.target = target
     command
 
   @createUseItem: (item)->
@@ -31,7 +32,7 @@ module.exports = class Command
         character.useItem(@item)
       when ACTIONS.USE_SKILL
         Logger.useSkill(character, @skill)
-        character.useSkill(@skill)
+        character.useSkill(@skill, @target)
       when ACTIONS.MOVE_OR_ATTACK
         @_moveOrAttack(character, board)
 
