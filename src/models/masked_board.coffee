@@ -29,18 +29,23 @@ module.exports = class MaskedBoard
     t1 == t2
 
   getNearestCharacterInSight: ->
-    characters = @board.getCharacters()
-    position = @character.getPosition()
-
-    characters = _.reject characters, (target) =>
-      targetPosition = target.getPosition()
-      samePosition = targetPosition == position
-      sameRoom = @board.isRoom(position) && @board.getTile(position) == @board.getTile(targetPosition)
-      neighbor = targetPosition.distance(position) == 1
-      samePosition || not(sameRoom || neighbor)
-
+    characters = @getCharactersInSight()
     return if _.isEmpty(characters)
 
+    position = @character.getPosition()
     _.min characters, (target) =>
       targetPosition = target.getPosition()
       targetPosition.distance(position)
+
+  getCharactersInSight: ->
+    characters = @board.getCharacters()
+    position = @character.getPosition()
+    inRoom = @board.isRoom(position)
+    _.filter characters, (target) =>
+      targetPosition = target.getPosition()
+      if inRoom
+        samePosition = targetPosition == position
+        sameRoom =  @board.getTile(position) == @board.getTile(targetPosition)
+        !samePosition && sameRoom
+      else
+        targetPosition.distance(position) == 1
