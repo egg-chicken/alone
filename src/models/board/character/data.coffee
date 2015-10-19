@@ -4,4 +4,5 @@ module.exports = [
   [ '灰泥緑虫', 'S',      'ACID',      'whim',          10,        1]
   [ '手甲虫',   'B',      'GUARDFORM', 'guard',         15,        2]
   [ '葛籠鼠',   'M',      'AID',       'devoted',       20,        2]
+  [ '盲瓜坊',   'P',      'TACKLE',    'whim',          25,        3]
 ]

@@ -12,6 +12,10 @@ module.exports = class Character extends Piece
   @createHero: (position)->
     new Character(TYPES.HERO, position)
 
+  @createEnemy: (name, position)->
+    index = _.findIndex(Data, (data)-> data[0] == name)
+    new Character(index, position)
+
   constructor: (@type, @position)->
     super(@type, @position)
     @buffers = new Buffers()
