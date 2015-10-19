@@ -8,21 +8,21 @@ describe 'Command', ->
       before ->
         @character = Character.createEnemy('葛籠鼠')
         @target    = Character.createEnemy('盲瓜坊')
-        @command = Command.createUseSkill()
+        @command = Command.createUseSkill(@target)
 
       it '体力が減っていない時失敗する', ->
-        aid = => @command._useSkill(@character, @target)
+        aid = => @command._useSkill(@character)
         assert.throws(aid, Error)
 
       it '体力が減っている時成功し、対象を回復する', ->
         @target.damage(2)
-        @command._useSkill(@character, @target)
+        @command._useSkill(@character)
         assert(@target.isHealthy())
 
       it '２回成功した後、それ以降常に失敗する', ->
         aid = =>
           @target.damage(2)
-          @command._useSkill(@character, @target)
+          @command._useSkill(@character)
         aid()
         aid()
         assert.throws(aid, Error)

@@ -38,7 +38,7 @@ module.exports = class Command
       when ACTIONS.USE_SKILL
         Logger.useSkill(character, @skill)
         try
-          @_useSkill(character, @target, board)
+          @_useSkill(character, board)
         catch e
           Logger.failed(e)
       when ACTIONS.MOVE_OR_ATTACK
@@ -88,17 +88,17 @@ module.exports = class Command
       board.remove(target)
       @score += target.getScore()
 
-  _useSkill: (character, target, board)->
+  _useSkill: (character, board)->
     switch(character.getSkill())
       when 'ACID'
         return # TODO: decrease the weapon duration on front character
       when 'GUARDFORM'
         character.addDiffenceBuffer(1, 2)
       when 'AID'
-        if target.isHealthy()
+        if @target.isHealthy()
           throw new Error("He canceled skill, because that is meaningless")
         else if character.getSkillCount() <= 2
-          target.heal(3)
+          @target.heal(3)
         else
           throw new Error("He doesn't have medicine!")
       when 'TACKLE'
