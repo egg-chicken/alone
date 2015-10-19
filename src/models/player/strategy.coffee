@@ -11,7 +11,7 @@ module.exports = class Strategy
       direction = _.sample(DIRECTIONS)
       command = Command.createMove(direction)
     else
-      command = Command.createUseSkill(character.getSkill(), character)
+      command = Command.createUseSkill(character)
     command
 
   @guard: (character, board)->
@@ -29,4 +29,4 @@ module.exports = class Strategy
       direction = board.findNearByDirection(target)
       command = Command.createMoveOrAttack(direction)
     else
-      command = Command.createUseSkill(character.getSkill(), target)
+      command = Command.createUseSkill(target)

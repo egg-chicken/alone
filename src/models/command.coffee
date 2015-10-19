@@ -17,9 +17,8 @@ module.exports = class Command
     command.direction = direction
     command
 
-  @createUseSkill: (skill, target)->
+  @createUseSkill: (target)->
     command = new Command(ACTIONS.USE_SKILL)
-    command.skill = skill
     command.target = target
     command
 
