@@ -32,22 +32,11 @@ module.exports = class Character extends Piece
   getPosition: ->
     @position
 
-  useSkill: (name, target)->
-    switch(name)
-      when 'ACID'
-        return # TODO: decrease the weapon duration on front character
-      when 'GUARDFORM'
-        @_addDiffenceBuffer(1, 2)
-      when 'AID'
-        if (target.health == target.maxHealth)
-          throw new Error("He canceled skill, because that is meaningless")
-        else if @skillCount <= 2
-          target.heal(3)
-        else
-          throw new Error("He doesn't have medicine!")
-      else
-        throw new Error("use unknown skill #{name}")
+  addSkillCount: ->
     @skillCount += 1
+
+  getSkillCount: ->
+    @skillCount
 
   damage: (base)->
     point = Math.max(0, @buffers.diffence(base))
@@ -65,6 +54,9 @@ module.exports = class Character extends Piece
 
   isHero: ->
     @type == TYPES.HERO
+
+  isHealthy: ->
+    @health == @maxHealth
 
   addItem: (item)->
     @items.push(item)
@@ -95,5 +87,5 @@ module.exports = class Character extends Piece
   waneBuffers: ->
     @buffers.wane()
 
-  _addDiffenceBuffer: (point, duration)->
+  addDiffenceBuffer: (point, duration)->
     @buffers.addDiffenceBuffer(point, duration)
