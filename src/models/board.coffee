@@ -10,7 +10,7 @@ module.exports = class Board
   INITIAL_ENEMY_COUNT = 5
 
   constructor: ->
-    @land = new Land(WIDTH, HEIGHT)
+    @land = Land.createRandom(WIDTH, HEIGHT)
     @characters = new Characters()
     @characters.createHero(@land.getFreePositions())
     @characters.createEnemies(@land.getFreePositions(), INITIAL_ENEMY_COUNT)

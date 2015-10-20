@@ -27,3 +27,12 @@ describe 'Command', ->
         aid()
         assert.throws(aid, Error)
         assert.throws(aid, Error)
+    describe '突進', ->
+      before ->
+        @board
+        @character = Character.createEnemy('盲瓜坊')
+        @target    = Character.createHero()
+        @command   = Command.createUseSkill(@character, @target)
+
+      it '対象が壁に挟まれている時一点のダメージを与える', ->
+        @command._useSkill()

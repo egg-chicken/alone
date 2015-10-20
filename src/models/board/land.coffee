@@ -1,24 +1,24 @@
 _ = require('underscore')
 Builder = require('./builder')
+Array2D = require('utils/array2d')
 
 module.exports = class Land
   WALL = 0
   PATH = 2
   EXIT = 3
-  constructor: (width, height)->
-    @table = Builder.create(width, height)
-    _.each @table.pairs(), (p)=>
-      tile = @table.get(p)
-      switch(tile)
-        when 0
-          @table.set(p, WALL)
-        when '_'
-          @table.set(p, PATH)
-        else
-          # ROOM
-          @table.set(p, tile)
+  @createRandom: (width, height)->
+    land = new Land()
+    land._randomize(width, height)
+    land._setExit()
+    land
 
-    @table.set(@getFreePositions()[0], EXIT)
+  @createHall: (width, height) ->
+    land = new Land()
+    land.table = new Array2D(width, height, 'a'.charCodeAt())
+    pairs = land.table.round()
+    for p in pairs
+      land.table.set(p, WALL)
+    land
 
   getFreePositions: ->
     filtered = _.filter @table.pairs(), (p)=> @isRoom(p)
@@ -50,3 +50,21 @@ module.exports = class Land
       when PATH then ' '
       when EXIT then '@'
       else String.fromCharCode(tile)
+
+  _setExit: ->
+    pairs = _.shuffle(@table.pairs())
+    position = _.find(pairs, (p)=> @isRoom(p))
+    @table.set(position, EXIT)
+
+  _randomize: (width, height)->
+    @table = Builder.create(width, height)
+    _.each @table.pairs(), (p)=>
+      tile = @table.get(p)
+      switch(tile)
+        when 0
+          @table.set(p, WALL)
+        when '_'
+          @table.set(p, PATH)
+        else
+          # ROOM
+          @table.set(p, tile)

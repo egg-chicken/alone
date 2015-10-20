@@ -31,6 +31,11 @@ module.exports = class Array2D
         a.push(new Pair(x, y))
     a
 
+  # ２次元配列を長方形とみなして、周の集合を返す
+  round: ->
+    test = (p)=>(p.x == 0 || p.y == 0 || p.x == @width-1 || p.y == @height-1)
+    _.filter(@pairs(), test)
+
   # 時計回りに90度回転した Array2D を作成して返す
   rotate: ->
     a = new Array2D(@height, @width)
