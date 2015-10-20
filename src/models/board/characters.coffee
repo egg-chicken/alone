@@ -21,11 +21,13 @@ module.exports = class Characters
     position = _.find(freePositions, (p)=> not @getByPosition(p))
     character = Character.create(name, position)
     @list.push(character)
+    character
 
   addOne: (freePositions, character)->
     position = _.find(freePositions, (p)=> not @getByPosition(p))
     character.setPosition(position)
     @list.push(character)
+    character
 
   getHero: ->
     _.find @list, (character)-> character.isHero()

@@ -40,6 +40,9 @@ module.exports = class Board
   remove: (obj) ->
     @characters.remove(obj) || @items.remove(obj)
 
+  createOne: (name) ->
+    @characters.createOne(@land.getFreePositions(), name)
+
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.isWall(position)
     throw new Error("character is already exist ") if @get(position)
