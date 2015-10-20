@@ -36,7 +36,7 @@ module.exports = class Command
         Logger.useItem(@actor, @item)
         @actor.useItem(@item)
       when ACTIONS.USE_SKILL
-        Logger.useSkill(@actor, @skill)
+        Logger.useSkill(@actor, @actor.getSkill())
         try
           @_useSkill(board)
         catch e
