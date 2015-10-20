@@ -19,8 +19,8 @@ module.exports = class Board
     items.createItems(land.getFreePositions(), INITIAL_ITEM_COUNT)
     new Board(land, characters, items)
 
-  @createHall: ->
-    land = Land.createHall(WIDTH, HEIGHT)
+  @createHall: (width, height)->
+    land = Land.createHall(width, height)
     characters = new Characters()
     items = new Items()
     new Board(land, characters, items)
