@@ -27,20 +27,22 @@ module.exports = class Board
 
   constructor: (@land, @characters, @items)->
 
-  getHero:       -> @characters.getHero()
-  getEnemies:    -> @characters.getEnemies()
-  getCharacters:  -> @characters.getCharacters()
-  get: (position) -> @characters.getByPosition(position)
+  getHero:            -> @characters.getHero()
+  getEnemies:         -> @characters.getEnemies()
+  getCharacters:      -> @characters.getCharacters()
+  get: (position)     -> @characters.getByPosition(position)
   getItem: (position) -> @items.getByPosition(position)
   getTile: (position) -> @land.getTile(position)
-  remove: (obj)-> @characters.remove(obj) || @items.remove(obj)
+  isExit: (position)  -> @land.isExit(position)
+  isRoom: (position)  -> @land.isRoom(position)
+
+  remove: (obj) ->
+    @characters.remove(obj) || @items.remove(obj)
+
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.isWall(position)
     throw new Error("character is already exist ") if @get(position)
     character.setPosition(position)
-
-  isExit: (position) -> @land.isExit(position)
-  isRoom: (position) -> @land.isRoom(position)
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
