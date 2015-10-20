@@ -10,13 +10,9 @@ module.exports = class Characters
     @createOne(freePositions, '主人公')
 
   createEnemies: (freePositions, count)->
-    freePositions = _.filter freePositions, (p)=>
-      not @getByPosition(p)
-
-    _.each freePositions, (p)=>
-      size = @list.length
-      return if size >= count || size >= MAX_SIZE
-      @list.push(new Character.createRandomEnemy(p))
+    count = Math.min(count, MAX_SIZE)
+    for i in [0...count]
+      @createOne(freePositions)
 
   createOne: (freePositions, name) ->
     position = _.find(freePositions, (p)=> not @getByPosition(p))

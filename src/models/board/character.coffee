@@ -13,7 +13,10 @@ module.exports = class Character extends Piece
     new Character(TYPES.HERO, position)
 
   @create: (name, position)->
-    index = _.findIndex(Data, (data)-> data[0] == name)
+    if name
+      index = _.findIndex(Data, (data)-> data[0] == name)
+    else
+      index = _.random(2) + 2
     throw new Error("unknown character: #{name}") unless index?
     new Character(index, position)
 
