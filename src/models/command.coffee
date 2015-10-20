@@ -102,7 +102,22 @@ module.exports = class Command
         else
           throw new Error("He doesn't have medicine!")
       when 'TACKLE'
-        return # TODO: push the target
+        @_tackle(board)
       else
         throw new Error("use unknown skill #{name}")
     @actor.addSkillCount()
+
+  _tackle: (board)->
+    pa = @actor.getPosition()
+    pt = @target.getPosition()
+    if pa.distance(pt) > 1
+      throw new Error('He cannot reach the target')
+
+    for direction in ['up', 'down', 'left', 'right']
+      testPosition = pa[direction]()
+      if testPosition.equal(pt)
+        backPosition = pt[direction]()
+        if board.isWall(backPosition)
+          @target.damage(1)
+        else
+          board.put(backPosition, @target)

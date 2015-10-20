@@ -35,6 +35,7 @@ module.exports = class Board
   getTile: (position) -> @land.getTile(position)
   isExit: (position)  -> @land.isExit(position)
   isRoom: (position)  -> @land.isRoom(position)
+  isWall: (position)  -> @land.isWall(position)
 
   remove: (obj) ->
     @characters.remove(obj) || @items.remove(obj)
