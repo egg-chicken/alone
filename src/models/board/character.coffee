@@ -12,8 +12,9 @@ module.exports = class Character extends Piece
   @createHero: (position)->
     new Character(TYPES.HERO, position)
 
-  @createEnemy: (name, position)->
+  @create: (name, position)->
     index = _.findIndex(Data, (data)-> data[0] == name)
+    throw new Error("unknown character: #{name}") unless index?
     new Character(index, position)
 
   constructor: (@type, @position)->

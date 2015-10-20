@@ -6,8 +6,8 @@ describe 'Command', ->
   describe '#useSkill', ->
     describe '手当', ->
       before ->
-        @character = Character.createEnemy('葛籠鼠')
-        @target    = Character.createEnemy('盲瓜坊')
+        @character = Character.create('葛籠鼠')
+        @target    = Character.create('盲瓜坊')
         @command = Command.createUseSkill(@character, @target)
 
       it '体力が減っていない時失敗する', ->
@@ -30,7 +30,7 @@ describe 'Command', ->
     describe '突進', ->
       before ->
         @board
-        @character = Character.createEnemy('盲瓜坊')
+        @character = Character.create('盲瓜坊')
         @target    = Character.createHero()
         @command   = Command.createUseSkill(@character, @target)
 
