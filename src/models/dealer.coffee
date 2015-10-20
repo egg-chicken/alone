@@ -17,15 +17,7 @@ module.exports = class Dealer
     @setupBoard()
 
   setupBoard: ->
-    if @board
-      items = @board.getHero().getItems()
-      @board = Board.create()
-      @board.getHero().setItems(items)
-      for player in @players
-        player.completeBoard()
-    else
-      @board = Board.create()
-
+    @board = Board.create(@board?.getHero())
     @boardStatus = BOARD.PLAYING
     @players[0].assign(@board.getHero())
     @players[1].assign(@board.getEnemies())
@@ -37,6 +29,10 @@ module.exports = class Dealer
         @_turn(playerCommand)
       else
         @_turn()
+
+    if @boardIsCompleted()
+      for player in @players
+        player.completeBoard()
 
   boardIsCompleted: ->
     @boardStatus == BOARD.COMPLETED

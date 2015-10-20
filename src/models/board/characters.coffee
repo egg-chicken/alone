@@ -6,8 +6,11 @@ module.exports = class Characters
   constructor: ->
     @list = []
 
-  createHero: (freePositions)->
-    @createOne(freePositions, '主人公')
+  createHero: (freePositions, hero)->
+    if hero
+      @addOne(freePositions, hero)
+    else
+      @createOne(freePositions, '主人公')
 
   createEnemies: (freePositions, count)->
     count = Math.min(count, MAX_SIZE)
@@ -17,6 +20,11 @@ module.exports = class Characters
   createOne: (freePositions, name) ->
     position = _.find(freePositions, (p)=> not @getByPosition(p))
     character = Character.create(name, position)
+    @list.push(character)
+
+  addOne: (freePositions, character)->
+    position = _.find(freePositions, (p)=> not @getByPosition(p))
+    character.setPosition(position)
     @list.push(character)
 
   getHero: ->
