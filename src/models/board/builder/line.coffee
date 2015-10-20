@@ -5,7 +5,7 @@ module.exports = class Line
   SYMBOL = '_'
   constructor: (@table, @base, @end)->
   draw: ->
-    _.each @base.cover(@end), (p)=>
+    for p in @base.cover(@end)
       @table.set(p, SYMBOL)
 
   rotate: (rotatedTable)->

@@ -39,12 +39,12 @@ module.exports = class Array2D
   # 時計回りに90度回転した Array2D を作成して返す
   rotate: ->
     a = new Array2D(@height, @width)
-    _.each @pairs(), (p)=>
+    for p in @pairs()
       a.set(@height-1-p.y, p.x, @get(p))
     a
 
   clear: (value=null)->
-    _.each @pairs(), (p)=>
+    for p in @pairs()
       a.set(p, value)
 
   to_s: ->

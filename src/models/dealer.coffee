@@ -1,4 +1,3 @@
-_ = require('underscore')
 Board = require('./board')
 MaskedBoard = require('./masked_board')
 Player = require('./player')
@@ -22,7 +21,8 @@ module.exports = class Dealer
       items = @board.getHero().getItems()
       @board = Board.create()
       @board.getHero().setItems(items)
-      _.each @players, (player)=> player.completeBoard()
+      for player in @players
+        player.completeBoard()
     else
       @board = Board.create()
 
@@ -31,7 +31,7 @@ module.exports = class Dealer
     @players[1].assign(@board.getEnemies())
 
   round: (playerCommand)->
-    _.each @players, (player)=>
+    for player in @players
       @turnPlayer = player
       if player.isHuman()
         @_turn(playerCommand)
@@ -45,11 +45,11 @@ module.exports = class Dealer
     @boardStatus == BOARD.FAILED
 
   _turn: (playerCommand)->
-    _.each @turnPlayer.characters(), (character)=>
-      return unless @boardStatus == BOARD.PLAYING
-      command = playerCommand || @turnPlayer.command(character, new MaskedBoard(@board, character))
-      command.perform(@board)
-      @_afterPerform(character, command)
+    for character in @turnPlayer.characters()
+      if  @boardStatus == BOARD.PLAYING
+        command = playerCommand || @turnPlayer.command(character, new MaskedBoard(@board, character))
+        command.perform(@board)
+        @_afterPerform(character, command)
 
   _afterPerform: (character, command)->
     @turnPlayer.addScore(command.getScore())

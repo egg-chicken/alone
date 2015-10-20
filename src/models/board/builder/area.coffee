@@ -15,11 +15,12 @@ module.exports = class Area
 
   draw: ->
     if _.isEmpty(@children)
-      _.each @base.cover(@end), (p)=>
+      for p in @base.cover(@end)
         code = if @_onEdge(p) then SYMBOL else @roomSymbol
         @table.set(p, code)
     else
-      _.each @children, (child)-> child.draw()
+      for child in @children
+        child.draw()
     @table
 
   devide: ->
@@ -40,12 +41,12 @@ module.exports = class Area
         new Cell(@table, borderEnd.shift(rightWall, -2))
       ]
     else
-      _.each @children, (child)-> child.devide?()
+      for child in @children
+        child.devide?()
 
   rotate: (rotatedTable)->
-    unless _.isEmpty(@children)
-      _.each @children, (child)-> child.rotate(rotatedTable)
-
+    for child in @children
+      child.rotate(rotatedTable)
     h = @table.height - 1
     @_init(rotatedTable, h-@base.y, @base.x, h-@end.y, @end.x)
 

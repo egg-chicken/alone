@@ -44,7 +44,7 @@ module.exports = class Board
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
-    _.each display_table.pairs(), (p)=>
+    for p in display_table.pairs()
       symbol = @characters.getSymbol(p) || @items.getSymbol(p) || @land.getSymbol(p)
       display_table.set(p, symbol)
     display_table.to_s()

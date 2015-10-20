@@ -10,7 +10,7 @@ module.exports = class Items
     position = _.find free_positions, (p)=>
       not @getByPosition(p)
 
-    _.each free_positions, (p)=>
+    for p in free_positions
       size = @list.length
       return if size >= count || size >= MAX_SIZE
       @list.push(new Item(Item.POTION, p))

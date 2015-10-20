@@ -58,7 +58,7 @@ module.exports = class Land
 
   _randomize: (width, height)->
     @table = Builder.create(width, height)
-    _.each @table.pairs(), (p)=>
+    for p in @table.pairs()
       tile = @table.get(p)
       switch(tile)
         when 0
