@@ -12,7 +12,7 @@ describe 'Command', ->
 
       it '体力が減っていない時失敗する', ->
         aid = => @command._useSkill()
-        assert.throws(aid, Error)
+        assert.throws(aid, Error, 'He canceled skill, because that is meaningless')
 
       it '体力が減っている時成功し、対象を回復する', ->
         @target.damage(2)
@@ -23,11 +23,10 @@ describe 'Command', ->
         aid = =>
           @target.damage(2)
           @command._useSkill()
-        aid()
-        aid()
-        aid()
-        assert.throws(aid, Error)
-        assert.throws(aid, Error)
+        for i in [0...3]
+          aid()
+        for i in [0...2]
+          assert.throws(aid, Error, "He doesn't have medicine!")
 
     describe '突進', ->
       before ->
