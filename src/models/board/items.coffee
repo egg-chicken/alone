@@ -6,7 +6,7 @@ module.exports = class Items
   constructor: ->
     @list = []
 
-  generateItems: (free_positions, count)->
+  createItems: (free_positions, count)->
     position = _.find free_positions, (p)=>
       not @getByPosition(p)
 

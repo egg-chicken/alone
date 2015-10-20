@@ -12,10 +12,10 @@ module.exports = class Board
   constructor: ->
     @land = new Land(WIDTH, HEIGHT)
     @characters = new Characters()
-    @characters.generateHero(@land.getFreePositions())
-    @characters.generateEnemies(@land.getFreePositions(), INITIAL_ENEMY_COUNT)
+    @characters.createHero(@land.getFreePositions())
+    @characters.createEnemies(@land.getFreePositions(), INITIAL_ENEMY_COUNT)
     @items = new Items()
-    @items.generateItems(@land.getFreePositions(), 5)
+    @items.createItems(@land.getFreePositions(), 5)
 
   getHero:       -> @characters.getHero()
   getEnemies:    -> @characters.getEnemies()
