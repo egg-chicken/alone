@@ -10,21 +10,21 @@ module.exports = class Dealer
     COMPLETED: 1
     FAILED: 2
 
-  constructor: ()->
+  constructor: ->
     @players = [
       Player.createHuman()
       Player.createComputer()
     ]
     @setupBoard()
 
-  setupBoard: ()->
+  setupBoard: ->
     if @board
       items = @board.getHero().getItems()
-      @board = new Board()
+      @board = Board.create()
       @board.getHero().setItems(items)
       _.each @players, (player)=> player.completeBoard()
     else
-      @board = new Board()
+      @board = Board.create()
 
     @boardStatus = BOARD.PLAYING
     @players[0].assign(@board.getHero())
