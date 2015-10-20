@@ -7,79 +7,79 @@ module.exports = class Command
     USE_ITEM: 2
     MOVE: 3
 
-  @createMove: (direction)->
-    command = new Command(ACTIONS.MOVE)
+  @createMove: (actor, direction)->
+    command = new Command(ACTIONS.MOVE, actor)
     command.direction = direction
     command
 
-  @createMoveOrAttack: (direction) ->
-    command = new Command(ACTIONS.MOVE_OR_ATTACK)
+  @createMoveOrAttack: (actor, direction) ->
+    command = new Command(ACTIONS.MOVE_OR_ATTACK, actor)
     command.direction = direction
     command
 
-  @createUseSkill: (target)->
-    command = new Command(ACTIONS.USE_SKILL)
+  @createUseSkill: (actor, target)->
+    command = new Command(ACTIONS.USE_SKILL, actor)
     command.target = target
     command
 
-  @createUseItem: (item)->
-    command = new Command(ACTIONS.USE_ITEM)
+  @createUseItem: (actor, item)->
+    command = new Command(ACTIONS.USE_ITEM, actor)
     command.item = item
     command
 
-  constructor: (@action)->
+  constructor: (@action, @actor)->
     @score = 0
 
-  perform: (character, board)->
+  perform: (board)->
     switch(@action)
       when ACTIONS.USE_ITEM
-        Logger.useItem(character, @item)
-        character.useItem(@item)
+        Logger.useItem(@actor, @item)
+        @actor.useItem(@item)
       when ACTIONS.USE_SKILL
-        Logger.useSkill(character, @skill)
+        Logger.useSkill(@actor, @skill)
         try
-          @_useSkill(character, board)
+          @_useSkill(board)
         catch e
           Logger.failed(e)
       when ACTIONS.MOVE_OR_ATTACK
-        @_moveOrAttack(character, board)
+        @_moveOrAttack(board)
       when ACTIONS.MOVE
         try
-          @_move(character, board)
+          @_move(board)
         catch e
           Logger.failed(e)
 
   getScore: ->
     @score
 
-  _moveOrAttack: (character, board)->
-    from = character.getPosition()
+  _moveOrAttack: (board)->
+    from = @actor.getPosition()
     to = from[@direction]()
     target = board.get(to)
 
     try
       if to && target
-        @_attack(character, target, board)
+        @_attack(target, board)
       else if to
-        @_move(character, board)
+        @_move(board)
       else
-        Logger.doNothing(character)
+        Logger.doNothing(@actor)
     catch e
       Logger.failed(e)
 
-  _move: (character, board)->
-    from = character.getPosition()
+  _move: (board)->
+    from = @actor.getPosition()
     to = from[@direction]()
-    Logger.move(character, to)
-    board.put(to, character)
+    Logger.move(@actor, to)
+    board.put(to, @actor)
     item = board.getItem(to)
     if item
-      Logger.getItem(character, item)
-      character.addItem(item)
+      Logger.getItem(@actor, item)
+      @actor.addItem(item)
       board.remove(item)
 
-  _attack: (character, target, board)->
-    Logger.attack(character, target)
+  _attack: (target, board)->
+    Logger.attack(@actor, target)
     point = target.damage(1)
     Logger.isDamaged(target, point)
 
@@ -88,16 +88,16 @@ module.exports = class Command
       board.remove(target)
       @score += target.getScore()
 
-  _useSkill: (character, board)->
-    switch(character.getSkill())
+  _useSkill: (board)->
+    switch(@actor.getSkill())
       when 'ACID'
         return # TODO: decrease the weapon duration on front character
       when 'GUARDFORM'
-        character.addDiffenceBuffer(1, 2)
+        @actor.addDiffenceBuffer(1, 2)
       when 'AID'
         if @target.isHealthy()
           throw new Error("He canceled skill, because that is meaningless")
-        else if character.getSkillCount() <= 2
+        else if @actor.getSkillCount() <= 2
           @target.heal(3)
         else
           throw new Error("He doesn't have medicine!")
@@ -105,4 +105,4 @@ module.exports = class Command
         return # TODO: push the target
       else
         throw new Error("use unknown skill #{name}")
-    character.addSkillCount()
+    @actor.addSkillCount()

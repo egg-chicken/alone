@@ -48,7 +48,7 @@ module.exports = class Dealer
     _.each @turnPlayer.characters(), (character)=>
       return unless @boardStatus == BOARD.PLAYING
       command = playerCommand || @turnPlayer.command(character, new MaskedBoard(@board, character))
-      command.perform(character, @board)
+      command.perform(@board)
       @_afterPerform(character, command)
 
   _afterPerform: (character, command)->

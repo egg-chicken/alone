@@ -8,7 +8,7 @@ describe 'Command', ->
       before ->
         @character = Character.createEnemy('葛籠鼠')
         @target    = Character.createEnemy('盲瓜坊')
-        @command = Command.createUseSkill(@target)
+        @command = Command.createUseSkill(@character, @target)
 
       it '体力が減っていない時失敗する', ->
         aid = => @command._useSkill(@character)

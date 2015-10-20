@@ -6,18 +6,18 @@ module.exports = class Strategy
   @whim: (character, board)->
     if board.isNeighbor()
       direction = board.findNearByDirection()
-      command = Command.createMoveOrAttack(direction)
+      command = Command.createMoveOrAttack(character, direction)
     else if _.random(4) > 0
       direction = _.sample(DIRECTIONS)
-      command = Command.createMove(direction)
+      command = Command.createMove(character, direction)
     else
-      command = Command.createUseSkill(character)
+      command = Command.createUseSkill(character, character)
     command
 
   @guard: (character, board)->
     if board.isNeighbor() || board.isSight()
       direction = board.findNearByDirection()
-      command = Command.createMoveOrAttack(direction)
+      command = Command.createMoveOrAttack(character, direction)
     else
       @whim(character, board)
 
@@ -27,6 +27,6 @@ module.exports = class Strategy
       @whim(character, board)
     else if target == board.getHero() || not(board.isNeighbor(target))
       direction = board.findNearByDirection(target)
-      command = Command.createMoveOrAttack(direction)
+      command = Command.createMoveOrAttack(character, direction)
     else
-      command = Command.createUseSkill(target)
+      command = Command.createUseSkill(character, target)
