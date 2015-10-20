@@ -6,7 +6,7 @@ Data = require('./character/data')
 module.exports = class Character extends Piece
   TYPES = { HERO: 1 }
   @createRandomEnemy: (position)->
-    type = _.random(2) + 2
+    type = _.random(3) + 2
     new Character(type, position)
 
   @createHero: (position)->
@@ -16,7 +16,7 @@ module.exports = class Character extends Piece
     if name
       index = _.findIndex(Data, (data)-> data[0] == name)
     else
-      index = _.random(2) + 2
+      index = _.random(3) + 2
     throw new Error("unknown character: #{name}") unless index?
     new Character(index, position)
 
