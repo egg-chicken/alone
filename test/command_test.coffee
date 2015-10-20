@@ -5,7 +5,7 @@ Character = require('models/board/character')
 describe 'Command', ->
   describe '#useSkill', ->
     describe '手当', ->
-      before ->
+      beforeEach ->
         @character = Character.create('葛籠鼠')
         @target    = Character.create('盲瓜坊')
         @command = Command.createUseSkill(@character, @target)
@@ -19,14 +19,16 @@ describe 'Command', ->
         @command._useSkill()
         assert(@target.isHealthy())
 
-      it '２回成功した後、それ以降常に失敗する', ->
+      it '3回成功した後、それ以降常に失敗する', ->
         aid = =>
           @target.damage(2)
           @command._useSkill()
         aid()
         aid()
+        aid()
         assert.throws(aid, Error)
         assert.throws(aid, Error)
+
     describe '突進', ->
       before ->
         @board
