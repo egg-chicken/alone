@@ -1,73 +1,50 @@
 _ = require('underscore')
 Piece = require('./piece')
 Buffers = require('./character/buffers')
+Data = require('./character/data')
 
 module.exports = class Character extends Piece
-  TYPES =
-    HERO: 0
-    SLIME: 1
-    BUG: 2
-    MOUSE: 3
+  TYPES = { HERO: 1 }
   @createRandomEnemy: (position)->
-    type = _.random(2) + 1
+    type = _.random(2) + 2
     new Character(type, position)
 
   @createHero: (position)->
     new Character(TYPES.HERO, position)
 
+  @create: (name, position)->
+    if name
+      index = _.findIndex(Data, (data)-> data[0] == name)
+    else
+      index = _.random(2) + 2
+    throw new Error("unknown character: #{name}") unless index?
+    new Character(index, position)
+
   constructor: (@type, @position)->
     super(@type, @position)
-    @maxHealth = 3
-    @health = @maxHealth
     @buffers = new Buffers()
     @items = []
     @skillCount = 0
+    @symbol    = Data[@type][1]
+    @skill     = Data[@type][2]
+    @strategy  = Data[@type][3]
+    @score     = Data[@type][4]
+    @maxHealth = Data[@type][5]
+    @health = @maxHealth
 
-  getSymbol: ->
-    switch(@type)
-      when TYPES.HERO  then 'H'
-      when TYPES.SLIME then 'S'
-      when TYPES.BUG   then 'B'
-      when TYPES.MOUSE then 'M'
 
-  getScore: ->
-    switch(@type)
-      when TYPES.HERO   then 0
-      when TYPES.SLIME  then 10
-      when TYPES.BUG    then 15
-      when TYPES.MOUSE  then 20
-
-  getSkill: ->
-    switch(@type)
-      when TYPES.SLIME then 'ACID'
-      when TYPES.BUG   then 'GUARDFORM'
-      when TYPES.MOUSE then 'AID'
-
-  getStrategy: ->
-    switch(@type)
-      when TYPES.SLIME then 'whim'
-      when TYPES.BUG   then 'guard'
-      when TYPES.MOUSE then 'devoted'
-
+  getSymbol: -> @symbol
+  getScore: -> @score
+  getSkill: -> @skill
+  getStrategy: -> @strategy
   getPosition: ->
     @position
 
-  useSkill: (name, target)->
-    switch(name)
-      when 'ACID'
-        return # TODO: decrease the weapon duration on front character
-      when 'GUARDFORM'
-        @_addDiffenceBuffer(1, 2)
-      when 'AID'
-        if (target.health == target.maxHealth)
-          throw new Error("He canceled skill, because that is meaningless")
-        else if @skillCount <= 2
-          target.heal(3)
-        else
-          throw new Error("He doesn't have medicine!")
-      else
-        throw new Error("use unknown skill #{name}")
+  addSkillCount: ->
     @skillCount += 1
+
+  getSkillCount: ->
+    @skillCount
 
   damage: (base)->
     point = Math.max(0, @buffers.diffence(base))
@@ -85,6 +62,9 @@ module.exports = class Character extends Piece
 
   isHero: ->
     @type == TYPES.HERO
+
+  isHealthy: ->
+    @health == @maxHealth
 
   addItem: (item)->
     @items.push(item)
@@ -115,5 +95,5 @@ module.exports = class Character extends Piece
   waneBuffers: ->
     @buffers.wane()
 
-  _addDiffenceBuffer: (point, duration)->
+  addDiffenceBuffer: (point, duration)->
     @buffers.addDiffenceBuffer(point, duration)

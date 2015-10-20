@@ -16,7 +16,7 @@ module.exports = class MainController
     process.exit()
 
   onPressMoveButton: (direction)->
-    command = Command.createMoveOrAttack(direction)
+    command = Command.createMoveOrAttack(@_hero(), direction)
     @dealer.round(command)
     if @dealer.boardIsCompleted()
       @dealer.setupBoard()
@@ -31,11 +31,14 @@ module.exports = class MainController
     @view.render()
 
   onPressItemUseButton: (item)->
-    command = Command.createUseItem(item)
+    command = Command.createUseItem(@_hero(), item)
     @dealer.round(command)
     @view.render()
 
   onPressSkillButton: (skill)->
-    command = Command.creteUseSkill(skill)
+    command = Command.creteUseSkill(@_hero(), skill)
     @dealer.round(command)
     @view.render()
+
+  _hero: ->
+    @dealer.board.getHero()

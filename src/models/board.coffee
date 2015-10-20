@@ -8,14 +8,24 @@ module.exports = class Board
   WIDTH = 80
   HEIGHT = 30
   INITIAL_ENEMY_COUNT = 5
+  INITIAL_ITEM_COUNT = 5
 
-  constructor: ->
-    @land = new Land(WIDTH, HEIGHT)
-    @characters = new Characters()
-    @characters.generateHero(@land.getFreePositions())
-    @characters.generateEnemies(@land.getFreePositions(), INITIAL_ENEMY_COUNT)
-    @items = new Items()
-    @items.generateItems(@land.getFreePositions(), 5)
+  @create: (hero = null)->
+    land = Land.createRandom(WIDTH, HEIGHT)
+    characters = new Characters()
+    characters.createEnemies(land.getFreePositions(), INITIAL_ENEMY_COUNT)
+    characters.createHero(land.getFreePositions(), hero)
+    items = new Items()
+    items.createItems(land.getFreePositions(), INITIAL_ITEM_COUNT)
+    new Board(land, characters, items)
+
+  @createHall: ->
+    land = Land.createHall(WIDTH, HEIGHT)
+    characters = new Characters()
+    items = new Items()
+    new Board(land, characters, items)
+
+  constructor: (@land, @characters, @items)->
 
   getHero:       -> @characters.getHero()
   getEnemies:    -> @characters.getEnemies()
@@ -34,11 +44,7 @@ module.exports = class Board
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
-    _.each display_table.pairs(), (p)=>
+    for p in display_table.pairs()
       symbol = @characters.getSymbol(p) || @items.getSymbol(p) || @land.getSymbol(p)
       display_table.set(p, symbol)
     display_table.to_s()
-
-  @test: ->
-    board = new Board()
-    console.log(board.to_s())

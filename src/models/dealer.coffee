@@ -1,4 +1,3 @@
-_ = require('underscore')
 Board = require('./board')
 MaskedBoard = require('./masked_board')
 Player = require('./player')
@@ -10,33 +9,30 @@ module.exports = class Dealer
     COMPLETED: 1
     FAILED: 2
 
-  constructor: ()->
+  constructor: ->
     @players = [
       Player.createHuman()
       Player.createComputer()
     ]
     @setupBoard()
 
-  setupBoard: ()->
-    if @board
-      items = @board.getHero().getItems()
-      @board = new Board()
-      @board.getHero().setItems(items)
-      _.each @players, (player)=> player.completeBoard()
-    else
-      @board = new Board()
-
+  setupBoard: ->
+    @board = Board.create(@board?.getHero())
     @boardStatus = BOARD.PLAYING
     @players[0].assign(@board.getHero())
     @players[1].assign(@board.getEnemies())
 
   round: (playerCommand)->
-    _.each @players, (player)=>
+    for player in @players
       @turnPlayer = player
       if player.isHuman()
         @_turn(playerCommand)
       else
         @_turn()
+
+    if @boardIsCompleted()
+      for player in @players
+        player.completeBoard()
 
   boardIsCompleted: ->
     @boardStatus == BOARD.COMPLETED
@@ -45,11 +41,11 @@ module.exports = class Dealer
     @boardStatus == BOARD.FAILED
 
   _turn: (playerCommand)->
-    _.each @turnPlayer.characters(), (character)=>
-      return unless @boardStatus == BOARD.PLAYING
-      command = playerCommand || @turnPlayer.command(character, new MaskedBoard(@board, character))
-      command.perform(character, @board)
-      @_afterPerform(character, command)
+    for character in @turnPlayer.characters()
+      if  @boardStatus == BOARD.PLAYING
+        command = playerCommand || @turnPlayer.command(character, new MaskedBoard(@board, character))
+        command.perform(@board)
+        @_afterPerform(character, command)
 
   _afterPerform: (character, command)->
     @turnPlayer.addScore(command.getScore())

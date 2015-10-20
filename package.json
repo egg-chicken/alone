@@ -6,7 +6,7 @@
   "scripts": {
     "play": "NODE_PATH=./src/ coffee src/main.coffee",
     "build": "NODE_PATH=./src/ coffee -o build/ -c src/; NODE_PATH=./build/ browserify build/main.js > build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_PATH=./src/ mocha --compilers coffee:coffee-script/register"
   },
   "author": "egg_chicken",
   "license": "ISC",

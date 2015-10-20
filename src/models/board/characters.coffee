@@ -6,20 +6,26 @@ module.exports = class Characters
   constructor: ->
     @list = []
 
-  generateHero: (free_positions)->
-    position = _.find free_positions, (p)=>
-      not @getByPosition(p)
+  createHero: (freePositions, hero)->
+    if hero
+      @addOne(freePositions, hero)
+    else
+      @createOne(freePositions, '主人公')
 
-    @list.push(new Character.createHero(position))
+  createEnemies: (freePositions, count)->
+    count = Math.min(count, MAX_SIZE)
+    for i in [0...count]
+      @createOne(freePositions)
 
-  generateEnemies: (free_positions, count)->
-    free_positions = _.filter free_positions, (p)=>
-      not @getByPosition(p)
+  createOne: (freePositions, name) ->
+    position = _.find(freePositions, (p)=> not @getByPosition(p))
+    character = Character.create(name, position)
+    @list.push(character)
 
-    _.each free_positions, (p)=>
-      size = @list.length
-      return if size >= count || size >= MAX_SIZE
-      @list.push(new Character.createRandomEnemy(p))
+  addOne: (freePositions, character)->
+    position = _.find(freePositions, (p)=> not @getByPosition(p))
+    character.setPosition(position)
+    @list.push(character)
 
   getHero: ->
     _.find @list, (character)-> character.isHero()
