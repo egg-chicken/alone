@@ -1,5 +1,6 @@
 assert = require('assert')
 Land = require('models/board/land')
+Pair = require('utils/pair')
 Array2D = require('utils/array2d')
 
 describe 'Land', ->
@@ -31,13 +32,13 @@ describe 'Land', ->
       ])
 
     it '右にあるドアが見つかること', ->
-      doors = @land.getDoors(9)
+      doors = @land.getDoors(new Pair(1, 2))
       assert.equal(doors.length, 1)
       assert.equal(doors[0].x, 3)
       assert.equal(doors[0].y, 3)
 
     it '左にあるドアが見つかること', ->
-      doors = @land.getDoors(8)
+      doors = @land.getDoors(new Pair(8, 2))
       assert.equal(doors.length, 1)
       assert.equal(doors[0].x, 5)
       assert.equal(doors[0].y, 2)

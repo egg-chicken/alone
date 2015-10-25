@@ -37,7 +37,8 @@ module.exports = class Land
   isRoom: (position)->
     @table.get(position) > EXIT
 
-  getDoors: (roomCode) ->
+  getDoors: (position) ->
+    roomCode = @table.get(position)
     _.filter @table.pairs(), (p) =>
       return false unless @isDoor(p)
       for direction in ['up', 'right', 'left', 'down']
