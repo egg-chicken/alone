@@ -18,3 +18,26 @@ describe 'Land', ->
       for p in pairs
         unless p.x == 0 || p.y == 0 || p.x == 9 || p.y == 19
           assert.equal(@land.getTile(p), roomCode)
+
+  describe '#getDoors', ->
+    before ->
+      @land = new Land()
+      @land.table = Array2D.create([
+        [0,0,0,0,0,0,0,0,0,0]
+        [0,9,9,0,0,0,8,8,8,0]
+        [0,9,9,0,2,1,8,8,8,0]
+        [0,9,9,1,2,0,8,8,8,0]
+        [0,0,0,0,0,0,0,0,0,0]
+      ])
+
+    it '右にあるドアが見つかること', ->
+      doors = @land.getDoors(9)
+      assert.equal(doors.length, 1)
+      assert.equal(doors[0].x, 3)
+      assert.equal(doors[0].y, 3)
+
+    it '左にあるドアが見つかること', ->
+      doors = @land.getDoors(8)
+      assert.equal(doors.length, 1)
+      assert.equal(doors[0].x, 5)
+      assert.equal(doors[0].y, 2)
