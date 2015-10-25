@@ -28,11 +28,22 @@ module.exports = class Land
   isWall: (position)->
     @table.get(position) == WALL
 
+  isDoor: (position)->
+    @table.get(position) == DOOR
+
   isExit: (position)->
     @table.get(position) == EXIT
 
   isRoom: (position)->
     @table.get(position) > EXIT
+
+  getDoors: (roomCode) ->
+    _.filter @table.pairs(), (p) =>
+      return false unless @isDoor(p)
+      for direction in ['up', 'right', 'left', 'down']
+        if @table.get(p[direction]()) == roomCode
+          return true
+      false
 
   getTile: (position)->
     @table.get(position)
