@@ -4,6 +4,7 @@ Array2D = require('utils/array2d')
 
 module.exports = class Land
   WALL = 0
+  DOOR = 1
   PATH = 2
   EXIT = 3
   @createRandom: (width, height)->
@@ -39,6 +40,7 @@ module.exports = class Land
   getSymbol: (position)->
     switch(@table.get(position))
       when WALL then '#'
+      when DOOR then '|'
       when PATH then ' '
       when EXIT then '@'
       else " "
@@ -47,7 +49,7 @@ module.exports = class Land
     tile = @table.get(position)
     switch(tile)
       when WALL then '#'
-      when PATH then ' '
+      when DOOR then '|'
       when EXIT then '@'
       else String.fromCharCode(tile)
 
@@ -63,6 +65,8 @@ module.exports = class Land
       switch(tile)
         when 0
           @table.set(p, WALL)
+        when '|'
+          @table.set(p, DOOR)
         when '_'
           @table.set(p, PATH)
         else
