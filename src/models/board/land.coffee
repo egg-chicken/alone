@@ -37,6 +37,9 @@ module.exports = class Land
   isRoom: (position)->
     @table.get(position) > EXIT
 
+  isSameRoom: (a, b)->
+    @table.get(a) == @table.get(b)
+
   getDoors: (position) ->
     roomCode = @table.get(position)
     _.filter @table.pairs(), (p) =>
@@ -45,9 +48,6 @@ module.exports = class Land
         if @table.get(p[direction]()) == roomCode
           return true
       false
-
-  getTile: (position)->
-    @table.get(position)
 
   getSymbol: (position)->
     switch(@table.get(position))

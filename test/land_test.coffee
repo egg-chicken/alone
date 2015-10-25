@@ -18,7 +18,7 @@ describe 'Land', ->
       roomCode = 'a'.charCodeAt()
       for p in pairs
         unless p.x == 0 || p.y == 0 || p.x == 9 || p.y == 19
-          assert.equal(@land.getTile(p), roomCode)
+          assert.equal(@land.table.get(p), roomCode)
 
   describe '#getDoors', ->
     before ->

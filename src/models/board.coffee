@@ -33,10 +33,10 @@ module.exports = class Board
   getCharacters:      -> @characters.getCharacters()
   get: (position)     -> @characters.getByPosition(position)
   getItem: (position) -> @items.getByPosition(position)
-  getTile: (position) -> @land.getTile(position)
   getDoors: (position)-> @land.getDoors(position)
   isExit: (position)  -> @land.isExit(position)
   isRoom: (position)  -> @land.isRoom(position)
+  isSameRoom: (a, b)  -> @land.isSameRoom(a, b)
   isWall: (position)  -> @land.isWall(position)
 
   remove: (obj) ->

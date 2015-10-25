@@ -23,10 +23,7 @@ module.exports = class Inspector
 
   isSight: ->
     return false unless @board.isRoom(@base)
-
-    t1 = @board.getTile(@base)
-    t2 = @board.getTile(@hero.getPosition())
-    t1 == t2
+    @board.isSameRoom(@base, @hero.getPosition())
 
   getNearestCharacterInSight: ->
     characters = @getCharactersInSight()
@@ -40,8 +37,7 @@ module.exports = class Inspector
       targetPosition = target.getPosition()
       if inRoom
         samePosition = targetPosition == @base
-        sameRoom =  @board.getTile(@base) == @board.getTile(targetPosition)
-        !samePosition && sameRoom
+        !samePosition && @board.isSameRoom(@base, targetPosition)
       else
         targetPosition.distance(@base) == 1
 
