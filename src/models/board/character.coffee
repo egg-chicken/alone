@@ -6,7 +6,7 @@ Data = require('./character/data')
 module.exports = class Character extends Piece
   TYPES = { HERO: 1 }
   @createRandomEnemy: (position)->
-    type = _.random(2) + 2
+    type = _.random(3) + 2
     new Character(type, position)
 
   @createHero: (position)->
@@ -16,7 +16,7 @@ module.exports = class Character extends Piece
     if name
       index = _.findIndex(Data, (data)-> data[0] == name)
     else
-      index = _.random(2) + 2
+      index = _.random(3) + 2
     throw new Error("unknown character: #{name}") unless index?
     new Character(index, position)
 
@@ -27,9 +27,10 @@ module.exports = class Character extends Piece
     @skillCount = 0
     @symbol    = Data[@type][1]
     @skill     = Data[@type][2]
-    @strategy  = Data[@type][3]
-    @score     = Data[@type][4]
-    @maxHealth = Data[@type][5]
+    @skillRange = Data[@type][3]
+    @strategy  = Data[@type][4]
+    @score     = Data[@type][5]
+    @maxHealth = Data[@type][6]
     @health = @maxHealth
 
 
@@ -45,6 +46,9 @@ module.exports = class Character extends Piece
 
   getSkillCount: ->
     @skillCount
+
+  getSkillRange: ->
+    @skillRange
 
   damage: (base)->
     point = Math.max(0, @buffers.diffence(base))

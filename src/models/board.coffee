@@ -3,6 +3,7 @@ Array2D = require('utils/array2d')
 Characters = require('./board/characters')
 Items = require('./board/items')
 Land = require('./board/land')
+MaskedBoard = require('./masked_board')
 
 module.exports = class Board
   WIDTH = 80
@@ -19,28 +20,37 @@ module.exports = class Board
     items.createItems(land.getFreePositions(), INITIAL_ITEM_COUNT)
     new Board(land, characters, items)
 
-  @createHall: ->
-    land = Land.createHall(WIDTH, HEIGHT)
+  @createHall: (width, height)->
+    land = Land.createHall(width, height)
     characters = new Characters()
     items = new Items()
     new Board(land, characters, items)
 
   constructor: (@land, @characters, @items)->
 
-  getHero:       -> @characters.getHero()
-  getEnemies:    -> @characters.getEnemies()
-  getCharacters:  -> @characters.getCharacters()
-  get: (position) -> @characters.getByPosition(position)
+  getHero:            -> @characters.getHero()
+  getEnemies:         -> @characters.getEnemies()
+  getCharacters:      -> @characters.getCharacters()
+  get: (position)     -> @characters.getByPosition(position)
   getItem: (position) -> @items.getByPosition(position)
   getTile: (position) -> @land.getTile(position)
-  remove: (obj)-> @characters.remove(obj) || @items.remove(obj)
+  isExit: (position)  -> @land.isExit(position)
+  isRoom: (position)  -> @land.isRoom(position)
+  isWall: (position)  -> @land.isWall(position)
+
+  remove: (obj) ->
+    @characters.remove(obj) || @items.remove(obj)
+
+  createOne: (name) ->
+    @characters.createOne(@land.getFreePositions(), name)
+
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.isWall(position)
     throw new Error("character is already exist ") if @get(position)
     character.setPosition(position)
 
-  isExit: (position) -> @land.isExit(position)
-  isRoom: (position) -> @land.isRoom(position)
+  mask:(character) ->
+    new MaskedBoard(@, character)
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
