@@ -27,9 +27,10 @@ module.exports = class Character extends Piece
     @skillCount = 0
     @symbol    = Data[@type][1]
     @skill     = Data[@type][2]
-    @strategy  = Data[@type][3]
-    @score     = Data[@type][4]
-    @maxHealth = Data[@type][5]
+    @skillRange = Data[@type][3]
+    @strategy  = Data[@type][4]
+    @score     = Data[@type][5]
+    @maxHealth = Data[@type][6]
     @health = @maxHealth
 
 
@@ -45,6 +46,9 @@ module.exports = class Character extends Piece
 
   getSkillCount: ->
     @skillCount
+
+  getSkillRange: ->
+    @skillRange
 
   damage: (base)->
     point = Math.max(0, @buffers.diffence(base))

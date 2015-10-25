@@ -55,6 +55,13 @@ module.exports = class Strategy
   _useSkill: (target)->
     target ||= @board.getHero()
     Command.createUseSkill(@character, @character)
+    switch(@character.getSkillRange())
+      when 1
+        Command.createUseSkill(@character, target)
+      when 0
+        Command.createUseSkill(@character, @character)
+      else
+        throw new Error('cannot deal the skill range: #{@character.getSkillRange()}')
 
   _randomMove: ->
     direction = _.sample(DIRECTIONS)
