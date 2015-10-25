@@ -46,5 +46,12 @@ module.exports = class MaskedBoard
       else
         targetPosition.distance(position) == 1
 
+  getDoorsInSight: ->
+    position = @character.getPosition()
+    if @board.isRoom(position)
+      @board.getDoors(position)
+    else
+      []
+
   getDistance: (target)->
     target.getPosition().distance(@character.getPosition())

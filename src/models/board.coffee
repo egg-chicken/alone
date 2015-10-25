@@ -34,6 +34,7 @@ module.exports = class Board
   get: (position)     -> @characters.getByPosition(position)
   getItem: (position) -> @items.getByPosition(position)
   getTile: (position) -> @land.getTile(position)
+  getDoors: (position)-> @land.getDoors(position)
   isExit: (position)  -> @land.isExit(position)
   isRoom: (position)  -> @land.isRoom(position)
   isWall: (position)  -> @land.isWall(position)
