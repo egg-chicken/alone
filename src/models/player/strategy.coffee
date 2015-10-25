@@ -25,7 +25,7 @@ module.exports = class Strategy
       @_randomMove()
 
   guard: ->
-    if @inspector.isNeighbor() || @inspector.isSight()
+    if @inspector.heroIsSight()
       @_attackOrUseSkill()
     else
       @_randomMove()

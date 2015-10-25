@@ -12,6 +12,12 @@ module.exports = class Inspector
   getHero: ->
     @hero
 
+  heroIsSight: ->
+    if @board.isRoom(@base)
+      @board.isSameRoom(@base, @hero.getPosition())
+    else
+      @getDistance(@hero) < 2
+
   findNearByDirection: (target=@hero)->
     targetPosition = target.getPosition()
     method = (direction) =>
@@ -20,10 +26,6 @@ module.exports = class Inspector
 
   isNeighbor: (target=@hero)->
     @getDistance(target) < 2
-
-  isSight: ->
-    return false unless @board.isRoom(@base)
-    @board.isSameRoom(@base, @hero.getPosition())
 
   getNearestCharacterInSight: ->
     characters = @getCharactersInSight()
