@@ -1,5 +1,4 @@
 Board = require('./board')
-MaskedBoard = require('./masked_board')
 Player = require('./player')
 Logger = require('./logger')
 
@@ -43,7 +42,7 @@ module.exports = class Dealer
   _turn: (playerCommand)->
     for character in @turnPlayer.characters()
       if  @boardStatus == BOARD.PLAYING
-        command = playerCommand || @turnPlayer.command(character, new MaskedBoard(@board, character))
+        command = playerCommand || @turnPlayer.command(character, @board.mask(character))
         command.perform(@board)
         @_afterPerform(character, command)
 

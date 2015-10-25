@@ -2,6 +2,7 @@ _ = require('underscore')
 Command = require('models/command')
 
 module.exports = class Strategy
+  SKILL_USE_RATE = 1/4
   DIRECTIONS = ['up', 'down', 'left', 'right']
   @whim: (character, board)->
     strategy = new Strategy(character, board)
@@ -41,8 +42,8 @@ module.exports = class Strategy
       @_useSkill(target)
 
   _attackOrUseSkill: (target)->
-    if Math.random() < 3/4
-      @_approach()
+    if Math.random() > SKILL_USE_RATE
+      @_attack()
     else
       @_useSkill(target)
 
@@ -54,7 +55,6 @@ module.exports = class Strategy
 
   _useSkill: (target)->
     target ||= @board.getHero()
-    Command.createUseSkill(@character, @character)
     switch(@character.getSkillRange())
       when 1
         Command.createUseSkill(@character, target)

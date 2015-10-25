@@ -3,6 +3,7 @@ Array2D = require('utils/array2d')
 Characters = require('./board/characters')
 Items = require('./board/items')
 Land = require('./board/land')
+MaskedBoard = require('./masked_board')
 
 module.exports = class Board
   WIDTH = 80
@@ -47,6 +48,9 @@ module.exports = class Board
     throw new Error("cannot put on the wall")  if @land.isWall(position)
     throw new Error("character is already exist ") if @get(position)
     character.setPosition(position)
+
+  mask:(character) ->
+    new MaskedBoard(@, character)
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)
