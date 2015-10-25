@@ -1,8 +1,8 @@
 _ = require('underscore')
 
-# 一部が隠された盤面の情報を表す。
+# 盤面を観察するためのクラス
 # プレイヤーは、この情報をもとに戦術を組み立てる。
-module.exports = class MaskedBoard
+module.exports = class Inspector
   DIRECTIONS = ['up', 'down', 'left', 'right']
 
   constructor: (@board, @character)->

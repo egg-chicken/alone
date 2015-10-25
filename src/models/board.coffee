@@ -3,7 +3,7 @@ Array2D = require('utils/array2d')
 Characters = require('./board/characters')
 Items = require('./board/items')
 Land = require('./board/land')
-MaskedBoard = require('./masked_board')
+Inspector = require('./board/inspector')
 
 module.exports = class Board
   WIDTH = 80
@@ -50,8 +50,8 @@ module.exports = class Board
     throw new Error("character is already exist ") if @get(position)
     character.setPosition(position)
 
-  mask:(character) ->
-    new MaskedBoard(@, character)
+  inspectBy:(character) ->
+    new Inspector(@, character)
 
   to_s: ->
     display_table = new Array2D(WIDTH, HEIGHT)

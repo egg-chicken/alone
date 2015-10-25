@@ -4,39 +4,39 @@ Command = require('models/command')
 module.exports = class Strategy
   SKILL_USE_RATE = 1/4
   DIRECTIONS = ['up', 'down', 'left', 'right']
-  @whim: (character, board)->
-    strategy = new Strategy(character, board)
+  @whim: (character, inspector)->
+    strategy = new Strategy(character, inspector)
     strategy.whim()
 
-  @guard: (character, board)->
-    strategy = new Strategy(character, board)
+  @guard: (character, inspector)->
+    strategy = new Strategy(character, inspector)
     strategy.guard()
 
-  @devoted: (character, board)->
-    strategy = new Strategy(character, board)
+  @devoted: (character, inspector)->
+    strategy = new Strategy(character, inspector)
     strategy.devoted()
 
-  constructor: (@character, @board)->
+  constructor: (@character, @inspector)->
 
   whim: ->
-    if @board.isNeighbor()
+    if @inspector.isNeighbor()
       @_attackOrUseSkill()
     else
       @_randomMove()
 
   guard: ->
-    if @board.isNeighbor() || @board.isSight()
+    if @inspector.isNeighbor() || @inspector.isSight()
       @_attackOrUseSkill()
     else
       @_randomMove()
 
   devoted: ->
-    target = @board.getNearestCharacterInSight()
+    target = @inspector.getNearestCharacterInSight()
     if not target?
       @_randomMove()
-    else if @board.getDistance(target) > 1
+    else if @inspector.getDistance(target) > 1
       @_approach(target)
-    else if target == @board.getHero()
+    else if target == @inspector.getHero()
       @_attack(target)
     else
       @_useSkill(target)
@@ -48,13 +48,13 @@ module.exports = class Strategy
       @_useSkill(target)
 
   _approach: (target)->
-    direction = @board.findNearByDirection(target)
+    direction = @inspector.findNearByDirection(target)
     Command.createMoveOrAttack(@character, direction)
 
   _attack: (target)-> @_approach(target)
 
   _useSkill: (target)->
-    target ||= @board.getHero()
+    target ||= @inspector.getHero()
     switch(@character.getSkillRange())
       when 1
         Command.createUseSkill(@character, target)
