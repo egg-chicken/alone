@@ -19,13 +19,14 @@ module.exports = class Strategy
   constructor: (@character, @inspector)->
 
   whim: ->
-    if @inspector.isNeighbor()
+    hero = @inspector.findHero()
+    if hero && @inspector.isNeighbor(hero)
       @_attackOrUseSkill()
     else
       @_randomMove()
 
   guard: ->
-    if @inspector.heroIsSight()
+    if @inspector.findHero()
       @_attackOrUseSkill()
     else
       @_randomMove()
@@ -36,7 +37,7 @@ module.exports = class Strategy
       @_randomMove()
     else if @inspector.getDistance(target) > 1
       @_approach(target)
-    else if target == @inspector.getHero()
+    else if target == @inspector.findHero()
       @_attack(target)
     else
       @_useSkill(target)
@@ -48,15 +49,16 @@ module.exports = class Strategy
       @_useSkill(target)
 
   _approach: (target)->
+    target ||= @inspector.findHero()
     direction = @inspector.findNearByDirection(target)
     Command.createMoveOrAttack(@character, direction)
 
   _attack: (target)-> @_approach(target)
 
   _useSkill: (target)->
-    target ||= @inspector.getHero()
     switch(@character.getSkillRange())
       when 1
+        target ||= @inspector.findHero()
         Command.createUseSkill(@character, target)
       when 0
         Command.createUseSkill(@character, @character)
