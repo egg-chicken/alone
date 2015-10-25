@@ -6,25 +6,25 @@ module.exports = class Inspector
   DIRECTIONS = ['up', 'down', 'left', 'right']
 
   constructor: (@board, @character)->
+    @base = @character.getPosition()
     @hero = @board.getHero()
 
   getHero: ->
     @hero
 
   findNearByDirection: (target=@hero)->
-    position = @character.getPosition()
     targetPosition = target.getPosition()
-    method = (direction) ->
-      targetPosition.distance(position[direction]())
+    method = (direction) =>
+      targetPosition.distance(@base[direction]())
     _.min(_.shuffle(DIRECTIONS), method)
 
   isNeighbor: (target=@hero)->
     @getDistance(target) < 2
 
   isSight: ->
-    return false unless @board.isRoom(@character.getPosition())
+    return false unless @board.isRoom(@base)
 
-    t1 = @board.getTile(@character.getPosition())
+    t1 = @board.getTile(@base)
     t2 = @board.getTile(@hero.getPosition())
     t1 == t2
 
@@ -35,23 +35,21 @@ module.exports = class Inspector
 
   getCharactersInSight: ->
     characters = @board.getCharacters()
-    position = @character.getPosition()
-    inRoom = @board.isRoom(position)
+    inRoom = @board.isRoom(@base)
     _.filter characters, (target) =>
       targetPosition = target.getPosition()
       if inRoom
-        samePosition = targetPosition == position
-        sameRoom =  @board.getTile(position) == @board.getTile(targetPosition)
+        samePosition = targetPosition == @base
+        sameRoom =  @board.getTile(@base) == @board.getTile(targetPosition)
         !samePosition && sameRoom
       else
-        targetPosition.distance(position) == 1
+        targetPosition.distance(@base) == 1
 
   getDoorsInSight: ->
-    position = @character.getPosition()
-    if @board.isRoom(position)
-      @board.getDoors(position)
+    if @board.isRoom(@base)
+      @board.getDoors(@base)
     else
       []
 
   getDistance: (target)->
-    target.getPosition().distance(@character.getPosition())
+    target.getPosition().distance(@base)
