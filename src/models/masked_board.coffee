@@ -19,7 +19,7 @@ module.exports = class MaskedBoard
     _.min(_.shuffle(DIRECTIONS), method)
 
   isNeighbor: (target=@hero)->
-    @character.getPosition().distance(target.getPosition()) < 2
+    @getDistance(target) < 2
 
   isSight: ->
     return false unless @board.isRoom(@character.getPosition())
@@ -31,11 +31,7 @@ module.exports = class MaskedBoard
   getNearestCharacterInSight: ->
     characters = @getCharactersInSight()
     return if _.isEmpty(characters)
-
-    position = @character.getPosition()
-    _.min characters, (target) =>
-      targetPosition = target.getPosition()
-      targetPosition.distance(position)
+    _.min(characters, (target) => @getDistance(target))
 
   getCharactersInSight: ->
     characters = @board.getCharacters()
@@ -49,3 +45,6 @@ module.exports = class MaskedBoard
         !samePosition && sameRoom
       else
         targetPosition.distance(position) == 1
+
+  getDistance: (target)->
+    target.getPosition().distance(@character.getPosition())
