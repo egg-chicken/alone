@@ -36,12 +36,12 @@ module.exports = class Inspector
     characters = @board.getCharacters()
     inRoom = @board.isRoom(@base)
     _.filter characters, (target) =>
-      targetPosition = target.getPosition()
-      if inRoom
-        samePosition = targetPosition == @base
-        !samePosition && @board.isSameRoom(@base, targetPosition)
+      if target == @character
+        false
+      else if inRoom
+        @board.isSameRoom(@base, target.getPosition())
       else
-        targetPosition.distance(@base) == 1
+        @getDistance(target) == 1
 
   getDoorsInSight: ->
     if @board.isRoom(@base)
