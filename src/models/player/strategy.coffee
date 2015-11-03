@@ -7,13 +7,15 @@ module.exports = class Strategy
 
   constructor: (@character)->
     @type = @character.getStrategy()
+    @milestone = null
 
   createCommand: (inspector)->
     @inspector = inspector
     switch(@type)
-      when 'whim'    then @whim()
-      when 'guard'   then @guard()
-      when 'devoted' then @devoted()
+      when 'whim'     then @whim()
+      when 'guard'    then @guard()
+      when 'devoted'  then @devoted()
+      when 'traveler' then @traveler()
       else throw new Error('unknown strategy type #{@type}')
 
   whim: ->
@@ -39,6 +41,21 @@ module.exports = class Strategy
       @_attack(target)
     else
       @_useSkill(target)
+
+  traveler: ->
+    @milestone = null if @character.getPosition().equal(@milestone)
+    hero = @inspector.findHero()
+    doors = @inspector.getDoorsInSight()
+    if hero
+      @_attackOrUseSkill()
+    else if @milestone?
+      @_approach(@milestone)
+    else if doors.length > 0
+      @milestone = _.sample(doors)
+      @_approach(@milestone)
+    else
+      # TODO: 直進するように
+      @whim()
 
   _attackOrUseSkill: (target)->
     if Math.random() > SKILL_USE_RATE
