@@ -4,19 +4,17 @@ Command = require('models/command')
 module.exports = class Strategy
   SKILL_USE_RATE = 1/4
   DIRECTIONS = ['up', 'down', 'left', 'right']
-  @whim: (character, inspector)->
-    strategy = new Strategy(character, inspector)
-    strategy.whim()
 
-  @guard: (character, inspector)->
-    strategy = new Strategy(character, inspector)
-    strategy.guard()
+  constructor: (@character)->
+    @type = @character.getStrategy()
 
-  @devoted: (character, inspector)->
-    strategy = new Strategy(character, inspector)
-    strategy.devoted()
-
-  constructor: (@character, @inspector)->
+  createCommand: (inspector)->
+    @inspector = inspector
+    switch(@type)
+      when 'whim'    then @whim()
+      when 'guard'   then @guard()
+      when 'devoted' then @devoted()
+      else throw new Error('unknown strategy type #{@type}')
 
   whim: ->
     hero = @inspector.findHero()

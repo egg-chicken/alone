@@ -7,6 +7,7 @@ module.exports = class Player
     COMPUTER: 1
   constructor: (@mode)->
     @hand = []
+    @strategies = {}
     @score = 0
     @boardCount = 1
 
@@ -22,8 +23,10 @@ module.exports = class Player
   characters: ->
     _.filter @hand, (character)-> not character.isDead()
 
-  command: (character, board)->
-    Strategy[character.getStrategy()](character, board)
+  command: (character, inspector)->
+    unless @strategies[character.getId()]
+      @strategies[character.getId()] = new Strategy(character)
+    @strategies[character.getId()].createCommand(inspector)
 
   getScore: ->
     @score
@@ -35,6 +38,7 @@ module.exports = class Player
     @score += @boardCount * 100
     @boardCount += 1
     @hand = []
+    @strategies = {}
 
   getBoardCount: ->
     @boardCount
