@@ -8,6 +8,7 @@ module.exports = class Strategy
   constructor: (@character)->
     @type = @character.getStrategy()
     @milestone = null
+    @prevPosition = null
 
   createCommand: (inspector)->
     @inspector = inspector
@@ -54,8 +55,10 @@ module.exports = class Strategy
       @milestone = _.sample(doors)
       @_approach(@milestone)
     else
-      # TODO: 直進するように
-      @whim()
+      for direction in DIRECTIONS
+        next = @character.getPosition()[direction]()
+        if !next.equal(@prevPosition) && @inspector.isWalkable(next)
+          return @_approach(next)
 
   _attackOrUseSkill: (target)->
     if Math.random() > SKILL_USE_RATE
@@ -66,6 +69,7 @@ module.exports = class Strategy
   _approach: (target)->
     target ||= @inspector.findHero()
     direction = @inspector.findNearByDirection(target)
+    @prevPosition = @character.getPosition()
     Command.createMoveOrAttack(@character, direction)
 
   _attack: (target)-> @_approach(target)
