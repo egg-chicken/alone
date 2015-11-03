@@ -4,7 +4,7 @@ module.exports = class Pair
   constructor: (@x, @y)->
 
   equal: (pair)->
-    pair.x == @x && pair.y == @y
+    pair && pair.x == @x && pair.y == @y
 
   shift: (x, y)->
     new Pair(@x+x, @y+y)
