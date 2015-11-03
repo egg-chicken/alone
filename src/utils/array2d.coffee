@@ -2,6 +2,15 @@ _    = require('underscore')
 Pair = require('./pair')
 
 module.exports = class Array2D
+  @create: (values) ->
+    height = values.length
+    width = values[0].length
+    array2d = new Array2D(width, height)
+    for y in [0...height]
+      for x in [0...width]
+        array2d.set(x, y, values[y][x])
+    array2d
+
   constructor:(@width, @height, default_value=null) ->
     @rows = []
     for y in [0...@height]

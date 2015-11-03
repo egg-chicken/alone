@@ -42,7 +42,7 @@ module.exports = class Dealer
   _turn: (playerCommand)->
     for character in @turnPlayer.characters()
       if  @boardStatus == BOARD.PLAYING
-        command = playerCommand || @turnPlayer.command(character, @board.mask(character))
+        command = playerCommand || @turnPlayer.command(character, @board.inspectBy(character))
         command.perform(@board)
         @_afterPerform(character, command)
 
