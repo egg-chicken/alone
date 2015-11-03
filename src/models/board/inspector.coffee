@@ -18,9 +18,8 @@ module.exports = class Inspector
       null
 
   findNearByDirection: (target)->
-    targetPosition = target.getPosition()
-    method = (direction) =>
-      targetPosition.distance(@base[direction]())
+    targetPosition = target.getPosition?() || target
+    method = (direction) => targetPosition.distance(@base[direction]())
     _.min(_.shuffle(DIRECTIONS), method)
 
   isNeighbor: (target)->
