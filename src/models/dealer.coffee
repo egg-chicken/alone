@@ -56,20 +56,3 @@ module.exports = class Dealer
     else if not(@board.getHero())
       Logger.gameOver(character)
       @boardStatus = BOARD.FAILED
-
-  @test: ->
-    dealer = new Dealer()
-
-    console.log(dealer.board.to_s())
-    console.log('-----------------')
-
-    dealer._moveOrAttack(dealer.board.getHero(), "down")
-    console.log(dealer.board.to_s())
-    console.log('-----------------')
-
-    dealer._moveOrAttack(dealer.board.getHero(), "right")
-    console.log(dealer.board.to_s())
-    console.log('-----------------')
-
-    dealer._turn()
-    console.log(dealer.board.to_s())
