@@ -8,15 +8,26 @@ module.exports = class Dealer
     COMPLETED: 1
     FAILED: 2
 
+  MONSTER_TABLE = [
+    []
+    [2, 2, 2, 3, 3]
+    [3, 3, 3, 3, 3]
+    [3, 3, 3, 3, 4]
+    [3, 3, 4, 5, 5]
+    [5, 5, 5, 5, 5]
+  ]
+
   constructor: ->
     @players = [
       Player.createHuman()
       Player.createComputer()
     ]
+    @boardCount = 0
     @setupBoard()
 
   setupBoard: ->
-    @board = Board.create(@board?.getHero())
+    @boardCount += 1
+    @board = Board.create(@board?.getHero(), MONSTER_TABLE[@boardCount])
     @boardStatus = BOARD.PLAYING
     @players[0].assign(@board.getHero())
     @players[1].assign(@board.getEnemies())
