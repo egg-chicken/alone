@@ -14,7 +14,7 @@ describe 'Command', ->
 
       it '体力が減っていない時失敗する', ->
         aid = => @command._useSkill()
-        assert.throws(aid, Error, 'He canceled skill, because that is meaningless')
+        assert.throws(aid, /He canceled skill, because that is meaningless/)
 
       it '体力が減っている時成功し、対象を回復する', ->
         @target.damage(2)
@@ -28,7 +28,7 @@ describe 'Command', ->
         for i in [0...3]
           aid()
         for i in [0...2]
-          assert.throws(aid, Error, "He doesn't have medicine!")
+          assert.throws(aid, /He doesn't have medicine!/)
 
     describe '突進', ->
       beforeEach ->
@@ -41,7 +41,7 @@ describe 'Command', ->
         tackle = => @command._useSkill(@board)
         @board.put(new Pair(1, 1), @character)
         @board.put(new Pair(2, 2), @target)
-        assert.throws(tackle, Error, 'He cannot reach the target')
+        assert.throws(tackle, /He cannot reach the target/)
 
       it '対象が壁に挟まれている時ダメージを与える', ->
         @board.put(new Pair(1, 1), @target)
