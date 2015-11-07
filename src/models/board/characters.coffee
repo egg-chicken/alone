@@ -3,7 +3,7 @@ Character = require('./character')
 
 module.exports = class Characters
   MAX_SIZE = 30
-  constructor: ->
+  constructor: (@monsterTable)->
     @list = []
 
   createHero: (freePositions, hero)->
@@ -17,9 +17,11 @@ module.exports = class Characters
     for i in [0...count]
       @createOne(freePositions)
 
-  createOne: (freePositions, name) ->
+  createOne: (freePositions, nameOrIndex) ->
+    if not(nameOrIndex) && @monsterTable?.length > 0
+      nameOrIndex = _.sample(@monsterTable)
     position = _.find(freePositions, (p)=> not @getByPosition(p))
-    character = Character.create(name, position)
+    character = Character.create(nameOrIndex, position)
     @list.push(character)
     character
 

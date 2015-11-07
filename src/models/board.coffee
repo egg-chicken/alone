@@ -11,9 +11,9 @@ module.exports = class Board
   INITIAL_ENEMY_COUNT = 5
   INITIAL_ITEM_COUNT = 5
 
-  @create: (hero = null)->
+  @create: (hero = null, monsterTable)->
     land = Land.createRandom(WIDTH, HEIGHT)
-    characters = new Characters()
+    characters = new Characters(monsterTable)
     characters.createEnemies(land.getFreePositions(), INITIAL_ENEMY_COUNT)
     characters.createHero(land.getFreePositions(), hero)
     items = new Items()
