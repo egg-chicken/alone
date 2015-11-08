@@ -39,5 +39,19 @@ module.exports = class Pair
       new Pair(@x+1, @y)
     ])
 
+  where: (pair)->
+    dir = null
+    if @x == pair.x
+      if @y > pair.y
+        dir = "up"
+      else if @y < pair.y
+        dir = "down"
+    else if @y == pair.y
+      if @x > pair.x
+        dir = "left"
+      else if @x < pair.x
+        dir = "right"
+    dir
+
   to_s: ->
     "#{@x},#{@y}"
