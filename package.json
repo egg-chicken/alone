@@ -2,10 +2,10 @@
   "name": "alone",
   "version": "1.0.0",
   "description": "cui game",
-  "main": "build/index.js",
+  "main": "build/corealone.js",
   "scripts": {
     "console": "NODE_PATH=./src/ coffee src/console.coffee",
-    "build": "NODE_PATH=./src/ coffee -o build/ -c src/; NODE_PATH=./build/ browserify build/main.js > build/index.js",
+    "build": "NODE_PATH=./src/ coffee -o build/ -c src/; NODE_PATH=./build/ browserify build/core.js > build/corealone.js",
     "test": "NODE_PATH=./src/ mocha --compilers coffee:coffee-script/register"
   },
   "author": "egg_chicken",
