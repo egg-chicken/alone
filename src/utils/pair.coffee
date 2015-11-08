@@ -9,6 +9,9 @@ module.exports = class Pair
   shift: (x, y)->
     new Pair(@x+x, @y+y)
 
+  times: (k)->
+    new Pair(@x*k, @y*k)
+
   up: (y=1)->
     new Pair(@x, @y-y)
 
