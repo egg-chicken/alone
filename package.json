@@ -4,7 +4,7 @@
   "description": "cui game",
   "main": "build/index.js",
   "scripts": {
-    "play": "NODE_PATH=./src/ coffee src/main.coffee",
+    "console": "NODE_PATH=./src/ coffee src/console.coffee",
     "build": "NODE_PATH=./src/ coffee -o build/ -c src/; NODE_PATH=./build/ browserify build/main.js > build/index.js",
     "test": "NODE_PATH=./src/ mocha --compilers coffee:coffee-script/register"
   },
