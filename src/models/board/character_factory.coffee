@@ -10,6 +10,14 @@ module.exports = class CharacterFactory
     [ '盲瓜坊',   'P',      'TACKLE',               1, 'traveler',      25,        3]
   ]
 
+  GENERATION_TABLE = [
+    [2, 2, 2, 3, 3]
+    [3, 3, 3, 3, 3]
+    [3, 3, 3, 3, 4]
+    [3, 3, 4, 5, 5]
+    [5, 5, 5, 5, 5]
+  ]
+
   @create: (index = null)->
     type       = index || Math.floor(Math.random() * CHARACTER_LIST.length)
     name       = CHARACTER_LIST[type][0]
@@ -21,16 +29,21 @@ module.exports = class CharacterFactory
     maxHealth  = CHARACTER_LIST[type][6]
     new Character(type, name, symbol, skill, skillRange, strategy, score, maxHealth)
 
-  @createByName: (name)->
-    for i in [0...CHARACTER_LIST.length]
-      if name == CHARACTER_LIST[i][0]
-        return @create(i)
-    throw new Error("unknown character: #{name}")
-
   @createHero: ->
     @create(0)
 
   @createEnemy: ->
     heroCount = 1
     type = Math.floor(Math.random() * (CHARACTER_LIST.length - heroCount)) + heroCount
+    @create(type)
+
+  @createByName: (name)->
+    for i in [0...CHARACTER_LIST.length]
+      if name == CHARACTER_LIST[i][0]
+        return @create(i)
+    throw new Error("unknown character: #{name}")
+
+  @createByTable: (level)->
+    slot = GENERATION_TABLE[level]
+    type = Math.floor(Math.random() * slot.length)
     @create(type)
