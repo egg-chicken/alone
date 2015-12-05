@@ -2,39 +2,19 @@ _ = require('underscore')
 CharacterFactory = require('./character_factory')
 
 module.exports = class CharacterCollection
-  MAX_SIZE = 30
-  constructor: (@monsterTable)->
+  constructor: ->
     @list = []
 
-  createHero: (freePositions, hero)->
-    if hero
-      @addOne(freePositions, hero)
-    else
-      @createOne(freePositions, '主人公')
-
-  createEnemies: (freePositions, count)->
-    count = Math.min(count, MAX_SIZE)
-    for i in [0...count]
-      @createOne(freePositions)
-
-  createOne: (freePositions, nameOrIndex) ->
-    if not(nameOrIndex) && @monsterTable?.length > 0
-      nameOrIndex = _.sample(@monsterTable)
-    position = _.find(freePositions, (p)=> not @getByPosition(p))
-    if nameOrIndex >= 0
-      character = CharacterFactory.create(nameOrIndex)
-    else
-      character = CharacterFactory.createByName(nameOrIndex)
-
-    character.setPosition(position)
+  add: (character)->
     @list.push(character)
     character
 
-  addOne: (freePositions, character)->
-    position = _.find(freePositions, (p)=> not @getByPosition(p))
-    character.setPosition(position)
-    @list.push(character)
-    character
+  setPositions: (positions)->
+    for i in [0...@list.length]
+      if positions[i]
+        @list[i].setPosition(positions[i])
+      else
+        throw new Error("position が足りません")
 
   getHero: ->
     _.find @list, (character)-> character.isHero()

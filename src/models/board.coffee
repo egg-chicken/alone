@@ -1,6 +1,7 @@
 _ = require('underscore')
 Array2D = require('utils/array2d')
 CharacterCollection = require('./board/character_collection')
+CharacterFactory    = require('./board/character_factory')
 ItemCollection = require('./board/item_collection')
 ItemFactory    = require('./board/item_factory')
 Land = require('./board/land')
@@ -14,9 +15,12 @@ module.exports = class Board
 
   @create: (hero = null, level = 0)->
     land = Land.createRandom(WIDTH, HEIGHT)
+
     characters = new CharacterCollection()
-    characters.createEnemies(land.getFreePositions(), INITIAL_ENEMY_COUNT)
-    characters.createHero(land.getFreePositions(), hero)
+    characters.add(hero || CharacterFactory.createHero())
+    characters.add(CharacterFactory.createEnemy()) for i in [0...INITIAL_ENEMY_COUNT]
+    characters.setPositions(land.getFreePositions())
+
     items = new ItemCollection()
     items.add(ItemFactory.create()) for i in [0...INITIAL_ITEM_COUNT]
     items.setPositions(land.getFreePositions())
