@@ -1,7 +1,8 @@
 _ = require('underscore')
 Array2D = require('utils/array2d')
 Characters = require('./board/characters')
-Items = require('./board/items')
+ItemCollection = require('./board/item_collection')
+ItemFactory    = require('./board/item_factory')
 Land = require('./board/land')
 Inspector = require('./board/inspector')
 
@@ -16,14 +17,15 @@ module.exports = class Board
     characters = new Characters(monsterTable)
     characters.createEnemies(land.getFreePositions(), INITIAL_ENEMY_COUNT)
     characters.createHero(land.getFreePositions(), hero)
-    items = new Items()
-    items.createItems(land.getFreePositions(), INITIAL_ITEM_COUNT)
+    items = new ItemCollection()
+    items.add(ItemFactory.create()) for i in [0...INITIAL_ITEM_COUNT]
+    items.setPositions(land.getFreePositions())
     new Board(land, characters, items)
 
   @createHall: (width, height)->
     land = Land.createHall(width, height)
     characters = new Characters()
-    items = new Items()
+    items = new ItemCollection()
     new Board(land, characters, items)
 
   constructor: (@land, @characters, @items)->
