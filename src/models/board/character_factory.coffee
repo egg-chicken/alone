@@ -43,7 +43,9 @@ module.exports = class CharacterFactory
         return @create(i)
     throw new Error("unknown character: #{name}")
 
-  @createByTable: (level)->
-    slot = GENERATION_TABLE[level]
-    type = Math.floor(Math.random() * slot.length)
-    @create(type)
+  @setCreateSlot: (slotNumber)->
+    @slot = GENERATION_TABLE[slotNumber]
+
+  @createBySlot: ->
+    index = Math.floor(Math.random() * @slot.length)
+    @create(@slot[index])
