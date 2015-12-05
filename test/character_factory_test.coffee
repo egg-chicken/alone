@@ -5,12 +5,12 @@ describe 'CharacterFactory', ->
   describe '#create', ->
     it '引数で指定したキャラクターが生成されること', ->
       monster = CharacterFactory.create(3)
-      assert(monster.type, 3)
+      assert.equal(monster.type, 3)
 
   describe '#createByName', ->
     it '引数で指定したキャラクターが生成されること', ->
       monster = CharacterFactory.createByName("手甲虫")
-      assert(monster.type, 2)
+      assert.equal(monster.type, 2)
 
     it '未知の名前のキャラクターを作成しようとした時エラーになること', ->
       create = => CharacterFactory.createByName("SPECIAL-UNKNOWN-CHARACTER")
@@ -20,4 +20,4 @@ describe 'CharacterFactory', ->
     it 'テーブルパターンに応じた敵が生成されること', ->
       CharacterFactory.slot = [2,2,2,2,2,2]
       monster = CharacterFactory.createBySlot()
-      assert(monster.type, 2)
+      assert.equal(monster.type, 2)
