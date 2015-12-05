@@ -1,15 +1,12 @@
 _ = require('underscore')
 Item = require('./item')
 
-module.exports = class Items
+module.exports = class ItemCollection
   MAX_SIZE = 30
   constructor: ->
     @list = []
 
   createItems: (free_positions, count)->
-    position = _.find free_positions, (p)=>
-      not @getByPosition(p)
-
     for p in free_positions
       size = @list.length
       return if size >= count || size >= MAX_SIZE
@@ -24,5 +21,8 @@ module.exports = class Items
 
   remove: (item)->
     found = _.findIndex(@list, (i)-> i == item)
-    @list.splice(found,1) if found >= 0
-    return found >= 0
+    if found >= 0
+      @list.splice(found,1)
+      true
+    else
+      false
