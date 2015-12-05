@@ -1,28 +1,27 @@
-_ = require('underscore')
-Item = require('./item')
-
 module.exports = class ItemCollection
-  MAX_SIZE = 30
   constructor: ->
     @list = []
 
-  createItems: (free_positions, count)->
-    for p in free_positions
-      size = @list.length
-      return if size >= count || size >= MAX_SIZE
-      @list.push(new Item(Item.POTION, p))
+  add: (item)->
+    @list.push(item)
+
+  setPositions: (positions)->
+    for i in [0...@list.length]
+      if positions[i]
+        @list[i].setPosition(positions[i])
+      else
+        throw new Error("position が足りません") unless
 
   getByPosition: (position)->
-    _.find @list, (item)->
-      item.getPosition().equal(position)
+    for item in @list
+      if item.getPosition().equal(position)
+        return item
 
   getSymbol: (position)->
     @getByPosition(position)?.getSymbol()
 
   remove: (item)->
-    found = _.findIndex(@list, (i)-> i == item)
-    if found >= 0
-      @list.splice(found,1)
-      true
-    else
-      false
+    for i in [0...@list.length]
+      if @list[i] == item
+        return @list.splice(i, 1)
+    false
