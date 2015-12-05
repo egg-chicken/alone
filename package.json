@@ -5,7 +5,7 @@
   "main": "build/app.js",
   "scripts": {
     "console": "NODE_PATH=./src/ coffee src/console.coffee",
-    "build": "gulp build"
+    "build": "gulp build",
     "test": "gulp test"
   },
   "author": "egg_chicken",
@@ -17,10 +17,12 @@
     "gulp": "^3.9.0",
     "gulp-coffee": "^2.3.1",
     "gulp-mocha": "^2.2.0",
+    "gulp-uglify": "^1.5.1",
     "keypress": "~0.2.1",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2",
     "underscore": "~1.8.3",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "repository": {

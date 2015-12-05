@@ -5,9 +5,11 @@ require('module')._initPaths()
 gulp       = require("gulp")
 coffee     = require("gulp-coffee")
 mocha      = require("gulp-mocha")
-browserify = require('browserify')
+uglify     = require("gulp-uglify")
 
-source     = require('vinyl-source-stream');
+browserify = require("browserify")
+source     = require('vinyl-source-stream')
+buffer     = require('vinyl-buffer')
 del        = require("del")
 
 gulp.task "default", ->
@@ -26,7 +28,17 @@ gulp.task "build:browserify", ->
     .pipe(source('app.js'))
     .pipe(gulp.dest("build"))
 
-gulp.task "build", ["build:coffee", "build:browserify"], ->
+gulp.task "build:minify", ->
+  browserify(entries: 'build/core.js', debug: true)
+    .bundle()
+    .pipe(source('app.js'))
+    .pipe(buffer())
+    .pipe(uglify())
+    .pipe(gulp.dest("build"))
+
+gulp.task "build:develop", ["build:coffee", "build:browserify"], ->
+
+gulp.task "build", ["build:coffee", "build:minify"], ->
 
 gulp.task "test", ->
   gulp.src('test/**/*_test.coffee', read: false)
