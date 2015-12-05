@@ -2,14 +2,14 @@ assert = require('assert')
 Pair = require('utils/pair')
 Command = require('models/command')
 Board = require('models/board')
-Character = require('models/board/character')
+CharacterFactory = require('models/board/character_factory')
 
 describe 'Command', ->
   describe '#useSkill', ->
     describe '手当', ->
       beforeEach ->
-        @character = Character.create('葛籠鼠')
-        @target    = Character.create('盲瓜坊')
+        @character = CharacterFactory.createByName('葛籠鼠')
+        @target    = CharacterFactory.createByName('盲瓜坊')
         @command = Command.createUseSkill(@character, @target)
 
       it '体力が減っていない時失敗する', ->

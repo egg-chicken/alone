@@ -1,6 +1,6 @@
 assert = require('assert')
 Pair = require('utils/pair')
-Characters = require('models/board/characters')
+CharacterCollection = require('models/board/character_collection')
 
 describe 'Characters', ->
   describe '#createOne', ->

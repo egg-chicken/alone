@@ -1,5 +1,5 @@
 _ = require('underscore')
-Character = require('./character')
+CharacterFactory = require('./character_factory')
 
 module.exports = class CharacterCollection
   MAX_SIZE = 30
@@ -21,7 +21,12 @@ module.exports = class CharacterCollection
     if not(nameOrIndex) && @monsterTable?.length > 0
       nameOrIndex = _.sample(@monsterTable)
     position = _.find(freePositions, (p)=> not @getByPosition(p))
-    character = Character.create(nameOrIndex, position)
+    if nameOrIndex >= 0
+      character = CharacterFactory.create(nameOrIndex)
+    else
+      character = CharacterFactory.createByName(nameOrIndex)
+
+    character.setPosition(position)
     @list.push(character)
     character
 
