@@ -1,6 +1,6 @@
 _ = require('underscore')
 Array2D = require('utils/array2d')
-Characters = require('./board/characters')
+CharacterCollection = require('./board/character_collection')
 ItemCollection = require('./board/item_collection')
 ItemFactory    = require('./board/item_factory')
 Land = require('./board/land')
@@ -14,7 +14,7 @@ module.exports = class Board
 
   @create: (hero = null, monsterTable)->
     land = Land.createRandom(WIDTH, HEIGHT)
-    characters = new Characters(monsterTable)
+    characters = new CharacterCollection(monsterTable)
     characters.createEnemies(land.getFreePositions(), INITIAL_ENEMY_COUNT)
     characters.createHero(land.getFreePositions(), hero)
     items = new ItemCollection()
@@ -24,7 +24,7 @@ module.exports = class Board
 
   @createHall: (width, height)->
     land = Land.createHall(width, height)
-    characters = new Characters()
+    characters = new CharacterCollection()
     items = new ItemCollection()
     new Board(land, characters, items)
 

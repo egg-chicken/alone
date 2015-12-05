@@ -5,7 +5,7 @@ Characters = require('models/board/characters')
 describe 'Characters', ->
   describe '#createOne', ->
     beforeEach ->
-      @characters = new Characters()
+      @characters = new CharacterCollection()
       @freePositions = [new Pair(0, 0)]
 
     it 'monsterTable が無く、引数もない時エラーになること', ->

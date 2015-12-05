@@ -1,7 +1,7 @@
 _ = require('underscore')
 Character = require('./character')
 
-module.exports = class Characters
+module.exports = class CharacterCollection
   MAX_SIZE = 30
   constructor: (@monsterTable)->
     @list = []
