@@ -49,7 +49,12 @@ module.exports = class Board
     @characters.remove(obj) || @items.remove(obj)
 
   createOne: (name) ->
-    @characters.createOne(@land.getFreePositions(), name)
+    for p in @land.getFreePositions()
+      unless @characters.getByPosition(p)?
+        character = CharacterFactory.createByName(name)
+        character.setPosition(p)
+        return @characters.add(character)
+    throw new Error("no free position on the board")
 
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.isWall(position)
