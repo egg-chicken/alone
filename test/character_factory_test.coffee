@@ -7,6 +7,11 @@ describe 'CharacterFactory', ->
       monster = CharacterFactory.create(3)
       assert.equal(monster.type, 3)
 
+  describe '#createHero', ->
+    it '主人公が生成されること', ->
+      hero = CharacterFactory.createHero()
+      assert(hero.isHero())
+
   describe '#createByName', ->
     it '引数で指定したキャラクターが生成されること', ->
       monster = CharacterFactory.createByName("手甲虫")

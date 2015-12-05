@@ -19,7 +19,7 @@ module.exports = class CharacterFactory
   ]
 
   @create: (index = null)->
-    type       = index || Math.floor(Math.random() * CHARACTER_LIST.length)
+    type       = if index? then index else Math.floor(Math.random() * CHARACTER_LIST.length)
     name       = CHARACTER_LIST[type][0]
     symbol     = CHARACTER_LIST[type][1]
     skill      = CHARACTER_LIST[type][2]
