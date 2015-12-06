@@ -1,38 +1,16 @@
 _ = require('underscore')
 Piece = require('./piece')
 Buffers = require('./character/buffers')
-Data = require('./character/data')
 
 module.exports = class Character extends Piece
-  TYPES = { HERO: 1 }
-  @createRandomEnemy: (position)->
-    type = _.random(3) + 2
-    new Character(type, position)
+  TYPES = { HERO: 0 }
 
-  @createHero: (position)->
-    new Character(TYPES.HERO, position)
-
-  @create: (nameOrIndex, position)->
-    if nameOrIndex > 0
-      index = nameOrIndex
-    else
-      index = _.findIndex(Data, (data)-> data[0] == nameOrIndex)
-    throw new Error("unknown character: #{nameOrIndex}") unless Data[index]
-    new Character(index, position)
-
-  constructor: (@type, @position)->
-    super(@type, @position)
+  constructor: (@type, @name, @symbol, @skill, @skillRange, @strategy, @score, @maxHealth)->
+    super(@type, null)
     @buffers = new Buffers()
     @items = []
     @skillCount = 0
-    @symbol    = Data[@type][1]
-    @skill     = Data[@type][2]
-    @skillRange = Data[@type][3]
-    @strategy  = Data[@type][4]
-    @score     = Data[@type][5]
-    @maxHealth = Data[@type][6]
     @health = @maxHealth
-
 
   getSymbol: -> @symbol
   getScore: -> @score

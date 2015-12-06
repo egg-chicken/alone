@@ -2,14 +2,14 @@ assert = require('assert')
 Pair = require('utils/pair')
 Command = require('models/command')
 Board = require('models/board')
-Character = require('models/board/character')
+CharacterFactory = require('models/board/character_factory')
 
 describe 'Command', ->
   describe '#useSkill', ->
     describe '手当', ->
       beforeEach ->
-        @character = Character.create('葛籠鼠')
-        @target    = Character.create('盲瓜坊')
+        @character = CharacterFactory.createByName('葛籠鼠')
+        @target    = CharacterFactory.createByName('盲瓜坊')
         @command = Command.createUseSkill(@character, @target)
 
       it '体力が減っていない時失敗する', ->
@@ -39,19 +39,19 @@ describe 'Command', ->
 
       it '対象が距離2以上の時失敗する', ->
         tackle = => @command._useSkill(@board)
-        @board.put(new Pair(1, 1), @character)
-        @board.put(new Pair(2, 2), @target)
+        @target.setPosition(new Pair(2, 2))
+        @character.setPosition(new Pair(1, 1))
         assert.throws(tackle, /He cannot reach the target/)
 
       it '対象が壁に挟まれている時ダメージを与える', ->
-        @board.put(new Pair(1, 1), @target)
-        @board.put(new Pair(1, 2), @character)
+        @target.setPosition(new Pair(1, 1))
+        @character.setPosition(new Pair(1, 2))
         @command._useSkill(@board)
         assert(not @target.isHealthy())
 
       it '対象が壁に挟まれていない時、ダメージを与えず、強制的に移動させる', ->
-        @board.put(new Pair(1, 2), @target)
-        @board.put(new Pair(1, 3), @character)
+        @target.setPosition(new Pair(1, 2))
+        @character.setPosition(new Pair(1, 3))
         @command._useSkill(@board)
         assert(@target.isHealthy())
         assert.equal(@board.get(new Pair(1,1)), @target)

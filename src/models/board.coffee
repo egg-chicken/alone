@@ -1,6 +1,7 @@
 _ = require('underscore')
 Array2D = require('utils/array2d')
-Characters = require('./board/characters')
+CharacterCollection = require('./board/character_collection')
+CharacterFactory    = require('./board/character_factory')
 ItemCollection = require('./board/item_collection')
 ItemFactory    = require('./board/item_factory')
 Land = require('./board/land')
@@ -12,11 +13,15 @@ module.exports = class Board
   INITIAL_ENEMY_COUNT = 5
   INITIAL_ITEM_COUNT = 5
 
-  @create: (hero = null, monsterTable)->
+  @create: (hero = null, level = 0)->
     land = Land.createRandom(WIDTH, HEIGHT)
-    characters = new Characters(monsterTable)
-    characters.createEnemies(land.getFreePositions(), INITIAL_ENEMY_COUNT)
-    characters.createHero(land.getFreePositions(), hero)
+
+    CharacterFactory.setCreateSlot(level)
+    characters = new CharacterCollection()
+    characters.add(hero || CharacterFactory.createHero())
+    characters.add(CharacterFactory.createBySlot()) for i in [0...INITIAL_ENEMY_COUNT]
+    characters.setPositions(land.getFreePositions())
+
     items = new ItemCollection()
     items.add(ItemFactory.create()) for i in [0...INITIAL_ITEM_COUNT]
     items.setPositions(land.getFreePositions())
@@ -24,7 +29,7 @@ module.exports = class Board
 
   @createHall: (width, height)->
     land = Land.createHall(width, height)
-    characters = new Characters()
+    characters = new CharacterCollection()
     items = new ItemCollection()
     new Board(land, characters, items)
 
@@ -45,7 +50,12 @@ module.exports = class Board
     @characters.remove(obj) || @items.remove(obj)
 
   createOne: (name) ->
-    @characters.createOne(@land.getFreePositions(), name)
+    for p in @land.getFreePositions()
+      unless @characters.getByPosition(p)?
+        character = CharacterFactory.createByName(name)
+        character.setPosition(p)
+        return @characters.add(character)
+    throw new Error("no free position on the board")
 
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.isWall(position)

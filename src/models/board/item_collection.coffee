@@ -10,7 +10,7 @@ module.exports = class ItemCollection
       if positions[i]
         @list[i].setPosition(positions[i])
       else
-        throw new Error("position が足りません") unless
+        throw new Error("position が足りません")
 
   getByPosition: (position)->
     for item in @list
