@@ -1,10 +1,7 @@
 Piece = require('./piece')
 module.exports = class Item extends Piece
   constructor: (@type, @name, @symbol, @effect, @power, @description)->
-    super(@type, null)
-
-  getSymbol: ->
-    @symbol
+    super(@type, @symbol, null)
 
   getFullName: ->
     @name

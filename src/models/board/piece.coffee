@@ -1,12 +1,12 @@
 # 盤面の上に配置される駒を表す
 module.exports = class Piece
   count = 0
-  constructor: (@type, @position)->
+  constructor: (@type, @symbol, @position)->
     count += 1
     @id = count
 
   getSymbol: ->
-    throw new Error('this method must be overriden')
+    @symbol
 
   getId: ->
     @id
@@ -18,4 +18,4 @@ module.exports = class Piece
     @position
 
   getUniqueName: ->
-    "#{@getSymbol()}(#{@id})"
+    "#{@symbol}(#{@id})"

@@ -6,18 +6,15 @@ module.exports = class Character extends Piece
   TYPES = { HERO: 0 }
 
   constructor: (@type, @name, @symbol, @skill, @skillRange, @strategy, @score, @maxHealth)->
-    super(@type, null)
+    super(@type, @symbol, null)
     @buffers = new Buffers()
     @items = []
     @skillCount = 0
     @health = @maxHealth
 
-  getSymbol: -> @symbol
   getScore: -> @score
   getSkill: -> @skill
   getStrategy: -> @strategy
-  getPosition: ->
-    @position
 
   addSkillCount: ->
     @skillCount += 1
