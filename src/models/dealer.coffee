@@ -18,7 +18,7 @@ module.exports = class Dealer
 
   setupBoard: ->
     @boardCount += 1
-    @board = Board.create(@board?.getHero(), @boardCount)
+    @board = Board.create(@boardCount, @board?.getHero())
     @boardStatus = BOARD.PLAYING
     @players[0].assign(@board.getHero())
     @players[1].assign(@board.getEnemies())
@@ -33,7 +33,8 @@ module.exports = class Dealer
 
     if @boardIsCompleted()
       for player in @players
-        player.completeBoard()
+        player.clearHand()
+        player.addScoreByBoard(@boardCount)
 
   boardIsCompleted: ->
     @boardStatus == BOARD.COMPLETED
@@ -49,7 +50,10 @@ module.exports = class Dealer
         @_afterPerform(character, command)
 
   _afterPerform: (character, command)->
-    @turnPlayer.addScore(command.getScore())
+    # TODO: 敵を倒した時に得点が入るようにする
+    # if command.targetIsDead()
+    #   @turnPlayer.addScoreByCharacter(command.getTarget())
+
     character.waneBuffers()
     to = character.getPosition()
     if @board.isExit(to) && @turnPlayer.isHuman()
