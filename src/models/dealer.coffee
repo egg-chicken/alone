@@ -33,7 +33,8 @@ module.exports = class Dealer
 
     if @boardIsCompleted()
       for player in @players
-        player.completeBoard()
+        player.clearHand()
+        player.addScoreByBoard(@boardCount)
 
   boardIsCompleted: ->
     @boardStatus == BOARD.COMPLETED

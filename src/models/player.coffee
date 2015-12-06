@@ -1,15 +1,15 @@
 _ = require('underscore')
 Strategy = require('./player/strategy')
+ScoreKeeper = require('./score_keeper')
 
 module.exports = class Player
   MODE =
     HUMAN: 0
     COMPUTER: 1
   constructor: (@mode)->
+    @scoreKeeper = new ScoreKeeper()
     @hand = []
     @strategies = {}
-    @score = 0
-    @boardCount = 1
 
   @createHuman: -> new Player(MODE.HUMAN)
   @createComputer: -> new Player(MODE.COMPUTER)
@@ -28,20 +28,13 @@ module.exports = class Player
       @strategies[character.getId()] = new Strategy(character)
     @strategies[character.getId()].createCommand(inspector)
 
-  getScore: ->
-    @score
+  getScore:                        -> @scoreKeeper.getScore()
+  addScoreByCharacter: (character) -> @scoreKeeper.addScoreByCharacter(character)
+  addScoreByBoard: (boardLevel)    -> @scoreKeeper.addScoreByBoard(boardLevel)
 
-  addScore: (point)->
-    @score += point
-
-  completeBoard: ->
-    @score += @boardCount * 100
-    @boardCount += 1
+  clearHand: ->
     @hand = []
     @strategies = {}
-
-  getBoardCount: ->
-    @boardCount
 
   isHuman: ->
     @mode == MODE.HUMAN
