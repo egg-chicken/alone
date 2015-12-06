@@ -5,14 +5,13 @@ Buffers = require('./character/buffers')
 module.exports = class Character extends Piece
   TYPES = { HERO: 0 }
 
-  constructor: (@type, @name, @symbol, @skill, @skillRange, @strategy, @score, @maxHealth)->
+  constructor: (@type, @name, @symbol, @skill, @skillRange, @strategy, @maxHealth)->
     super(@type, @symbol, null)
     @buffers = new Buffers()
     @items = []
     @skillCount = 0
     @health = @maxHealth
 
-  getScore: -> @score
   getSkill: -> @skill
   getStrategy: -> @strategy
 
