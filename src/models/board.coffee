@@ -13,7 +13,7 @@ module.exports = class Board
   INITIAL_ENEMY_COUNT = 5
   INITIAL_ITEM_COUNT = 5
 
-  @create: (hero = null, level = 0)->
+  @create: (level, hero = null)->
     land = Land.createRandom(WIDTH, HEIGHT)
 
     CharacterFactory.setCreateSlot(level)
@@ -25,7 +25,7 @@ module.exports = class Board
     items = new ItemCollection()
     items.add(ItemFactory.create()) for i in [0...INITIAL_ITEM_COUNT]
     items.setPositions(land.getFreePositions())
-    new Board(land, characters, items)
+    new Board(land, characters, items, level)
 
   @createHall: (width, height)->
     land = Land.createHall(width, height)
@@ -33,8 +33,9 @@ module.exports = class Board
     items = new ItemCollection()
     new Board(land, characters, items)
 
-  constructor: (@land, @characters, @items)->
+  constructor: (@land, @characters, @items, @level)->
 
+  getLevel:           -> @level
   getHero:            -> @characters.getHero()
   getEnemies:         -> @characters.getEnemies()
   getCharacters:      -> @characters.getCharacters()

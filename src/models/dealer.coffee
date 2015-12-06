@@ -18,7 +18,7 @@ module.exports = class Dealer
 
   setupBoard: ->
     @boardCount += 1
-    @board = Board.create(@board?.getHero(), @boardCount)
+    @board = Board.create(@boardCount, @board?.getHero())
     @boardStatus = BOARD.PLAYING
     @players[0].assign(@board.getHero())
     @players[1].assign(@board.getEnemies())
