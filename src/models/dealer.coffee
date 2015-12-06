@@ -50,7 +50,10 @@ module.exports = class Dealer
         @_afterPerform(character, command)
 
   _afterPerform: (character, command)->
-    @turnPlayer.addScore(command.getScore())
+    # TODO: 敵を倒した時に得点が入るようにする
+    # if command.targetIsDead()
+    #   @turnPlayer.addScoreByCharacter(command.getTarget())
+
     character.waneBuffers()
     to = character.getPosition()
     if @board.isExit(to) && @turnPlayer.isHuman()
