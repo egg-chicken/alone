@@ -1,5 +1,5 @@
 _ = require('underscore')
-Command = require('models/command')
+Command = require('models/command/')
 
 module.exports = class Strategy
   SKILL_USE_RATE = 1/4
@@ -70,7 +70,7 @@ module.exports = class Strategy
     target ||= @inspector.findHero()
     direction = @inspector.findNearByDirection(target)
     @prevPosition = @character.getPosition()
-    Command.createMoveOrAttack(@character, direction)
+    new Command.MoveOrAttack(@character, direction)
 
   _attack: (target)-> @_approach(target)
 
@@ -78,12 +78,12 @@ module.exports = class Strategy
     switch(@character.getSkillRange())
       when 1
         target ||= @inspector.findHero()
-        Command.createUseSkill(@character, target)
+        new Command.UseSkill(@character, target)
       when 0
-        Command.createUseSkill(@character, @character)
+        new Command.UseSkill(@character, @character)
       else
         throw new Error('cannot deal the skill range: #{@character.getSkillRange()}')
 
   _randomMove: ->
     direction = _.sample(DIRECTIONS)
-    Command.createMove(@character, direction)
+    new Command.Move(@character, direction)
