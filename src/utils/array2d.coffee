@@ -59,21 +59,9 @@ module.exports = class Array2D
   to_s: ->
     @rows.join("\n").replace(/,/g, "")
 
+  toString: ->
+    @to_s()
+
   _check: (x, y) ->
     if x < 0 || y < 0 || y >= @height || x >= @width
       throw new Error("out of range #{x}, #{y}")
-
-  @test: ->
-    table = new Array2D(5, 10, 0)
-    table.set(0, 1, 8)
-    table.set(new Pair(0, 2), 'A')
-    console.log(table.to_s())
-    console.log("--------------------")
-
-    console.log(table.rotate().to_s())
-    console.log("--------------------")
-
-    try
-      table.set(5, 10, 9)
-    catch error
-      console.log(error.name, error.message)
