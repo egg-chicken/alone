@@ -10,6 +10,9 @@ module.exports = class Pair
   times: (k)->
     new Pair(@x*k, @y*k)
 
+  scalar: (k)->
+    @times(k)
+
   up: (y=1)->
     new Pair(@x, @y-y)
 
@@ -48,3 +51,6 @@ module.exports = class Pair
 
   to_s: ->
     "#{@x},#{@y}"
+
+  toString: ->
+    @to_s()
