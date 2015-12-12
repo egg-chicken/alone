@@ -1,5 +1,3 @@
-_ = require("underscore")
-
 module.exports = class Pair
   constructor: (@x, @y)->
 
@@ -11,6 +9,9 @@ module.exports = class Pair
 
   times: (k)->
     new Pair(@x*k, @y*k)
+
+  scalar: (k)->
+    @times(k)
 
   up: (y=1)->
     new Pair(@x, @y-y)
@@ -34,14 +35,6 @@ module.exports = class Pair
         cov.push(new Pair(x, y))
     cov
 
-  neighbors: ->
-    _.shuffle([
-      new Pair(@x, @y-1)
-      new Pair(@x, @y+1)
-      new Pair(@x-1, @y)
-      new Pair(@x+1, @y)
-    ])
-
   where: (pair)->
     dir = null
     if @x == pair.x
@@ -58,3 +51,6 @@ module.exports = class Pair
 
   to_s: ->
     "#{@x},#{@y}"
+
+  toString: ->
+    @to_s()

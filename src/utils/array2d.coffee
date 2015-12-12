@@ -1,7 +1,12 @@
-_    = require('underscore')
 Pair = require('./pair')
 
+class OutOfBoundsError extends Error
+  constructor: (x, y)->
+    @message = "out of range #{x}, #{y}"
+
 module.exports = class Array2D
+  @OutOfBoundsError: OutOfBoundsError
+
   @create: (values) ->
     height = values.length
     width = values[0].length
@@ -40,16 +45,27 @@ module.exports = class Array2D
         a.push(new Pair(x, y))
     a
 
+  each: (f)->
+    for y in [0...@height]
+      for x in [0...@width]
+        f(x, y, @rows[y][x])
+    @
+
   # ２次元配列を長方形とみなして、周の集合を返す
   round: ->
-    test = (p)=>(p.x == 0 || p.y == 0 || p.x == @width-1 || p.y == @height-1)
-    _.filter(@pairs(), test)
+    a = []
+    for y in [0...@height]
+      for x in [0...@width]
+        if(x == 0 || y == 0 || x == @width-1 || y == @height-1)
+          a.push(new Pair(x, y))
+    a
 
   # 時計回りに90度回転した Array2D を作成して返す
   rotate: ->
     a = new Array2D(@height, @width)
-    for p in @pairs()
-      a.set(@height-1-p.y, p.x, @get(p))
+    for y in [0...@height]
+      for x in [0...@width]
+        a.set(@height-1-y, x, @get(x, y))
     a
 
   clear: (value=null)->
@@ -59,21 +75,9 @@ module.exports = class Array2D
   to_s: ->
     @rows.join("\n").replace(/,/g, "")
 
+  toString: ->
+    @to_s()
+
   _check: (x, y) ->
     if x < 0 || y < 0 || y >= @height || x >= @width
-      throw new Error("out of range #{x}, #{y}")
-
-  @test: ->
-    table = new Array2D(5, 10, 0)
-    table.set(0, 1, 8)
-    table.set(new Pair(0, 2), 'A')
-    console.log(table.to_s())
-    console.log("--------------------")
-
-    console.log(table.rotate().to_s())
-    console.log("--------------------")
-
-    try
-      table.set(5, 10, 9)
-    catch error
-      console.log(error.name, error.message)
+      throw new OutOfBoundsError(x, y)
