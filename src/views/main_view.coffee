@@ -1,4 +1,3 @@
-console = require('better-console')
 keypress = require('keypress')
 
 ItemView = require('./item_view')
@@ -22,7 +21,7 @@ module.exports = class MainView extends EventEmitter
     @_initKeyEvents()
 
   render: ->
-    console.clear()
+    @_clearConsole()
     switch(@mode)
       when MODE.BOARD
         @boardView.render()
@@ -34,6 +33,10 @@ module.exports = class MainView extends EventEmitter
 
   exit: ->
     @input.removeAllListeners('keypress')
+
+  _clearConsole: ->
+    termCode = '\u001B[2J\u001B[0;0f'
+    process.stdout.write(termCode)
 
   _boardModeActions: (key)->
     if key.shift
