@@ -1,5 +1,6 @@
 Board = require('./board')
 Player = require('./player')
+CommandResult = require('./command_result')
 
 module.exports = class Dealer
   BOARD =
@@ -59,4 +60,4 @@ module.exports = class Dealer
     else if command.isGameOver?()
       @boardStatus = BOARD.FAILED
 
-    console.log(command)
+    console.log(new CommandResult(command).toString())
