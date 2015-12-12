@@ -1,6 +1,12 @@
 Pair = require('./pair')
 
+class OutOfBoundsError extends Error
+  constructor: (x, y)->
+    @message = "out of range #{x}, #{y}"
+
 module.exports = class Array2D
+  @OutOfBoundsError: OutOfBoundsError
+
   @create: (values) ->
     height = values.length
     width = values[0].length
@@ -74,4 +80,4 @@ module.exports = class Array2D
 
   _check: (x, y) ->
     if x < 0 || y < 0 || y >= @height || x >= @width
-      throw new Error("out of range #{x}, #{y}")
+      throw new OutOfBoundsError(x, y)

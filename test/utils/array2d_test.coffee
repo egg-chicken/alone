@@ -28,7 +28,7 @@ describe 'Array2D', ->
 
     it '領域外アクセスはエラーとなること', ->
       access = => @table.get(10,0)
-      assert.throws(access, /out of range/)
+      assert.throws(access, Array2D.OutOfBoundsError)
 
   describe '#set', ->
     it '指定した座標の値のみが変わること', ->
