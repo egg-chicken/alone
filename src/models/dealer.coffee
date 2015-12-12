@@ -1,6 +1,5 @@
 Board = require('./board')
 Player = require('./player')
-CommandResult = require('./command_result')
 
 module.exports = class Dealer
   BOARD =
@@ -50,13 +49,13 @@ module.exports = class Dealer
         @_afterPerform(character, command)
 
   _afterPerform: (character, command)->
-    if command.isDefeated?()
+    if command.isDefeated()
       @turnPlayer.addScoreByCharacter(command.getTarget())
 
     character.waneBuffers()
-    if command.isReached?() && @turnPlayer.isHuman()
+    if command.isReached() && @turnPlayer.isHuman()
       @boardStatus = BOARD.COMPLETED
-    else if command.isGameOver?()
+    else if command.isGameOver()
       @boardStatus = BOARD.FAILED
 
-    console.log(new CommandResult(command).toString())
+    console.log(command.toString())

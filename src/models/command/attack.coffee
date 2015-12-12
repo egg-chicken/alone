@@ -1,14 +1,9 @@
-module.exports = class Attack
+Command = require('./command')
+module.exports = class Attack extends Command
   constructor: (@actor, @target)->
 
   perform: (board)->
     @_attack(board)
-
-  getTarget: -> @target
-
-  isGameOver: -> @defeated && @target.isHero()
-
-  isDefeated: -> @defeated
 
   _attack: (board)->
     @point = @target.damage(1)

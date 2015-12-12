@@ -1,4 +1,5 @@
-module.exports = class Move
+Command = require('./command')
+module.exports = class Move extends Command
   constructor: (@actor, @direction)->
 
   perform: (board)->
@@ -7,16 +8,14 @@ module.exports = class Move
     catch e
       @failed = e
 
-  isReached: -> @reached
-
   _move: (board)->
     from = @actor.getPosition()
-    @to = from[@direction]()
-    board.put(@to, @actor)
+    to = from[@direction]()
+    board.put(to, @actor)
 
-    @item = board.getItem(@to)
+    @item = board.getItem(to)
     if @item
       @actor.addItem(@item)
       board.remove(@item)
 
-    @reached = board.isExit(@to)
+    @reached = board.isExit(to)

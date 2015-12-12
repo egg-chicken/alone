@@ -1,4 +1,6 @@
-module.exports = class UseSkill
+Command = require('./command')
+
+module.exports = class UseSkill extends Command
   constructor: (@actor, @target)->
 
   perform: (board)->

@@ -1,7 +1,8 @@
 Move = require("./move")
 Attack = require("./attack")
+Command = require('./command')
 
-module.exports = class MoveOrAttack
+module.exports = class MoveOrAttack extends Command
   constructor: (@actor, @direction)->
 
   perform: (board)->
