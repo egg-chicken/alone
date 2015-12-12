@@ -7,7 +7,7 @@ module.exports = class CommandResult
     @direction = command.direction
     @point     = command.point
     @failed    = command.failed
-    @defeated  = command.defeated
+    @defeated  = command.isDefeated?()
     @reached   = command.reached
     @gameover  = command.isGameOver?()
 
