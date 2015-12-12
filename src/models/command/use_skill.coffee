@@ -1,17 +1,15 @@
-Logger = require('../logger')
-
 module.exports = class UseSkill
   constructor: (@actor, @target)->
 
   perform: (board)->
     try
-      Logger.useSkill(@actor, @actor.getSkill())
       @_useSkill(board)
     catch e
-      Logger.failed(e)
+      @failed = e
 
   _useSkill: (board)->
-    switch(@actor.getSkill())
+    @skill = @actor.getSkill()
+    switch(@skill)
       when 'ACID'
         return # TODO: decrease the weapon duration on front character
       when 'GUARDFORM'

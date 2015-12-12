@@ -1,4 +1,3 @@
-Logger = require('../logger')
 Move = require("./move")
 Attack = require("./attack")
 

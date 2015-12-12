@@ -1,5 +1,3 @@
-Logger = require('../logger')
-
 module.exports = class Move
   constructor: (@actor, @direction)->
 
@@ -7,17 +5,18 @@ module.exports = class Move
     try
       @_move(board)
     catch e
-      Logger.failed(e)
+      @failed = e
+
+  isReached: -> @reached
 
   _move: (board)->
     from = @actor.getPosition()
-    to = from[@direction]()
+    @to = from[@direction]()
+    board.put(@to, @actor)
 
-    Logger.move(@actor, to)
+    @item = board.getItem(@to)
+    if @item
+      @actor.addItem(@item)
+      board.remove(@item)
 
-    board.put(to, @actor)
-    item = board.getItem(to)
-    if item
-      Logger.getItem(@actor, item)
-      @actor.addItem(item)
-      board.remove(item)
+    @reached = board.isExit(@to)

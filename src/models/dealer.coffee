@@ -1,6 +1,5 @@
 Board = require('./board')
 Player = require('./player')
-Logger = require('./logger')
 
 module.exports = class Dealer
   BOARD =
@@ -55,10 +54,9 @@ module.exports = class Dealer
     #   @turnPlayer.addScoreByCharacter(command.getTarget())
 
     character.waneBuffers()
-    to = character.getPosition()
-    if @board.isExit(to) && @turnPlayer.isHuman()
-      Logger.reachExit(character)
+    if command.isReached?() && @turnPlayer.isHuman()
       @boardStatus = BOARD.COMPLETED
-    else if not(@board.getHero())
-      Logger.gameOver(character)
+    else if command.isGameOver?()
       @boardStatus = BOARD.FAILED
+
+    console.log(command)
