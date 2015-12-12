@@ -40,6 +40,12 @@ module.exports = class Array2D
         a.push(new Pair(x, y))
     a
 
+  each: (f)->
+    for y in [0...@height]
+      for x in [0...@width]
+        f(x, y, @rows[y][x])
+    @
+
   # ２次元配列を長方形とみなして、周の集合を返す
   round: ->
     test = (p)=>(p.x == 0 || p.y == 0 || p.x == @width-1 || p.y == @height-1)
@@ -48,8 +54,9 @@ module.exports = class Array2D
   # 時計回りに90度回転した Array2D を作成して返す
   rotate: ->
     a = new Array2D(@height, @width)
-    for p in @pairs()
-      a.set(@height-1-p.y, p.x, @get(p))
+    for y in [0...@height]
+      for x in [0...@width]
+        a.set(@height-1-y, x, @get(x, y))
     a
 
   clear: (value=null)->
