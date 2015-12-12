@@ -1,5 +1,3 @@
-_ = require("underscore")
-
 module.exports = class Pair
   constructor: (@x, @y)->
 
@@ -33,14 +31,6 @@ module.exports = class Pair
       for y in [@y .. pair.y]
         cov.push(new Pair(x, y))
     cov
-
-  neighbors: ->
-    _.shuffle([
-      new Pair(@x, @y-1)
-      new Pair(@x, @y+1)
-      new Pair(@x-1, @y)
-      new Pair(@x+1, @y)
-    ])
 
   where: (pair)->
     dir = null
