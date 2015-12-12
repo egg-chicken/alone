@@ -1,4 +1,3 @@
-_    = require('underscore')
 Pair = require('./pair')
 
 module.exports = class Array2D
@@ -48,8 +47,12 @@ module.exports = class Array2D
 
   # ２次元配列を長方形とみなして、周の集合を返す
   round: ->
-    test = (p)=>(p.x == 0 || p.y == 0 || p.x == @width-1 || p.y == @height-1)
-    _.filter(@pairs(), test)
+    a = []
+    for y in [0...@height]
+      for x in [0...@width]
+        if(x == 0 || y == 0 || x == @width-1 || y == @height-1)
+          a.push(new Pair(x, y))
+    a
 
   # 時計回りに90度回転した Array2D を作成して返す
   rotate: ->

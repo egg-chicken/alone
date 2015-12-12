@@ -50,3 +50,16 @@ describe 'Array2D', ->
         [3,4,5]
       ])
       assert.equal(rotated.toString(), result.toString())
+
+  describe '#round', ->
+    before ->
+      @table = Array2D.create([
+        [0,0,0,0,0]
+        [0,1,2,3,0]
+        [0,0,0,0,0]
+      ])
+
+    it '周の配列が得られること', ->
+      roundPairs = @table.round()
+      for p in roundPairs
+        assert.equal(@table.get(p), 0)
