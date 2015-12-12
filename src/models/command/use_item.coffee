@@ -1,8 +1,7 @@
-Logger = require('../logger')
+Command = require('./command')
 
-module.exports = class UseItem
+module.exports = class UseItem extends Command
   constructor: (@actor, @item)->
 
   perform: (board)->
-    Logger.useItem(@actor, @item)
     @actor.useItem(@item)

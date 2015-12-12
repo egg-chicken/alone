@@ -1,16 +1,12 @@
-Logger = require('../logger')
-
-module.exports = class Attack
+Command = require('./command')
+module.exports = class Attack extends Command
   constructor: (@actor, @target)->
 
   perform: (board)->
     @_attack(board)
 
   _attack: (board)->
-    point = @target.damage(1)
-    Logger.attack(@actor, @target)
-    Logger.isDamaged(@target, point)
-
-    if @target.isDead()
-      Logger.isDead(@target)
+    @point = @target.damage(1)
+    @defeated = @target.isDead()
+    if @defeated
       board.remove(@target)
