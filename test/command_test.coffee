@@ -1,6 +1,6 @@
 assert = require('assert')
 Pair = require('utils/pair')
-Command = require('models/command')
+Command = require('models/command/')
 Board = require('models/board')
 CharacterFactory = require('models/board/character_factory')
 
@@ -10,7 +10,7 @@ describe 'Command', ->
       beforeEach ->
         @character = CharacterFactory.createByName('葛籠鼠')
         @target    = CharacterFactory.createByName('盲瓜坊')
-        @command = Command.createUseSkill(@character, @target)
+        @command = new Command.UseSkill(@character, @target)
 
       it '体力が減っていない時失敗する', ->
         aid = => @command._useSkill()
@@ -35,7 +35,7 @@ describe 'Command', ->
         @board = Board.createHall(10, 10)
         @character = @board.createOne('盲瓜坊')
         @target = @board.createOne('主人公')
-        @command = Command.createUseSkill(@character, @target)
+        @command = new Command.UseSkill(@character, @target)
 
       it '対象が距離2以上の時失敗する', ->
         tackle = => @command._useSkill(@board)
