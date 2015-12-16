@@ -18,7 +18,6 @@ module.exports = class DungeonView extends EventEmitter
     @boardView = new BoardView(@dealer.board)
     @itemView = new ItemView(@dealer.board.getHero().getItems())
     @mode = MODE.BOARD
-    @_initKeyEvents()
 
   render: ->
     @_clearConsole()
@@ -30,6 +29,17 @@ module.exports = class DungeonView extends EventEmitter
         @itemView.render()
       else
         throw new Error("rendering with unknown view mode")
+
+  activeAllListener: ->
+    keypress(process.stdin)
+    @input = process.stdin
+    @input.setRawMode(true)
+    @input.on 'keypress', (ch, key)=>
+      return unless key
+      return process.exit() if @_isExitSignal(key)
+      switch(@mode)
+        when MODE.BOARD then @_boardModeActions(key)
+        when MODE.ITEMS then @_itemsModeActions(key)
 
   removeAllListeners: ->
     @input.removeAllListeners('keypress')
@@ -65,17 +75,6 @@ module.exports = class DungeonView extends EventEmitter
         @mode = MODE.BOARD
         return unless @itemView.getFocusedItem()
         @emit('press:item-use-button', @itemView.getFocusedItem())
-
-  _initKeyEvents: ->
-    keypress(process.stdin)
-    @input = process.stdin
-    @input.setRawMode(true)
-    @input.on 'keypress', (ch, key)=>
-      return unless key
-      return process.exit() if @_isExitSignal(key)
-      switch(@mode)
-        when MODE.BOARD then @_boardModeActions(key)
-        when MODE.ITEMS then @_itemsModeActions(key)
 
   _isExitSignal: (key)->
     key.ctrl && key.name == 'c' || key.name == 'q'
