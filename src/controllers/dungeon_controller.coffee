@@ -18,9 +18,9 @@ module.exports = class DungeonController
     command = new Command.MoveOrAttack(@_hero(), direction)
     @dealer.round(command)
     if @dealer.boardIsCompleted()
-      @onCompleteBoard?()
+      @onCompleteBoard()
     else if @dealer.boardIsFailed()
-      @onPressExitButton()
+      @onFailedBoard()
     @view.render()
 
   onPressSkipRoundButton: ->
@@ -36,6 +36,12 @@ module.exports = class DungeonController
     command = new Command.UseSkill(@_hero(), skill)
     @dealer.round(command)
     @view.render()
+
+  onCompleteBoard: ->
+    throw new Error("please override me")
+
+  onFailedBoard: ->
+    throw new Error("please override me")
 
   _hero: ->
     @dealer.board.getHero()

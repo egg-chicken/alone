@@ -6,10 +6,8 @@ module.exports = class DungeonScene
   constructor: (@model=new Dealer())->
     @view       = new DungeonView(@model)
     @controller = new DungeonController(@model, @view)
-    @controller.onCompleteBoard = =>
-      console.log("completed!")
-      @destruct()
-      process.exit()
+    @controller.onCompleteBoard = => @onComplete("success")
+    @controller.onFailedBoard   = => @onComplete("failed")
 
   play: ->
     @view.activeAllListener()
@@ -18,3 +16,6 @@ module.exports = class DungeonScene
   destruct: ->
     @view.removeAllListeners()
     @model.setupBoard()
+
+  onComplete: ->
+    throw new Error("please override me")
