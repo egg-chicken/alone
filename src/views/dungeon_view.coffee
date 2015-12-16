@@ -8,7 +8,7 @@ EventEmitter = require('events').EventEmitter
 # キーイベント、ビューの表示状態を一括管理するクラス
 # 各ビューで個別イベントを分散管理しない理由は、
 # 画面全体の描画タイミングを制御するのが困難なため。
-module.exports = class MainView extends EventEmitter
+module.exports = class DungeonView extends EventEmitter
   MODE =
     BOARD: 0
     ITEMS: 1
@@ -31,7 +31,7 @@ module.exports = class MainView extends EventEmitter
       else
         throw new Error("rendering with unknown view mode")
 
-  exit: ->
+  removeAllListeners: ->
     @input.removeAllListeners('keypress')
 
   _clearConsole: ->

@@ -1,9 +1,7 @@
-MainView = require('views/main_view')
 Command  = require('models/command/')
 
 module.exports = class DungeonSceneController
-  constructor: (@dealer)->
-    @view = new MainView(@dealer)
+  constructor: (@dealer, @view)->
     @view.on('press:exit-button', =>@onPressExitButton())
     @view.on('press:item-use-button', (item)=>@onPressItemUseButton(item))
     @view.on('press:move-button', (button)=>@onPressMoveButton(button))
@@ -12,16 +10,14 @@ module.exports = class DungeonSceneController
     @view.render()
 
   onPressExitButton: ->
-    @view.exit()
+    @view.removeAllListeners()
     process.exit()
 
   onPressMoveButton: (direction)->
     command = new Command.MoveOrAttack(@_hero(), direction)
     @dealer.round(command)
     if @dealer.boardIsCompleted()
-      @dealer.setupBoard()
-      @view.exit()
-      @constructor(@dealer)
+      @onCompleteBoard?()
     else if @dealer.boardIsFailed()
       @onPressExitButton()
     @view.render()
