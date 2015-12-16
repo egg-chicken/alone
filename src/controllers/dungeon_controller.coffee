@@ -17,11 +17,13 @@ module.exports = class DungeonController
   onPressMoveButton: (direction)->
     command = new Command.MoveOrAttack(@_hero(), direction)
     @dealer.round(command)
+    @view.render()
+
     if @dealer.boardIsCompleted()
       @onCompleteBoard()
     else if @dealer.boardIsFailed()
       @onFailedBoard()
-    @view.render()
+
 
   onPressSkipRoundButton: ->
     @dealer.round()

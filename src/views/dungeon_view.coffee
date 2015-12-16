@@ -18,7 +18,6 @@ module.exports = class DungeonView extends EventEmitter
     @boardView = new BoardView(@dealer.board)
     @itemView = new ItemView(@dealer.board.getHero().getItems())
     @mode = MODE.BOARD
-    @render()
 
   render: ->
     @_clearConsole()
