@@ -1,5 +1,5 @@
 Dealer = require('./models/dealer')
-MainController = require('./controllers/main_controller')
+DungeonSceneController = require('./controllers/dungeon_scene_controller')
 
-dealer = new Dealer()
-mainController = new MainController(dealer)
+dealer     = new Dealer()
+controller = new DungeonSceneController(dealer)

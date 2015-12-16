@@ -1,7 +1,7 @@
 MainView = require('views/main_view')
 Command  = require('models/command/')
 
-module.exports = class MainController
+module.exports = class DungeonSceneController
   constructor: (@dealer)->
     @view = new MainView(@dealer)
     @view.on('press:exit-button', =>@onPressExitButton())
