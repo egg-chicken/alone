@@ -1,10 +1,10 @@
 Dealer = require('./models/dealer')
 DungeonView = require('views/dungeon_view')
-DungeonSceneController = require('./controllers/dungeon_scene_controller')
+DungeonController = require('./controllers/dungeon_controller')
 
 dealer     = new Dealer()
 view       = new DungeonView(dealer)
-controller = new DungeonSceneController(dealer, view)
+controller = new DungeonController(dealer, view)
 controller.onCompleteBoard = ->
   dealer.setupBoard()
   view.removeAllListeners()

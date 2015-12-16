@@ -1,6 +1,6 @@
 Command  = require('models/command/')
 
-module.exports = class DungeonSceneController
+module.exports = class DungeonController
   constructor: (@dealer, @view)->
     @view.on('press:exit-button', =>@onPressExitButton())
     @view.on('press:item-use-button', (item)=>@onPressItemUseButton(item))
