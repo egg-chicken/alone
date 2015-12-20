@@ -23,6 +23,8 @@ module.exports = class Dungeon
     for player in [@user, @opponent]
       break unless @boardStatus == BOARD.PLAYING
       @_turn(player)
+    if @boardIsCompleted()
+      @_updateStorage()
 
   boardIsCompleted: ->
     @boardStatus == BOARD.COMPLETED
@@ -43,6 +45,10 @@ module.exports = class Dungeon
       @boardStatus = BOARD.FAILED
     else if command.isReached() && player == @user
       @boardStatus = BOARD.COMPLETED
+
+  _updateStorage: ->
+    Storage.setScore(@user.getScore())
+    Storage.setDifficulty(Storage.getDifficulty() + 1)
 
   _addScore: (command)->
     if command.isDefeated()
