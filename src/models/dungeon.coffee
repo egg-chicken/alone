@@ -23,13 +23,13 @@ module.exports = class Dungeon
     for player in [@user, @opponent]
       break unless @boardStatus == BOARD.PLAYING
       @_turn(player)
-    if @boardIsCompleted()
+    if @isCompleted()
       @_updateStorage()
 
-  boardIsCompleted: ->
+  isCompleted: ->
     @boardStatus == BOARD.COMPLETED
 
-  boardIsFailed: ->
+  isFailed: ->
     @boardStatus == BOARD.FAILED
 
   _turn: (player)->
