@@ -15,17 +15,17 @@ module.exports = class DungeonController
     process.exit()
 
   onPressMoveButton: (direction)->
-    hero    = @dealer.getPlayer().getCharacter()
+    hero    = @dealer.getPlayer().getHero()
     command = new Command.MoveOrAttack(hero, direction)
     @_playRound(command)
 
   onPressItemUseButton: (item)->
-    hero    = @dealer.getPlayer().getCharacter()
+    hero    = @dealer.getPlayer().getHero()
     command = new Command.UseItem(hero, item)
     @_playRound(command)
 
   onPressSkillButton: (skill)->
-    hero    = @dealer.getPlayer().getCharacter()
+    hero    = @dealer.getPlayer().getHero()
     command = new Command.UseSkill(hero, skill)
     @_playRound(command)
 
@@ -39,7 +39,7 @@ module.exports = class DungeonController
     throw new Error("please override me")
 
   _playRound: (command)->
-    @dealer.getPlayer().setNextCommand(command)
+    @dealer.getPlayer().setCommand(command)
     @dealer.round(command)
     @view.render()
     if @dealer.boardIsCompleted()

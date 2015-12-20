@@ -1,5 +1,5 @@
 Board = require('./board')
-Player = require('./player')
+Player = require('./player/')
 
 module.exports = class Dealer
   BOARD =
@@ -9,8 +9,8 @@ module.exports = class Dealer
 
   constructor: ->
     @players = [
-      Player.createHuman()
-      Player.createComputer()
+      new Player.Human()
+      new Player.Computer()
     ]
     @boardCount = 0
     @setupBoard()
@@ -27,15 +27,12 @@ module.exports = class Dealer
   round: (playerCommand)->
     for player in @players
       @turnPlayer = player
-      if player.isHuman()
-        @_turn(playerCommand)
-      else
-        @_turn()
+      @_turn()
 
     if @boardIsCompleted()
+      @players[0].addScoreByBoard(@boardCount)
       for player in @players
         player.clearHand()
-        player.addScoreByBoard(@boardCount)
 
   boardIsCompleted: ->
     @boardStatus == BOARD.COMPLETED
@@ -43,19 +40,19 @@ module.exports = class Dealer
   boardIsFailed: ->
     @boardStatus == BOARD.FAILED
 
-  _turn: (playerCommand)->
+  _turn: ->
     for character in @turnPlayer.characters()
       if  @boardStatus == BOARD.PLAYING
-        command = playerCommand || @turnPlayer.command(character, @board.inspectBy(character))
+        command = @turnPlayer.command(character, @board.inspectBy(character))
         command.perform(@board)
         @_afterPerform(character, command)
 
   _afterPerform: (character, command)->
-    if command.isDefeated()
+    if command.isDefeated() && @turnPlayer instanceof Player.Human
       @turnPlayer.addScoreByCharacter(command.getTarget())
 
     character.waneBuffers()
-    if command.isReached() && @turnPlayer.isHuman()
+    if command.isReached() && @turnPlayer instanceof Player.Human
       @boardStatus = BOARD.COMPLETED
     else if command.isGameOver()
       @boardStatus = BOARD.FAILED
