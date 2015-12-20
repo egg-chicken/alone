@@ -19,18 +19,15 @@ module.exports = class Dealer
     @boardCount += 1
     @board = Board.create(@boardCount, @board?.getHero())
     @boardStatus = BOARD.PLAYING
+    @user.clearHand()
     @user.assign(@board.getHero())
+    @opponent.clearHand()
     @opponent.assign(@board.getEnemies())
 
   round: (playerCommand)->
     for player in [@user, @opponent]
-      @turnPlayer = player
-      @_turn()
-
-    if @boardIsCompleted()
-      @user.addScoreByBoard(@boardCount)
-      for player in [@user, @opponent]
-        player.clearHand()
+      break unless @boardStatus == BOARD.PLAYING
+      @_turn(player)
 
   boardIsCompleted: ->
     @boardStatus == BOARD.COMPLETED
@@ -38,20 +35,22 @@ module.exports = class Dealer
   boardIsFailed: ->
     @boardStatus == BOARD.FAILED
 
-  _turn: ->
-    for character in @turnPlayer.characters()
-      if  @boardStatus == BOARD.PLAYING
-        command = @turnPlayer.command(character, @board.inspectBy(character))
-        command.perform(@board)
-        @_afterPerform(character, command)
+  _turn: (player)->
+    for character in player.characters()
+      break unless @boardStatus == BOARD.PLAYING
+      command = player.command(character, @board.inspectBy(character))
+      command.perform(@board)
+      @_updateBoardStatus(player, command)
+      @_addScore(command) if player == @user
 
-  _afterPerform: (character, command)->
-    if command.isDefeated() && @turnPlayer == @user
-      @turnPlayer.addScoreByCharacter(command.getTarget())
-
-    if command.isReached() && @turnPlayer == @user
-      @boardStatus = BOARD.COMPLETED
-    else if command.isGameOver()
+  _updateBoardStatus: (player, command)->
+    if command.isGameOver()
       @boardStatus = BOARD.FAILED
+    else if command.isReached() && player == @user
+      @boardStatus = BOARD.COMPLETED
 
-    console.log(command.toString())
+  _addScore: (command)->
+    if command.isDefeated()
+      @user.addScoreByCharacter(command.getTarget())
+    else if command.isReached()
+      @user.addScoreByBoard(@boardCount)
