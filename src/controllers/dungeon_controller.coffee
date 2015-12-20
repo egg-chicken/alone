@@ -1,4 +1,4 @@
-Command  = require('models/command/')
+Command  = require('models/dungeon/command/')
 
 module.exports = class DungeonController
   constructor: (@dealer, @view)->

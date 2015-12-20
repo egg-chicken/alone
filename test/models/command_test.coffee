@@ -1,8 +1,8 @@
 assert = require('assert')
 Pair = require('utils/pair')
-Command = require('models/command/')
-Board = require('models/board')
-CharacterFactory = require('models/board/character_factory')
+Command = require('models/dungeon/command/')
+Board = require('models/dungeon/board')
+CharacterFactory = require('models/dungeon/board/character_factory')
 
 describe 'Command', ->
   describe '#useSkill', ->

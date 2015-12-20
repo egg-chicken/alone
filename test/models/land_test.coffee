@@ -1,5 +1,5 @@
 assert = require('assert')
-Land = require('models/board/land')
+Land = require('models/dungeon/board/land')
 Pair = require('utils/pair')
 Array2D = require('utils/array2d')
 

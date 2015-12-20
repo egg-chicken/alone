@@ -1,7 +1,7 @@
 assert = require('assert')
 sinon = require('sinon')
-Board = require('models/board')
-Strategy = require('models/player/strategy')
+Board = require('models/dungeon/board')
+Strategy = require('models/dungeon/player/strategy')
 
 describe 'Strategy', ->
   beforeEach ->
