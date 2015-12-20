@@ -8,6 +8,8 @@ module.exports = class UseSkill extends Command
       @_useSkill(board)
     catch e
       @failed = e
+    finally
+      @actor.waneBuffers()
 
   _useSkill: (board)->
     @skill = @actor.getSkill()

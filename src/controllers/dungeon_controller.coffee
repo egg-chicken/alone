@@ -1,4 +1,4 @@
-Command  = require('models/command/')
+Command  = require('models/dungeon/command/')
 
 module.exports = class DungeonController
   constructor: (@dealer, @view)->
@@ -15,29 +15,22 @@ module.exports = class DungeonController
     process.exit()
 
   onPressMoveButton: (direction)->
-    command = new Command.MoveOrAttack(@_hero(), direction)
-    @dealer.round(command)
-    @view.render()
-
-    if @dealer.boardIsCompleted()
-      @onCompleteBoard()
-    else if @dealer.boardIsFailed()
-      @onFailedBoard()
-
-
-  onPressSkipRoundButton: ->
-    @dealer.round()
-    @view.render()
+    hero    = @dealer.getPlayer().getHero()
+    command = new Command.MoveOrAttack(hero, direction)
+    @_playRound(command)
 
   onPressItemUseButton: (item)->
-    command = new Command.UseItem(@_hero(), item)
-    @dealer.round(command)
-    @view.render()
+    hero    = @dealer.getPlayer().getHero()
+    command = new Command.UseItem(hero, item)
+    @_playRound(command)
 
   onPressSkillButton: (skill)->
-    command = new Command.UseSkill(@_hero(), skill)
-    @dealer.round(command)
-    @view.render()
+    hero    = @dealer.getPlayer().getHero()
+    command = new Command.UseSkill(hero, skill)
+    @_playRound(command)
+
+  onPressSkipRoundButton: ->
+    @_playRound(null)
 
   onCompleteBoard: ->
     throw new Error("please override me")
@@ -45,5 +38,11 @@ module.exports = class DungeonController
   onFailedBoard: ->
     throw new Error("please override me")
 
-  _hero: ->
-    @dealer.board.getHero()
+  _playRound: (command)->
+    @dealer.getPlayer().setCommand(command)
+    @dealer.round(command)
+    @view.render()
+    if @dealer.boardIsCompleted()
+      @onCompleteBoard()
+    else if @dealer.boardIsFailed()
+      @onFailedBoard()

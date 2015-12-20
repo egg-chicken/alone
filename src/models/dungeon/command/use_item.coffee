@@ -5,3 +5,4 @@ module.exports = class UseItem extends Command
 
   perform: (board)->
     @actor.useItem(@item)
+    @actor.waneBuffers()

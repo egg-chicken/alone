@@ -1,5 +1,5 @@
 _ = require('underscore')
-Command = require('models/command/')
+Command = require('../command/')
 
 module.exports = class Strategy
   SKILL_USE_RATE = 1/4

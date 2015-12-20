@@ -7,6 +7,8 @@ module.exports = class Move extends Command
       @_move(board)
     catch e
       @failed = e
+    finally
+      @actor.waneBuffers()
 
   _move: (board)->
     from = @actor.getPosition()
