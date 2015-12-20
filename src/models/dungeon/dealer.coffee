@@ -49,7 +49,6 @@ module.exports = class Dealer
     if command.isDefeated() && @turnPlayer == @user
       @turnPlayer.addScoreByCharacter(command.getTarget())
 
-    character.waneBuffers()
     if command.isReached() && @turnPlayer == @user
       @boardStatus = BOARD.COMPLETED
     else if command.isGameOver()

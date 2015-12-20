@@ -13,6 +13,8 @@ module.exports = class MoveOrAttack extends Command
       if @target? then @_attack(board) else @_move(board)
     catch e
       @failed = e
+    finally
+      @actor.waneBuffers()
 
   _attack: Attack::_attack
   _move:   Move::_move
