@@ -40,7 +40,7 @@ module.exports = class DungeonController
 
   _playRound: (command)->
     @dealer.getPlayer().setCommand(command)
-    @dealer.round(command)
+    @dealer.round()
     @view.render()
     if @dealer.boardIsCompleted()
       @onCompleteBoard()
