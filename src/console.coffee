@@ -1,15 +1,9 @@
-Scenes  = require('./scenes/')
+Stage  = require('./stage')
+stage = new Stage
 
-currentScene = new Scenes.Dungeon()
-currentScene.play()
-currentScene.on 'completed', ->
-  currentScene.destruct()
-  currentScene = new Scenes.Complete()
-  currentScene.on 'completed', -> process.exit()
-  currentScene.play()
+onCompleted = ->
+  stage.goto('Complete', -> process.exit())
+onFailed    = ->
+  stage.goto('GameOver', -> process.exit())
 
-currentScene.on 'failed',  ->
-  currentScene.destruct()
-  currentScene = new Scenes.GameOver()
-  currentScene.on 'completed', -> process.exit()
-  currentScene.play()
+stage.goto('Dungeon', onCompleted, onFailed)
