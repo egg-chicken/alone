@@ -1,15 +1,13 @@
-Scenes  = require('./scenes/')
+Storage = require('models/storage')
+Stage  = require('./stage')
 
-currentScene = new Scenes.Dungeon()
-currentScene.play()
-currentScene.on 'completed', ->
-  currentScene.destruct()
-  currentScene = new Scenes.Complete()
-  currentScene.on 'completed', -> process.exit()
-  currentScene.play()
+onCompleted = ->
+  if Storage.getDifficulty() < 5
+    Stage.goto('Dungeon', onCompleted, onFailed)
+  else
+    Stage.goto('Complete', -> process.exit())
 
-currentScene.on 'failed',  ->
-  currentScene.destruct()
-  currentScene = new Scenes.GameOver()
-  currentScene.on 'completed', -> process.exit()
-  currentScene.play()
+onFailed    = ->
+  Stage.goto('GameOver', -> process.exit())
+
+Stage.goto('Dungeon', onCompleted, onFailed)

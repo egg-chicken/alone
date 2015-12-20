@@ -18,3 +18,6 @@ module.exports = class ScoreKeeper
 
   getScore: ->
     @score
+
+  setScore: (score)->
+    @score = score

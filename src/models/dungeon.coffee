@@ -1,3 +1,4 @@
+Storage = require('./storage')
 BoardFactory = require('./dungeon/board_factory')
 Player = require('./dungeon/player/')
 
@@ -7,10 +8,11 @@ module.exports = class Dungeon
     COMPLETED: 1
     FAILED: 2
 
-  setup: (gameDifficulty)->
-    @board  = BoardFactory.create(gameDifficulty)
+  setup: ->
+    @board  = BoardFactory.create()
     @boardStatus = BOARD.PLAYING
     @user = new Player.Human()
+    @user.setScore(Storage.getScore())
     @user.assign(@board.getHero())
     @opponent = new Player.Computer()
     @opponent.assign(@board.getEnemies())
@@ -21,11 +23,13 @@ module.exports = class Dungeon
     for player in [@user, @opponent]
       break unless @boardStatus == BOARD.PLAYING
       @_turn(player)
+    if @isCompleted()
+      @_updateStorage()
 
-  boardIsCompleted: ->
+  isCompleted: ->
     @boardStatus == BOARD.COMPLETED
 
-  boardIsFailed: ->
+  isFailed: ->
     @boardStatus == BOARD.FAILED
 
   _turn: (player)->
@@ -41,6 +45,10 @@ module.exports = class Dungeon
       @boardStatus = BOARD.FAILED
     else if command.isReached() && player == @user
       @boardStatus = BOARD.COMPLETED
+
+  _updateStorage: ->
+    Storage.setScore(@user.getScore())
+    Storage.setDifficulty(Storage.getDifficulty() + 1)
 
   _addScore: (command)->
     if command.isDefeated()
