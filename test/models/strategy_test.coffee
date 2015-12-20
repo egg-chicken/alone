@@ -1,11 +1,11 @@
 assert = require('assert')
 sinon = require('sinon')
-Board = require('models/dungeon/board')
+BoardFactory = require('models/dungeon/board_factory')
 Strategy = require('models/dungeon/player/strategy')
 
 describe 'Strategy', ->
   beforeEach ->
-    @board = Board.createHall(10, 10)
+    @board = BoardFactory.createHall(10, 10)
     @hero  = @board.createOne('主人公')
 
   describe '#_useSkill', ->

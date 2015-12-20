@@ -1,4 +1,4 @@
-Board = require('./dungeon/board')
+BoardFactory = require('./dungeon/board_factory')
 Player = require('./dungeon/player/')
 
 module.exports = class Dungeon
@@ -8,7 +8,7 @@ module.exports = class Dungeon
     FAILED: 2
 
   setup: (gameDifficulty)->
-    @board  = Board.create(gameDifficulty)
+    @board  = BoardFactory.create(gameDifficulty)
     @boardStatus = BOARD.PLAYING
     @user = new Player.Human()
     @user.assign(@board.getHero())

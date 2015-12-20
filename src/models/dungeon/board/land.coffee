@@ -21,6 +21,9 @@ module.exports = class Land
       land.table.set(p, WALL)
     land
 
+  getWidth: -> @table.width
+  getHeight: -> @table.height
+
   getFreePositions: ->
     filtered = _.filter @table.pairs(), (p)=> @isRoom(p)
     _.shuffle(filtered)
