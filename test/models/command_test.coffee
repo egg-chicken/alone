@@ -1,8 +1,8 @@
 assert = require('assert')
 Pair = require('utils/pair')
-Command = require('models/command/')
-Board = require('models/board')
-CharacterFactory = require('models/board/character_factory')
+Command = require('models/dungeon/command/')
+BoardFactory     = require('models/dungeon/board_factory')
+CharacterFactory = require('models/dungeon/board/character_factory')
 
 describe 'Command', ->
   describe '#useSkill', ->
@@ -32,7 +32,7 @@ describe 'Command', ->
 
     describe '突進', ->
       beforeEach ->
-        @board = Board.createHall(10, 10)
+        @board = BoardFactory.createHall(10, 10)
         @character = @board.createOne('盲瓜坊')
         @target = @board.createOne('主人公')
         @command = new Command.UseSkill(@character, @target)

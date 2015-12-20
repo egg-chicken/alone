@@ -4,6 +4,7 @@ module.exports = class Attack extends Command
 
   perform: (board)->
     @_attack(board)
+    @actor.waneBuffers()
 
   _attack: (board)->
     @point = @target.damage(1)

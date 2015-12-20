@@ -1,5 +1,5 @@
 assert = require('assert')
-CharacterFactory = require('models/board/character_factory')
+CharacterFactory = require('models/dungeon/board/character_factory')
 
 describe 'CharacterFactory', ->
   describe '#create', ->
