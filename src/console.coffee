@@ -1,15 +1,10 @@
 Scenes  = require('./scenes/')
-Dealer = require('models/dealer')
 
-currentScene = null
-model = new Dealer()
-
-currentScene = new Scenes.Dungeon(model)
+currentScene = new Scenes.Dungeon()
 currentScene.play()
 currentScene.on 'completed', ->
   currentScene.destruct()
-  model.setupBoard()
-  currentScene = new Scenes.Dungeon(model)
+  currentScene = new Scenes.Dungeon()
   currentScene.play()
   # FIXME: 次の dungeon scene は終了イベントを登録してないので動かない
 
