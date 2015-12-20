@@ -31,7 +31,7 @@ module.exports = class Board
 
   put: (position, character) ->
     throw new Error("cannot put on the wall")  if @land.isWall(position)
-    throw new Error("character is already exist ") if @get(position)
+    throw new Error("character is already exist") if @get(position)
     character.setPosition(position)
 
   inspectBy:(character) ->
