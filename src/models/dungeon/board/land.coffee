@@ -1,5 +1,5 @@
 _ = require('underscore')
-Builder = require('./builder')
+Builder = require('./land/builder')
 Array2D = require('utils/array2d')
 
 module.exports = class Land
