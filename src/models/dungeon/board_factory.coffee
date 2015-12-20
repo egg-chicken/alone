@@ -1,3 +1,4 @@
+Storage = require('models/storage')
 Board = require('./board')
 Land = require('./board/land')
 CharacterCollection = require('./board/character_collection')
@@ -11,12 +12,13 @@ module.exports = class BoardFactory
   INITIAL_ENEMY_COUNT = 5
   INITIAL_ITEM_COUNT = 5
 
-  @create: (level)->
+  @create: ->
+    difficulty = Storage.getDifficulty()
     f = new BoardFactory()
     f.setupLand(WIDTH, HEIGHT)
-    f.setupCharacters(level)
+    f.setupCharacters(difficulty)
     f.setupItems()
-    new Board(f.land, f.characters, f.items, level)
+    new Board(f.land, f.characters, f.items, difficulty)
 
   @createHall: (width, height)->
     land = Land.createHall(width, height)
@@ -27,8 +29,8 @@ module.exports = class BoardFactory
   setupLand: (width, height)->
     @land = Land.createRandom(width, height)
 
-  setupCharacters: (level) ->
-    CharacterFactory.setCreateSlot(level)
+  setupCharacters: (difficulty) ->
+    CharacterFactory.setCreateSlot(difficulty)
     @characters = new CharacterCollection()
     @characters.add(CharacterFactory.createHero())
     @characters.add(CharacterFactory.createBySlot()) for i in [0...INITIAL_ENEMY_COUNT]

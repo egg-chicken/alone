@@ -7,8 +7,8 @@ module.exports = class Dungeon
     COMPLETED: 1
     FAILED: 2
 
-  setup: (gameDifficulty)->
-    @board  = BoardFactory.create(gameDifficulty)
+  setup: ->
+    @board  = BoardFactory.create()
     @boardStatus = BOARD.PLAYING
     @user = new Player.Human()
     @user.assign(@board.getHero())
