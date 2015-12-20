@@ -1,7 +1,7 @@
 Command  = require('models/dungeon/command/')
 
 module.exports = class DungeonController
-  constructor: (@dealer, @view)->
+  constructor: (@model, @view)->
 
   control: ()->
     @view.on('press:exit-button', =>@onPressExitButton())
@@ -15,17 +15,17 @@ module.exports = class DungeonController
     process.exit()
 
   onPressMoveButton: (direction)->
-    hero    = @dealer.getPlayer().getHero()
+    hero    = @model.getPlayer().getHero()
     command = new Command.MoveOrAttack(hero, direction)
     @_playRound(command)
 
   onPressItemUseButton: (item)->
-    hero    = @dealer.getPlayer().getHero()
+    hero    = @model.getPlayer().getHero()
     command = new Command.UseItem(hero, item)
     @_playRound(command)
 
   onPressSkillButton: (skill)->
-    hero    = @dealer.getPlayer().getHero()
+    hero    = @model.getPlayer().getHero()
     command = new Command.UseSkill(hero, skill)
     @_playRound(command)
 
@@ -39,10 +39,10 @@ module.exports = class DungeonController
     throw new Error("please override me")
 
   _playRound: (command)->
-    @dealer.getPlayer().setCommand(command)
-    @dealer.round()
+    @model.getPlayer().setCommand(command)
+    @model.round()
     @view.render()
-    if @dealer.boardIsCompleted()
+    if @model.boardIsCompleted()
       @onCompleteBoard()
-    else if @dealer.boardIsFailed()
+    else if @model.boardIsFailed()
       @onFailedBoard()

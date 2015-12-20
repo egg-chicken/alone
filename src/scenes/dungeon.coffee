@@ -6,8 +6,9 @@ DungeonController = require('controllers/dungeon_controller')
 module.exports = class Dungeon extends Base
   constructor: ()->
     @model      = new DungeonModel()
-    @view       = new DungeonView(@model.dealer)
-    @controller = new DungeonController(@model.dealer, @view)
+    @model.setup(1)
+    @view       = new DungeonView(@model)
+    @controller = new DungeonController(@model, @view)
     @controller.onCompleteBoard = => @emit('completed')
     @controller.onFailedBoard   = => @emit('failed')
 
