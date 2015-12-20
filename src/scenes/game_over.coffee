@@ -1,5 +1,5 @@
 Base         = require('./base')
-GameOverView = require('views/game_over.coffee')
+GameOverView = require('views/game_over')
 module.exports = class GameOverScene extends Base
   constructor: ->
     @view = new GameOverView()
@@ -7,7 +7,3 @@ module.exports = class GameOverScene extends Base
   play: ->
     @view.render()
     @emit('completed')
-
-  destruct: ->
-    @view = null
-    super
