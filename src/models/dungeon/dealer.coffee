@@ -7,7 +7,7 @@ module.exports = class Dealer
     COMPLETED: 1
     FAILED: 2
 
-  setup: (gameDifficulty = 1)->
+  setup: (gameDifficulty)->
     @board  = Board.create(gameDifficulty)
     @boardStatus = BOARD.PLAYING
     @user = new Player.Human()
