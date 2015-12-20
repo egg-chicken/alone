@@ -1,5 +1,5 @@
 _ = require('underscore')
-Builder = require('./builder')
+Builder = require('./land/builder')
 Array2D = require('utils/array2d')
 
 module.exports = class Land
@@ -20,6 +20,9 @@ module.exports = class Land
     for p in pairs
       land.table.set(p, WALL)
     land
+
+  getWidth: -> @table.width
+  getHeight: -> @table.height
 
   getFreePositions: ->
     filtered = _.filter @table.pairs(), (p)=> @isRoom(p)

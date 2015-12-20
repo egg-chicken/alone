@@ -13,10 +13,10 @@ module.exports = class DungeonView extends EventEmitter
     BOARD: 0
     ITEMS: 1
 
-  constructor: (@dealer)->
-    @playerView = new PlayerView(@dealer.getPlayer())
-    @boardView = new BoardView(@dealer.board)
-    @itemView = new ItemView(@dealer.board.getHero().getItems())
+  constructor: (@model)->
+    @playerView = new PlayerView(@model.getPlayer())
+    @boardView = new BoardView(@model.board)
+    @itemView = new ItemView(@model.getPlayer().getHero().getItems())
     @mode = MODE.BOARD
 
   render: ->
