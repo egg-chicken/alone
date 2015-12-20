@@ -10,6 +10,7 @@ module.exports = class Player
     @scoreKeeper = new ScoreKeeper()
     @hand = []
     @strategies = {}
+    @reservedCommand = null
 
   @createHuman: -> new Player(MODE.HUMAN)
   @createComputer: -> new Player(MODE.COMPUTER)
@@ -23,10 +24,17 @@ module.exports = class Player
   characters: ->
     _.filter @hand, (character)-> not character.isDead()
 
+  getCharacter: ->
+    @hand[0]
+
   command: (character, inspector)->
+    return @reservedCommand if @reservedCommand
+
     unless @strategies[character.getId()]
       @strategies[character.getId()] = new Strategy(character)
     @strategies[character.getId()].createCommand(inspector)
+
+  setNextCommand: (command)-> @reservedCommand = command
 
   getScore:                        -> @scoreKeeper.getScore()
   addScoreByCharacter: (character) -> @scoreKeeper.addScoreByCharacter(character)
