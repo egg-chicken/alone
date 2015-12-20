@@ -7,24 +7,17 @@ module.exports = class Dealer
     COMPLETED: 1
     FAILED: 2
 
-  constructor: ->
-    @user     = new Player.Human()
+  setup: (gameDifficulty = 1)->
+    @board  = Board.create(gameDifficulty)
+    @boardStatus = BOARD.PLAYING
+    @user = new Player.Human()
+    @user.assign(@board.getHero())
     @opponent = new Player.Computer()
-    @boardCount = 0
-    @setupBoard()
+    @opponent.assign(@board.getEnemies())
 
   getPlayer: -> @user
 
-  setupBoard: ->
-    @boardCount += 1
-    @board = Board.create(@boardCount, @board?.getHero())
-    @boardStatus = BOARD.PLAYING
-    @user.clearHand()
-    @user.assign(@board.getHero())
-    @opponent.clearHand()
-    @opponent.assign(@board.getEnemies())
-
-  round: (playerCommand)->
+  round: ->
     for player in [@user, @opponent]
       break unless @boardStatus == BOARD.PLAYING
       @_turn(player)
@@ -53,4 +46,4 @@ module.exports = class Dealer
     if command.isDefeated()
       @user.addScoreByCharacter(command.getTarget())
     else if command.isReached()
-      @user.addScoreByBoard(@boardCount)
+      @user.addScoreByBoard(1)

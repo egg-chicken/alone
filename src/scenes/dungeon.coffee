@@ -8,9 +8,7 @@ module.exports = class Dungeon extends Base
     @model      = new DungeonModel()
     @view       = new DungeonView(@model.dealer)
     @controller = new DungeonController(@model.dealer, @view)
-    @controller.onCompleteBoard = =>
-      @model.setupBoard()
-      @emit('completed')
+    @controller.onCompleteBoard = => @emit('completed')
     @controller.onFailedBoard   = => @emit('failed')
 
   play: ->
