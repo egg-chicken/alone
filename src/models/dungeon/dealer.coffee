@@ -8,30 +8,28 @@ module.exports = class Dealer
     FAILED: 2
 
   constructor: ->
-    @players = [
-      new Player.Human()
-      new Player.Computer()
-    ]
+    @user     = new Player.Human()
+    @opponent = new Player.Computer()
     @boardCount = 0
     @setupBoard()
 
-  getPlayer: -> @players[0]
+  getPlayer: -> @user
 
   setupBoard: ->
     @boardCount += 1
     @board = Board.create(@boardCount, @board?.getHero())
     @boardStatus = BOARD.PLAYING
-    @players[0].assign(@board.getHero())
-    @players[1].assign(@board.getEnemies())
+    @user.assign(@board.getHero())
+    @opponent.assign(@board.getEnemies())
 
   round: (playerCommand)->
-    for player in @players
+    for player in [@user, @opponent]
       @turnPlayer = player
       @_turn()
 
     if @boardIsCompleted()
-      @players[0].addScoreByBoard(@boardCount)
-      for player in @players
+      @user.addScoreByBoard(@boardCount)
+      for player in [@user, @opponent]
         player.clearHand()
 
   boardIsCompleted: ->
@@ -48,11 +46,11 @@ module.exports = class Dealer
         @_afterPerform(character, command)
 
   _afterPerform: (character, command)->
-    if command.isDefeated() && @turnPlayer instanceof Player.Human
+    if command.isDefeated() && @turnPlayer == @user
       @turnPlayer.addScoreByCharacter(command.getTarget())
 
     character.waneBuffers()
-    if command.isReached() && @turnPlayer instanceof Player.Human
+    if command.isReached() && @turnPlayer == @user
       @boardStatus = BOARD.COMPLETED
     else if command.isGameOver()
       @boardStatus = BOARD.FAILED
