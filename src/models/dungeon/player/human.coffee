@@ -14,6 +14,7 @@ module.exports = class HumanPlayer extends Player
 
   setCommand: (command)-> @nextCommand = command
 
+  setScore: (score)                -> @scoreKeeper.setScore(score)
   getScore:                        -> @scoreKeeper.getScore()
   addScoreByCharacter: (character) -> @scoreKeeper.addScoreByCharacter(character)
   addScoreByBoard: (boardLevel)    -> @scoreKeeper.addScoreByBoard(boardLevel)

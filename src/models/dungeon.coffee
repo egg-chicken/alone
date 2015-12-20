@@ -1,3 +1,4 @@
+Storage = require('./storage')
 BoardFactory = require('./dungeon/board_factory')
 Player = require('./dungeon/player/')
 
@@ -11,6 +12,7 @@ module.exports = class Dungeon
     @board  = BoardFactory.create()
     @boardStatus = BOARD.PLAYING
     @user = new Player.Human()
+    @user.setScore(Storage.getScore())
     @user.assign(@board.getHero())
     @opponent = new Player.Computer()
     @opponent.assign(@board.getEnemies())
