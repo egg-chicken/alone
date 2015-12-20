@@ -1,6 +1,6 @@
 Base              = require('./base')
 Dealer            = require('models/dealer')
-DungeonView       = require('views/dungeon_view')
+DungeonView       = require('views/dungeon')
 DungeonController = require('controllers/dungeon_controller')
 
 module.exports = class Dungeon extends Base

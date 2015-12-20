@@ -1,8 +1,8 @@
 keypress = require('keypress')
 
-ItemView = require('./item_view')
-PlayerView = require('./player_view')
-BoardView = require('./board_view')
+ItemView = require('./item')
+PlayerView = require('./player')
+BoardView = require('./board')
 EventEmitter = require('events').EventEmitter
 
 # キーイベント、ビューの表示状態を一括管理するクラス
