@@ -1,12 +1,13 @@
+Base              = require('./base')
 DungeonView       = require('views/dungeon_view')
 DungeonController = require('controllers/dungeon_controller')
 
-module.exports = class DungeonScene
+module.exports = class Dungeon extends Base
   constructor: (@model)->
     @view       = new DungeonView(@model)
     @controller = new DungeonController(@model, @view)
-    @controller.onCompleteBoard = => @onFinished("success")
-    @controller.onFailedBoard   = => @onFinished("failed")
+    @controller.onCompleteBoard = => @emit('completed')
+    @controller.onFailedBoard   = => @emit('failed')
 
   play: ->
     @controller.control()
@@ -18,6 +19,4 @@ module.exports = class DungeonScene
     @view       = null
     @controller = null
     @model      = null
-
-  onFinished: ->
-    throw new Error("please override me")
+    super

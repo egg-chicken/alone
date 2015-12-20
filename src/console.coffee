@@ -1,31 +1,20 @@
-DungeonScene  = require('./scenes/dungeon_scene')
-GameOverScene = require('./scenes/game_over_scene')
-Dealer        = require('models/dealer')
+Scenes  = require('./scenes/')
+Dealer = require('models/dealer')
 
 currentScene = null
 model = new Dealer()
 
-nextScene = ->
+currentScene = new Scenes.Dungeon(model)
+currentScene.play()
+currentScene.on 'completed', ->
   currentScene.destruct()
   model.setupBoard()
-
-  currentScene = new DungeonScene(model)
+  currentScene = new Scenes.Dungeon(model)
   currentScene.play()
-  currentScene.onFinished = (status)->
-    if status == "success"
-      nextScene()
-    else
-      currentScene = new GameOverScene()
-      currentScene.onFinished = -> process.exit()
-      currentScene.play()
+  # FIXME: 次の dungeon scene は終了イベントを登録してないので動かない
 
-
-currentScene = new DungeonScene(model)
-currentScene.play()
-currentScene.onFinished = (status)->
-  if status == "success"
-    nextScene()
-  else
-    currentScene = new GameOverScene()
-    currentScene.onFinished = -> process.exit()
-    currentScene.play()
+currentScene.on 'failed',  ->
+  currentScene.destruct()
+  currentScene = new Scenes.GameOver()
+  currentScene.on 'completed', -> process.exit()
+  currentScene.play()
