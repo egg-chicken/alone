@@ -1,3 +1,4 @@
 window.Alone =
-  Dealer:  require('./models/dealer')
-  Command: require('./models/command')
+  Dungeon: require('./models/dungeon')
+  Storage: require('./models/storage')
+  Command: require('./models/dungeon/command/')
