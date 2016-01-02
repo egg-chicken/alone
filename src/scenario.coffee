@@ -1,17 +1,19 @@
 Storage = require('models/storage')
-Stage  = require('./stage')
+Stage = require('./stage')
 
 class Scenario
   play: ->
-    onCompleted = ->
+    @stage = new Stage
+
+    onCompleted = =>
       if Storage.getDifficulty() < 5
-        Stage.goto('Dungeon', onCompleted, onFailed)
+        @stage.goto('Dungeon', onCompleted, onFailed)
       else
-        Stage.goto('Complete', -> process.exit())
+        @stage.goto('Complete', -> process.exit())
 
-    onFailed    = ->
-      Stage.goto('GameOver', -> process.exit())
+    onFailed = =>
+      @stage.goto('GameOver', -> process.exit())
 
-    Stage.goto('Dungeon', onCompleted, onFailed)
+    @stage.goto('Dungeon', onCompleted, onFailed)
 
 module.exports = new Scenario()
