@@ -17,9 +17,9 @@ gulp.task "default", ->
 gulp.task "clean", ->
   del("build/*")
 
-gulp.task "build:coffee", ->
+gulp.task "build:coffee", ['clean'], ->
   gulp.src("src/**/*.coffee")
-    .pipe(coffee())
+    .pipe(coffee(bare: true))
     .pipe(gulp.dest("build"))
 
 gulp.task "build:browserify", ->
@@ -36,9 +36,11 @@ gulp.task "build:minify", ->
     .pipe(uglify())
     .pipe(gulp.dest("build"))
 
-gulp.task "build:develop", ["build:coffee", "build:browserify"], ->
+gulp.task "build:develop", ["build:coffee"], ->
+  gulp.start("build:browserify")
 
-gulp.task "build", ["build:coffee", "build:minify"], ->
+gulp.task "build", ["build:coffee"], ->
+  gulp.start("build:minify")
 
 gulp.task "test", ->
   gulp.src('test/**/*_test.coffee', read: false)
