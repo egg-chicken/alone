@@ -21,6 +21,6 @@ module.exports = class Item extends Piece
   activate: (target)->
     switch(@effect)
       when 'heal'
-        target.heal(@power)
+        target.heal(@getPower())
       else
         throw new Error("unknown effect: #{@effect}")
