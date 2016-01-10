@@ -1,5 +1,6 @@
 assert = require('assert')
 sinon = require('sinon')
+Pair  = require('utils/pair')
 BoardFactory = require('models/dungeon/board_factory')
 Strategy = require('models/dungeon/strategy/base')
 
@@ -11,6 +12,17 @@ describe 'Strategy.Base', ->
     @strategy = new Strategy(@enemy)
     @strategy.inspector = @board.inspectBy(@enemy)
 
+  describe '#_approach', ->
+    beforeEach ->
+      @hero.setPosition(new Pair(1, 1))
+      @enemy.setPosition(new Pair(3, 3))
+
+    it '近づく方向に移動すること', ->
+      old_distance = @hero.distance(@enemy)
+      command = @strategy._approach(@hero)
+      command.perform(@board)
+      new_distance = @hero.distance(@enemy)
+      assert.equal(new_distance, old_distance - 1)
 
   describe '#_useSkill', ->
     describe '射程1の時', ->
