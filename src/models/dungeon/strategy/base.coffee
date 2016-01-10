@@ -34,7 +34,6 @@ module.exports = class Strategy
   _approach: (target)->
     target ||= @inspector.findHero()
     direction = @inspector.findNearByDirection(target)
-    @prevPosition = @character.getPosition()
     new Command.MoveOrAttack(@character, direction)
 
   _sample: (array)->

@@ -8,6 +8,8 @@ module.exports = class TravelerStrategy extends Strategy
 
   createCommand: (@inspector) ->
     @milestone = null if @character.getPosition().equal(@milestone)
+    @prevPosition = @character.getPosition()
+
     hero = @inspector.findHero()
     doors = @inspector.getDoorsInSight()
     if hero
