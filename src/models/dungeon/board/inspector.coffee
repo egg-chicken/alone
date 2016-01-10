@@ -12,18 +12,17 @@ module.exports = class Inspector
   findHero: ->
     if @board.isRoom(@base) && @board.isSameRoom(@base, @hero.getPosition())
       @hero
-    else if @getDistance(@hero) < 2
+    else if @character.distance(@hero) < 2
       @hero
     else
       null
 
   findNearByDirection: (target)->
-    targetPosition = target.getPosition?() || target
-    method = (direction) => targetPosition.distance(@base[direction]())
+    method = (direction) => target.distance(@base[direction]())
     _.min(_.shuffle(DIRECTIONS), method)
 
   isNeighbor: (target)->
-    @getDistance(target) < 2
+    @character.distance(target) < 2
 
   isWalkable: (target)->
     not @board.isWall(target)
@@ -31,7 +30,7 @@ module.exports = class Inspector
   getNearestCharacterInSight: ->
     characters = @getCharactersInSight()
     return if _.isEmpty(characters)
-    _.min(characters, (target) => @getDistance(target))
+    _.min(characters, (target) => @character.distance(target))
 
   getCharactersInSight: ->
     characters = @board.getCharacters()
@@ -42,13 +41,10 @@ module.exports = class Inspector
       else if inRoom
         @board.isSameRoom(@base, target.getPosition())
       else
-        @getDistance(target) == 1
+        @character.distance(target) == 1
 
   getDoorsInSight: ->
     if @board.isRoom(@base)
       @board.getDoors(@base)
     else
       []
-
-  getDistance: (target)->
-    target.getPosition().distance(@base)
