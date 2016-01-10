@@ -9,9 +9,15 @@ module.exports = class Item extends Piece
   getDescription: ->
     @description
 
+  getPower: ->
+    @power
+
+  isEquipment: ->
+    @effect == 'weapon' || @effect == 'shield'
+
   activate: (target)->
     switch(@effect)
       when 'heal'
-        target.heal(3)
+        target.heal(@power)
       else
         throw new Error("unknown effect: #{@effect}")
