@@ -47,6 +47,7 @@ module.exports = class Dungeon
       @boardStatus = BOARD.COMPLETED
 
   _updateStorage: ->
+    Storage.setHero(@user.getHero())
     Storage.setScore(@user.getScore())
     Storage.setDifficulty(Storage.getDifficulty() + 1)
 
