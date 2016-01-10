@@ -10,7 +10,10 @@ module.exports = class Item extends Piece
     @description
 
   getPower: ->
-    @power
+    if @power instanceof Array
+      @power[Math.floor(Math.random() * @power.length)]
+    else
+      @power
 
   isEquipment: ->
     @effect == 'weapon' || @effect == 'shield'
