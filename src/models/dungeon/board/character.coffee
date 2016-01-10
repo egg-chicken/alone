@@ -5,8 +5,9 @@ Buffers = require('./character/buffers')
 module.exports = class Character extends Piece
   TYPES = { HERO: 0 }
 
-  constructor: (@type, @name, @symbol, @skill, @skillRange, @strategy, @maxHealth)->
+  constructor: (@type, @name, @symbol, @skill, @skillRange, @strategy, @maxHealth, @attack)->
     super(@type, @symbol, null)
+    @level = 1
     @buffers = new Buffers()
     @items = []
     @skillCount = 0
@@ -26,7 +27,7 @@ module.exports = class Character extends Piece
 
   getAttack: ->
     buf = if @weapon then @weapon.getPower() else 0
-    1 + buf
+    @attack + buf
 
   damage: (base)->
     point = Math.max(0, @buffers.diffence(base))
@@ -84,3 +85,11 @@ module.exports = class Character extends Piece
 
   addDiffenceBuffer: (point, duration)->
     @buffers.addDiffenceBuffer(point, duration)
+
+  getLevel: ->
+    @level
+
+  levelUp: ->
+    @level += 1
+    @maxHealth += 1
+    @health += 1
