@@ -2,12 +2,12 @@ Character = require('./character')
 
 module.exports = class CharacterFactory
   CHARACTER_LIST = [
-    # 'NAME',     'SYMBOL', 'SKILL',     'SKILLRANGE', 'STRATEGY', 'HEALTH'
-    [ '主人公',   'H',      'NOTHING',              0, 'whim',            3]
-    [ '灰泥緑虫', 'S',      'ACID',                 1, 'whim',            1]
-    [ '手甲虫',   'B',      'GUARDFORM',            0, 'guard',           2]
-    [ '葛籠鼠',   'M',      'AID',                  1, 'devoted',         2]
-    [ '盲瓜坊',   'P',      'TACKLE',               1, 'traveler',        3]
+    # 'NAME',     'SYMBOL', 'SKILL',     'SKILLRANGE', 'STRATEGY', 'HEALTH', 'ATTACK'
+    [ '主人公',   'H',      'NOTHING',              0, 'whim',            3,       1]
+    [ '灰泥緑虫', 'S',      'ACID',                 1, 'whim',            1,       1]
+    [ '手甲虫',   'B',      'GUARDFORM',            0, 'guard',           2,       1]
+    [ '葛籠鼠',   'M',      'AID',                  1, 'devoted',         2,       1]
+    [ '盲瓜坊',   'P',      'TACKLE',               1, 'traveler',        3,       2]
   ]
 
   GENERATION_TABLE = [
@@ -26,7 +26,8 @@ module.exports = class CharacterFactory
     skillRange = CHARACTER_LIST[type][3]
     strategy   = CHARACTER_LIST[type][4]
     maxHealth  = CHARACTER_LIST[type][5]
-    new Character(type, name, symbol, skill, skillRange, strategy, maxHealth)
+    attack     = CHARACTER_LIST[type][6]
+    new Character(type, name, symbol, skill, skillRange, strategy, maxHealth, attack)
 
   @createHero: ->
     @create(0)
