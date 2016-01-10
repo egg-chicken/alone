@@ -3,10 +3,10 @@ Item = require('./item')
 module.exports = class ItemFactory
   ITEM_LIST = [
     # 'NAME',         'SYMBOL', 'EFFECT',   'POWER', 'DESCRIPTION'
-    [ 'potion',       'p',      'heal',           3, "restore 3 health"]
-    [ 'elixir',       'e',      'heal',          10, "restore 10 health"]
-    [ 'long sword',   'l',      'weapon',         1, "gain 1 attack"]
-    [ 'battle axe',   'a',      'weapon',   [0,1,2], "gain 0-2 attack"]
+    [ 'Potion',       'p',      'heal',           3, "restore 3 health"]
+    [ 'Elixir',       'e',      'heal',          10, "restore 10 health"]
+    [ 'Long Sword',   'l',      'weapon',         1, "gain 1 attack"]
+    [ 'Battle Axe',   'a',      'weapon',   [0,1,2], "gain 0-2 attack"]
   ]
 
   @create: ->
