@@ -7,6 +7,7 @@ module.exports = class Character extends Piece
 
   constructor: (@type, @name, @symbol, @skill, @skillRange, @strategy, @maxHealth, @attack)->
     super(@type, @symbol, null)
+    @level = 1
     @buffers = new Buffers()
     @items = []
     @skillCount = 0
@@ -84,3 +85,11 @@ module.exports = class Character extends Piece
 
   addDiffenceBuffer: (point, duration)->
     @buffers.addDiffenceBuffer(point, duration)
+
+  getLevel: ->
+    @level
+
+  levelUp: ->
+    @level += 1
+    @maxHealth += 1
+    @health += 1

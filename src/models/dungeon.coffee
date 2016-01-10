@@ -56,3 +56,6 @@ module.exports = class Dungeon
       @user.addScoreByCharacter(command.getTarget())
     else if command.isReached()
       @user.addScoreByBoard(1)
+
+    while @user.getScore() >= 10 * Math.pow(2, @user.getHero().getLevel())
+      @user.getHero().levelUp()

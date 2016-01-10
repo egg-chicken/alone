@@ -1,20 +1,21 @@
 module.exports = class ScoreKeeper
   SCORE_MASTER =
     H:   0,
-    S:  10,
-    B:  15,
-    M:  20,
-    P:  25
+    S:   2,
+    B:   4,
+    M:   4,
+    P:  10
 
   constructor: ->
     @score = 0
 
   addScoreByCharacter: (killedCharacter)->
     gain = SCORE_MASTER[killedCharacter.getSymbol()]
+    throw new Error('#{killedCharacter.getSymbol()} score is not defined') unless gain
     @score += gain
 
   addScoreByBoard: (boardLevel)->
-    @score += boardLevel * 100
+    @score += Math.pow(boardLevel, 2) * 10
 
   getScore: ->
     @score
