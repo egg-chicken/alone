@@ -12,11 +12,10 @@ module.exports = class CharacterFactory
 
   GENERATION_TABLE = [
     [0, 0, 0, 0, 0]
-    [1, 1, 1, 2, 2]
-    [2, 2, 2, 2, 2]
-    [2, 2, 2, 2, 3]
+    [1, 1, 2, 2, 3]
+    [1, 2, 2, 3, 4]
     [2, 2, 3, 4, 4]
-    [4, 4, 4, 4, 4]
+    [2, 3, 4, 4, 4]
   ]
 
   @create: (index = null)->

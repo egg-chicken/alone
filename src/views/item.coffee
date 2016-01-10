@@ -1,5 +1,5 @@
 module.exports = class ItemView
-  constructor: (@items)->
+  constructor: (@items, @hero)->
     @focus = 0
 
   getFocusedItem: ->
@@ -17,6 +17,13 @@ module.exports = class ItemView
 
     for i in [0...@items.length]
       item = @items[i]
-      symbol = if i == @focus then '*' else ' '
-      lines.push("#{symbol} #{item.getFullName()}: #{item.getDescription()}")
+      symbol = if i == @focus               then '*' else ' '
+      equip  = if item == @hero.getWeapon() then 'E' else ' '
+      left = "#{symbol} #{equip} #{item.getFullName()}"
+      lines.push("#{@_pack(left, 20)}| #{item.getDescription()}")
     console.log(lines.join("\n"))
+
+  _pack: (str, width)->
+    while(str.length < width)
+      str += ' '
+    str

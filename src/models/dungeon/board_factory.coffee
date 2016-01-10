@@ -14,9 +14,11 @@ module.exports = class BoardFactory
 
   @create: ->
     difficulty = Storage.getDifficulty()
+    hero = Storage.getHero() || CharacterFactory.createHero()
+
     f = new BoardFactory()
     f.setupLand(WIDTH, HEIGHT)
-    f.setupCharacters(difficulty)
+    f.setupCharacters(difficulty, hero)
     f.setupItems()
     new Board(f.land, f.characters, f.items, difficulty)
 
@@ -29,10 +31,10 @@ module.exports = class BoardFactory
   setupLand: (width, height)->
     @land = Land.createRandom(width, height)
 
-  setupCharacters: (difficulty) ->
+  setupCharacters: (difficulty, hero) ->
     CharacterFactory.setCreateSlot(difficulty)
     @characters = new CharacterCollection()
-    @characters.add(CharacterFactory.createHero())
+    @characters.add(hero)
     @characters.add(CharacterFactory.createBySlot()) for i in [0...INITIAL_ENEMY_COUNT]
     @characters.setPositions(@land.getFreePositions())
 

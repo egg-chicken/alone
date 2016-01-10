@@ -24,6 +24,10 @@ module.exports = class Character extends Piece
   getSkillRange: ->
     @skillRange
 
+  getAttack: ->
+    buf = if @weapon then @weapon.getPower() else 0
+    1 + buf
+
   damage: (base)->
     point = Math.max(0, @buffers.diffence(base))
     @health -= point
@@ -50,16 +54,21 @@ module.exports = class Character extends Piece
   getItems: ->
     @items
 
+  getWeapon: ->
+    @weapon
+
   setItems: (items)->
     @items = items
 
   useItem: (item, target=@)->
     found = _.findIndex(@items, (i)-> i == item)
-    if found >= 0
+    if found < 0
+      throw new Error("the character doesn't have item #{item}")
+    else if item.isEquipment()
+      @weapon = item
+    else
       @items.splice(found,1)
       item.activate(target)
-    else
-      throw new Error("the character doesn't have item #{item}")
 
   getHealthString: ->
     "#{@health}/#{@maxHealth}"

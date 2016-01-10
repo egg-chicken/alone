@@ -30,7 +30,6 @@ module.exports = class DungeonController
     @_playRound(command)
 
   onPressSkipRoundButton: ->
-    @_playRound(null)
 
   onCompleteBoard: ->
     throw new Error("please override me")
