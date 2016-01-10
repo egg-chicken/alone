@@ -7,7 +7,7 @@ module.exports = class Attack extends Command
     @actor.waneBuffers()
 
   _attack: (board)->
-    @point = @target.damage(1)
+    @point = @target.damage(@actor.getAttack())
     @defeated = @target.isDead()
     if @defeated
       board.remove(@target)
