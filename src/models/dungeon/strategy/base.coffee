@@ -9,17 +9,22 @@ module.exports = class Strategy
   createCommand: (@inspector)->
     @_randomMove()
 
+  _approach: (target)->
+    direction = @inspector.findNearByDirection(target)
+    new Command.Move(@character, direction)
+
   _randomMove: ->
     direction = @_sample(DIRECTIONS)
     new Command.Move(@character, direction)
 
   _attackOrUseSkill: (target)->
     if Math.random() > SKILL_USE_RATE
-      @_attack()
+      @_attack(target)
     else
       @_useSkill(target)
 
-  _attack: (target)-> @_approach(target)
+  _attack: (target)->
+    new Command.Attack(@character, target)
 
   _useSkill: (target)->
     switch(@character.getSkillRange())
@@ -29,12 +34,7 @@ module.exports = class Strategy
       when 0
         new Command.UseSkill(@character, @character)
       else
-        throw new Error('cannot deal the skill range: #{@character.getSkillRange()}')
-
-  _approach: (target)->
-    target ||= @inspector.findHero()
-    direction = @inspector.findNearByDirection(target)
-    new Command.MoveOrAttack(@character, direction)
+        throw new Error("cannot deal the skill range: #{@character.getSkillRange()}")
 
   _sample: (array)->
     i = Math.floor(Math.random() * array.length)

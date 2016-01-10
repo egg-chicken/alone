@@ -12,8 +12,10 @@ module.exports = class TravelerStrategy extends Strategy
 
     hero = @inspector.findHero()
     doors = @inspector.getDoorsInSight()
-    if hero
-      @_attackOrUseSkill()
+    if hero && hero.distance(@character) == 1
+      @_attackOrUseSkill(hero)
+    else if hero
+      @_approach(hero)
     else if @milestone?
       @_approach(@milestone)
     else if doors.length > 0

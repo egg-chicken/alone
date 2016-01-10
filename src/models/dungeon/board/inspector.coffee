@@ -21,9 +21,6 @@ module.exports = class Inspector
     method = (direction) => target.distance(@base[direction]())
     _.min(_.shuffle(DIRECTIONS), method)
 
-  isNeighbor: (target)->
-    @character.distance(target) < 2
-
   isWalkable: (target)->
     not @board.isWall(target)
 
