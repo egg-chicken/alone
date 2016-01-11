@@ -18,7 +18,11 @@ module.exports = class Inspector
       null
 
   findNearByDirection: (target)->
-    method = (direction) => target.distance(@base[direction]())
+    method = (direction) =>
+      if @isWalkable(@base[direction]())
+        target.distance(@base[direction]())
+      else
+        Infinity
     _.min(_.shuffle(DIRECTIONS), method)
 
   isWalkable: (target)->
