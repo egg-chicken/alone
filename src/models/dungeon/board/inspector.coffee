@@ -24,11 +24,6 @@ module.exports = class Inspector
   isWalkable: (target)->
     not @board.isWall(target)
 
-  getNearestCharacterInSight: ->
-    characters = @getCharactersInSight()
-    return if _.isEmpty(characters)
-    _.min(characters, (target) => @character.distance(target))
-
   getCharactersInSight: ->
     characters = @board.getCharacters()
     inRoom = @board.isRoom(@base)
