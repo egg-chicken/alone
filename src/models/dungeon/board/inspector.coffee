@@ -26,7 +26,7 @@ module.exports = class Inspector
     _.min(_.shuffle(DIRECTIONS), method)
 
   isWalkable: (target)->
-    not @board.isWall(target)
+    not(@board.isWall(target) || @board.get(target))
 
   getCharactersInSight: ->
     characters = @board.getCharacters()

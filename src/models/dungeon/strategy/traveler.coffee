@@ -21,12 +21,18 @@ module.exports = class TravelerStrategy extends Strategy
       if doors.length > 0
         @destination = @_sample(doors)
       else
-        @destination = @_forward()
+        @destination = @_forward() || @_free()
 
   _forward: ->
     for direction in @_directions()
       next = @character.getPosition()[direction]()
       if !next.equal(@prevPosition) && @inspector.isWalkable(next)
+        return next
+
+  _free: ->
+    for direction in @_directions()
+      next = @character.getPosition()[direction]()
+      if @inspector.isWalkable(next)
         return next
 
   _approach: (target)->
