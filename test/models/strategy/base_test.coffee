@@ -16,13 +16,18 @@ describe 'Strategy.Base', ->
     beforeEach ->
       @hero.setPosition(new Pair(1, 1))
       @enemy.setPosition(new Pair(3, 3))
-
-    it '近づく方向に移動すること', ->
+    it '対象に近づく方向に移動すること', ->
       old_distance = @hero.distance(@enemy)
       command = @strategy._approach(@hero)
       command.perform(@board)
       new_distance = @hero.distance(@enemy)
       assert.equal(new_distance, old_distance - 1)
+
+  describe '#_attack', ->
+    it '対象を攻撃すること', ->
+      command = @strategy._attack(@hero)
+      command.perform(@board)
+      assert(not @hero.isHealthy())
 
   describe '#_useSkill', ->
     describe '射程1の時', ->
