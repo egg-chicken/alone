@@ -14,12 +14,12 @@ module.exports = class Land
     land
 
   @createHall: (width, height) ->
-    land = new Land()
-    land.table = new Array2D(width, height, 'a'.charCodeAt())
-    pairs = land.table.round()
-    for p in pairs
-      land.table.set(p, WALL)
-    land
+    table = new Array2D(width, height, 'a'.charCodeAt())
+    for p in table.round()
+      table.set(p, WALL)
+    new Land(table)
+
+  constructor: (@table)->
 
   getWidth: -> @table.width
   getHeight: -> @table.height
