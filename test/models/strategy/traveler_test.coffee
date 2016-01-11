@@ -19,6 +19,7 @@ describe 'Strategy.Traveler', ->
     @board = BoardFactory.createWithLandTable(table)
     @hero = @board.createOne('主人公')
     @enemy = @board.createOne('盲瓜坊')
+    @friend = @board.createOne('盲瓜坊')
     @strategy = new Strategy.Traveler(@enemy)
 
   describe '#createCommand', ->
@@ -40,4 +41,16 @@ describe 'Strategy.Traveler', ->
       it '移動すること', ->
         assert(@command instanceof Command.Move)
       it '部屋の扉に向かうこと', ->
+        assert.equal(@command.direction, 'down')
+
+    describe '進行方向に仲間がいる時', ->
+      beforeEach ->
+        p = new Pair(5, 2)
+        @enemy.setPosition(p)
+        @friend.setPosition(p.left())
+        @strategy.prevPosition = p.down()
+        @command = @strategy.createCommand(@board.inspectBy(@enemy))
+      it '移動すること', ->
+        assert(@command instanceof Command.Move)
+      it '引き返すこと', ->
         assert.equal(@command.direction, 'down')
