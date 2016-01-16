@@ -19,3 +19,9 @@ module.exports = class Piece
 
   getUniqueName: ->
     "#{@symbol}(#{@id})"
+
+  distance: (other)->
+    if other.position
+      @position.distance(other.position)
+    else
+      @position.distance(other)

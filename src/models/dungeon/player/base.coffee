@@ -1,5 +1,5 @@
 _ = require('underscore')
-Strategy = require('./strategy')
+Strategy = require('./../strategy')
 
 module.exports = class BasePlayer
   constructor: ->
@@ -23,4 +23,4 @@ module.exports = class BasePlayer
     @strategies = {}
 
   _pickStrategy: (character) ->
-    @strategies[character.getId()] ||= new Strategy(character)
+    @strategies[character.getId()] ||= new Strategy[character.getStrategy()](character)

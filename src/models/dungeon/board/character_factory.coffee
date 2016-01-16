@@ -3,17 +3,17 @@ Character = require('./character')
 module.exports = class CharacterFactory
   CHARACTER_LIST = [
     # 'NAME',     'SYMBOL', 'SKILL',     'SKILLRANGE', 'STRATEGY', 'HEALTH', 'ATTACK'
-    [ '主人公',   'H',      'NOTHING',              0, 'whim',            3,       1]
+    [ '主人公',   'H',      'NOTHING',              0, 'Whim',            3,       1]
 
-    [ '灰泥緑虫', 'S',      'ACID',                 1, 'whim',            1,       1]
-    [ '手甲虫',   'B',      'GUARDFORM',            0, 'guard',           2,       1]
-    [ '葛籠鼠',   'M',      'AID',                  1, 'devoted',         2,       1]
-    [ '盲瓜坊',   'P',      'TACKLE',               1, 'traveler',        3,       2]
+    [ '灰泥緑虫', 'S',      'ACID',                 1, 'Whim',            1,       1]
+    [ '手甲虫',   'B',      'GUARDFORM',            0, 'Guard',           2,       1]
+    [ '葛籠鼠',   'M',      'AID',                  1, 'Priest',          2,       1]
+    [ '盲瓜坊',   'P',      'TACKLE',               1, 'Traveler',        3,       2]
 
-    [ '霞魚',     'F',      'NOTHING',              1, 'whim',            1,       1]
-    [ '鼻歌蛙',   'O',      'NOTHING',              1, 'traveler',        4,       1]
-    [ '拳骨蟹',   'C',      'NOTHING',              1, 'traveler',        5,       2]
-    [ '人喰大蓮', 'R',      'NOTHING',              1, 'guard',           6,       2]
+    [ '霞魚',     'F',      'NOTHING',              1, 'Whim',            1,       1]
+    [ '鼻歌蛙',   'O',      'NOTHING',              1, 'Traveler',        4,       1]
+    [ '拳骨蟹',   'C',      'NOTHING',              1, 'Traveler',        5,       2]
+    [ '人喰大蓮', 'R',      'NOTHING',              1, 'Guard',           6,       2]
   ]
 
   GENERATION_TABLE = [

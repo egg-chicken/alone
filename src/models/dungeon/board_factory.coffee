@@ -28,6 +28,12 @@ module.exports = class BoardFactory
     items = new ItemCollection()
     new Board(land, characters, items)
 
+  @createWithLandTable: (landTable)->
+    land = new Land(landTable)
+    characters = new CharacterCollection()
+    items = new ItemCollection()
+    new Board(land, characters, items)
+
   setupLand: (width, height)->
     @land = Land.createRandom(width, height)
 
