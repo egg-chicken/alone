@@ -1,3 +1,3 @@
 This is console game.
 
-![Demo](https://imgur.com/D0bXYno)
+![Demo](https://imgur.com/D0bXYno.gif)
